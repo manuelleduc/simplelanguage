@@ -40,14 +40,14 @@
  */
 package com.oracle.truffle.sl.test;
 
-import static org.junit.Assert.assertNull;
-
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertNull;
 
 public class SLReadPropertyTest {
 

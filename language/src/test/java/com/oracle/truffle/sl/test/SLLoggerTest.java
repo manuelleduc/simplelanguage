@@ -40,18 +40,6 @@
  */
 package com.oracle.truffle.sl.test;
 
-import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
-import java.util.stream.Collectors;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
@@ -59,6 +47,12 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+import java.util.stream.Collectors;
 
 public class SLLoggerTest {
 

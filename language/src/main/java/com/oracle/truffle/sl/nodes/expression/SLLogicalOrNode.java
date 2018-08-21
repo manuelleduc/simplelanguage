@@ -53,14 +53,6 @@ public final class SLLogicalOrNode extends SLShortCircuitNode {
         super(left, right);
     }
 
-    @Override
-    protected boolean isEvaluateRight(boolean left) {
-        return !left;
-    }
 
-    @Override
-    protected boolean execute(boolean left, boolean right) {
-        return left || right;
-    }
 
 }

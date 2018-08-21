@@ -47,8 +47,9 @@ import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.nodes.RootNode;
 import com.oracle.truffle.api.source.SourceSection;
 import com.oracle.truffle.sl.SLLanguage;
-import com.oracle.truffle.sl.builtins.SLBuiltinNode;
 import com.oracle.truffle.sl.nodes.controlflow.SLFunctionBodyNode;
+import com.oracle.truffle.sl.rev.ExecSLRevisitor;
+import com.oracle.truffle.sl.rev.SLExpressionNodeT;
 
 /**
  * The root of all SL execution trees. It is a Truffle requirement that the tree root extends the
@@ -58,15 +59,24 @@ import com.oracle.truffle.sl.nodes.controlflow.SLFunctionBodyNode;
  */
 @NodeInfo(language = "SL", description = "The root of all SL execution trees")
 public class SLRootNode extends RootNode {
-    /** The function body that is executed, and specialized during execution. */
-    @Child private SLExpressionNode bodyNode;
+    /**
+     * The function body that is executed, and specialized during execution.
+     */
+    @Child
+    private SLExpressionNode bodyNode;
 
-    /** The name of the function, for printing purposes only. */
+    /**
+     * The name of the function, for printing purposes only.
+     */
     private final String name;
 
-    @CompilationFinal private boolean isCloningAllowed;
+    @CompilationFinal
+    private boolean isCloningAllowed;
 
     private final SourceSection sourceSection;
+
+    static final ExecSLRevisitor execSLRevisitor = new ExecSLRevisitor() {
+    };
 
     public SLRootNode(SLLanguage language, FrameDescriptor frameDescriptor, SLExpressionNode bodyNode, SourceSection sourceSection, String name) {
         super(language, frameDescriptor);
@@ -83,7 +93,9 @@ public class SLRootNode extends RootNode {
     @Override
     public Object execute(VirtualFrame frame) {
         assert getLanguage(SLLanguage.class).getContextReference().get() != null;
-        return bodyNode.executeGeneric(frame);
+//        return bodyNode.executeGeneric(frame);
+        SLExpressionNodeT $ = execSLRevisitor.$(bodyNode);
+        return $.executeGeneric(frame);
     }
 
     public SLExpressionNode getBodyNode() {

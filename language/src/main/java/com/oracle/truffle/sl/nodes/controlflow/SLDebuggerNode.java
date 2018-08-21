@@ -41,7 +41,6 @@
 package com.oracle.truffle.sl.nodes.controlflow;
 
 import com.oracle.truffle.api.debug.DebuggerTags;
-import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.instrumentation.Tag;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.nodes.SLStatementNode;
@@ -52,10 +51,7 @@ import com.oracle.truffle.sl.nodes.SLStatementNode;
 @NodeInfo(shortName = "debugger", description = "The node implementing a debugger statement")
 public class SLDebuggerNode extends SLStatementNode {
 
-    @Override
-    public void executeVoid(VirtualFrame frame) {
-        // No op.
-    }
+
 
     @Override
     public boolean hasTag(Class<? extends Tag> tag) {

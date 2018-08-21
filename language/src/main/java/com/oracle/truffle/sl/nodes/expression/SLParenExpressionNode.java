@@ -40,9 +40,7 @@
  */
 package com.oracle.truffle.sl.nodes.expression;
 
-import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeInfo;
-import com.oracle.truffle.api.nodes.UnexpectedResultException;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 
 /**
@@ -60,18 +58,7 @@ public class SLParenExpressionNode extends SLExpressionNode {
         this.expression = expression;
     }
 
-    @Override
-    public Object executeGeneric(VirtualFrame frame) {
-        return expression.executeGeneric(frame);
-    }
-
-    @Override
-    public long executeLong(VirtualFrame frame) throws UnexpectedResultException {
-        return expression.executeLong(frame);
-    }
-
-    @Override
-    public boolean executeBoolean(VirtualFrame frame) throws UnexpectedResultException {
-        return expression.executeBoolean(frame);
+    public SLExpressionNode getExpression() {
+        return expression;
     }
 }

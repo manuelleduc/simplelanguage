@@ -40,11 +40,9 @@
  */
 package com.oracle.truffle.sl.nodes.controlflow;
 
-import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.SLStatementNode;
-import com.oracle.truffle.sl.runtime.SLNull;
 
 /**
  * Implementation of the SL return statement. We need to unwind an unknown number of interpreter
@@ -62,17 +60,7 @@ public final class SLReturnNode extends SLStatementNode {
         this.valueNode = valueNode;
     }
 
-    @Override
-    public void executeVoid(VirtualFrame frame) {
-        Object result;
-        if (valueNode != null) {
-            result = valueNode.executeGeneric(frame);
-        } else {
-            /*
-             * Return statement that was not followed by an expression, so return the SL null value.
-             */
-            result = SLNull.SINGLETON;
-        }
-        throw new SLReturnException(result);
+    public SLExpressionNode getValueNode() {
+        return valueNode;
     }
 }

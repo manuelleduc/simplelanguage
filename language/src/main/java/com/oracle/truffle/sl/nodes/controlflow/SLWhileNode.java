@@ -40,9 +40,6 @@
  */
 package com.oracle.truffle.sl.nodes.controlflow;
 
-import com.oracle.truffle.api.Truffle;
-import com.oracle.truffle.api.frame.VirtualFrame;
-import com.oracle.truffle.api.nodes.LoopNode;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.SLStatementNode;
@@ -50,15 +47,31 @@ import com.oracle.truffle.sl.nodes.SLStatementNode;
 @NodeInfo(shortName = "while", description = "The node implementing a while loop")
 public final class SLWhileNode extends SLStatementNode {
 
-    @Child private LoopNode loopNode;
+    /**
+     * The condition of the loop. This in a {@link SLExpressionNode} because we require a result
+     * value. We do not have a node type that can only return a {@code boolean} value, so
+     * evaluateCondition executing the condition can lead to a type error.
+     */
+    @Child
+    private SLExpressionNode conditionNode;
+
+    /**
+     * Statement (or {@link SLBlockNode block}) executed as long as the condition is true.
+     */
+    @Child
+    private SLStatementNode bodyNode;
+
 
     public SLWhileNode(SLExpressionNode conditionNode, SLStatementNode bodyNode) {
-        this.loopNode = Truffle.getRuntime().createLoopNode(new SLWhileRepeatingNode(conditionNode, bodyNode));
+        this.conditionNode = conditionNode;
+        this.bodyNode = bodyNode;
     }
 
-    @Override
-    public void executeVoid(VirtualFrame frame) {
-        loopNode.executeLoop(frame);
+    public SLExpressionNode getConditionNode() {
+        return conditionNode;
     }
 
+    public SLStatementNode getBodyNode() {
+        return bodyNode;
+    }
 }

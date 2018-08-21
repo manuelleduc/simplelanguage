@@ -40,7 +40,6 @@
  */
 package com.oracle.truffle.sl.nodes.expression;
 
-import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 
@@ -56,8 +55,7 @@ public final class SLStringLiteralNode extends SLExpressionNode {
         this.value = value;
     }
 
-    @Override
-    public String executeGeneric(VirtualFrame frame) {
+    public String getValue() {
         return value;
     }
 }

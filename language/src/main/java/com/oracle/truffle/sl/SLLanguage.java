@@ -40,20 +40,8 @@
  */
 package com.oracle.truffle.sl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-
-import com.oracle.truffle.api.CallTarget;
-import com.oracle.truffle.api.RootCallTarget;
-import com.oracle.truffle.api.Scope;
-import com.oracle.truffle.api.Truffle;
-import com.oracle.truffle.api.TruffleLanguage;
+import com.oracle.truffle.api.*;
 import com.oracle.truffle.api.debug.DebuggerTags;
-import com.oracle.truffle.api.dsl.NodeFactory;
 import com.oracle.truffle.api.frame.Frame;
 import com.oracle.truffle.api.instrumentation.ProvidedTags;
 import com.oracle.truffle.api.instrumentation.StandardTags;
@@ -63,50 +51,23 @@ import com.oracle.truffle.api.nodes.RootNode;
 import com.oracle.truffle.api.object.DynamicObject;
 import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.source.SourceSection;
-import com.oracle.truffle.sl.builtins.SLBuiltinNode;
-import com.oracle.truffle.sl.builtins.SLDefineFunctionBuiltin;
-import com.oracle.truffle.sl.builtins.SLNanoTimeBuiltin;
-import com.oracle.truffle.sl.builtins.SLPrintlnBuiltin;
-import com.oracle.truffle.sl.builtins.SLReadlnBuiltin;
-import com.oracle.truffle.sl.builtins.SLStackTraceBuiltin;
 import com.oracle.truffle.sl.nodes.SLEvalRootNode;
 import com.oracle.truffle.sl.nodes.SLTypes;
-import com.oracle.truffle.sl.nodes.access.SLReadPropertyCacheNode;
-import com.oracle.truffle.sl.nodes.access.SLReadPropertyNode;
-import com.oracle.truffle.sl.nodes.access.SLWritePropertyCacheNode;
-import com.oracle.truffle.sl.nodes.access.SLWritePropertyNode;
 import com.oracle.truffle.sl.nodes.call.SLDispatchNode;
 import com.oracle.truffle.sl.nodes.call.SLInvokeNode;
-import com.oracle.truffle.sl.nodes.controlflow.SLBlockNode;
-import com.oracle.truffle.sl.nodes.controlflow.SLBreakNode;
-import com.oracle.truffle.sl.nodes.controlflow.SLContinueNode;
-import com.oracle.truffle.sl.nodes.controlflow.SLDebuggerNode;
-import com.oracle.truffle.sl.nodes.controlflow.SLIfNode;
-import com.oracle.truffle.sl.nodes.controlflow.SLReturnNode;
-import com.oracle.truffle.sl.nodes.controlflow.SLWhileNode;
-import com.oracle.truffle.sl.nodes.expression.SLAddNode;
-import com.oracle.truffle.sl.nodes.expression.SLBigIntegerLiteralNode;
-import com.oracle.truffle.sl.nodes.expression.SLDivNode;
-import com.oracle.truffle.sl.nodes.expression.SLEqualNode;
-import com.oracle.truffle.sl.nodes.expression.SLFunctionLiteralNode;
-import com.oracle.truffle.sl.nodes.expression.SLLessOrEqualNode;
-import com.oracle.truffle.sl.nodes.expression.SLLessThanNode;
-import com.oracle.truffle.sl.nodes.expression.SLLogicalAndNode;
-import com.oracle.truffle.sl.nodes.expression.SLLogicalOrNode;
-import com.oracle.truffle.sl.nodes.expression.SLMulNode;
-import com.oracle.truffle.sl.nodes.expression.SLStringLiteralNode;
-import com.oracle.truffle.sl.nodes.expression.SLSubNode;
+import com.oracle.truffle.sl.nodes.controlflow.*;
+import com.oracle.truffle.sl.nodes.expression.*;
 import com.oracle.truffle.sl.nodes.local.SLLexicalScope;
 import com.oracle.truffle.sl.nodes.local.SLReadLocalVariableNode;
 import com.oracle.truffle.sl.nodes.local.SLWriteLocalVariableNode;
 import com.oracle.truffle.sl.parser.SLNodeFactory;
 import com.oracle.truffle.sl.parser.SimpleLanguageLexer;
 import com.oracle.truffle.sl.parser.SimpleLanguageParser;
-import com.oracle.truffle.sl.runtime.SLBigNumber;
-import com.oracle.truffle.sl.runtime.SLContext;
-import com.oracle.truffle.sl.runtime.SLFunction;
-import com.oracle.truffle.sl.runtime.SLFunctionRegistry;
-import com.oracle.truffle.sl.runtime.SLNull;
+import com.oracle.truffle.sl.runtime.*;
+
+import java.util.Iterator;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * SL is a simple language to demonstrate and showcase features of Truffle. The implementation is as
@@ -119,7 +80,7 @@ import com.oracle.truffle.sl.runtime.SLNull;
  * stopped. For example, {@code 4 - "2"} results in a type error because subtraction is only defined
  * for numbers.
  *
- * <p>
+ *
  * <b>Types:</b>
  * <ul>
  * <li>Number: arbitrary precision integer numbers. The implementation uses the Java primitive type
@@ -137,7 +98,7 @@ import com.oracle.truffle.sl.runtime.SLNull;
  * The class {@link SLTypes} lists these types for the Truffle DSL, i.e., for type-specialized
  * operations that are specified using Truffle DSL annotations.
  *
- * <p>
+ *
  * <b>Language concepts:</b>
  * <ul>
  * <li>Literals for {@link SLBigIntegerLiteralNode numbers} , {@link SLStringLiteralNode strings},
@@ -161,7 +122,7 @@ import com.oracle.truffle.sl.runtime.SLNull;
  * {@link SLWritePropertyCacheNode} as the polymorphic inline cache for property writes.
  * </ul>
  *
- * <p>
+ *
  * <b>Syntax and parsing:</b><br>
  * The syntax is described as an attributed grammar. The {@link SimpleLanguageParser} and
  * {@link SimpleLanguageLexer} are automatically generated by ANTLR 4. The grammar contains semantic
@@ -170,7 +131,7 @@ import com.oracle.truffle.sl.runtime.SLNull;
  * the SL source are added to the {@link SLFunctionRegistry}, which is accessible from the
  * {@link SLContext}.
  *
- * <p>
+ *
  * <b>Builtin functions:</b><br>
  * Library functions that are available to every SL source without prior definition are called
  * builtin functions. They are added to the {@link SLFunctionRegistry} when the {@link SLContext} is
@@ -203,7 +164,7 @@ public final class SLLanguage extends TruffleLanguage<SLContext> {
 
     @Override
     protected SLContext createContext(Env env) {
-        return new SLContext(this, env, new ArrayList<>(EXTERNAL_BUILTINS));
+        return new SLContext(this, env);
     }
 
     @Override
@@ -233,7 +194,7 @@ public final class SLLanguage extends TruffleLanguage<SLContext> {
             String mimeType = requestedSource.getMimeType() == null ? MIME_TYPE : requestedSource.getMimeType();
 
             Source decoratedSource = Source.newBuilder(sb.toString()).language(language).mimeType(mimeType).name(
-                            request.getSource().getName()).build();
+                    request.getSource().getName()).build();
             functions = SimpleLanguageParser.parseSL(this, decoratedSource);
         }
 
@@ -364,12 +325,6 @@ public final class SLLanguage extends TruffleLanguage<SLContext> {
 
     public static SLContext getCurrentContext() {
         return getCurrentContext(SLLanguage.class);
-    }
-
-    private static final List<NodeFactory<? extends SLBuiltinNode>> EXTERNAL_BUILTINS = Collections.synchronizedList(new ArrayList<>());
-
-    public static void installBuiltin(NodeFactory<? extends SLBuiltinNode> builtin) {
-        EXTERNAL_BUILTINS.add(builtin);
     }
 
 }

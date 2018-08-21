@@ -40,11 +40,11 @@
  */
 package com.oracle.truffle.sl.test;
 
-import static org.junit.Assume.assumeFalse;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static org.junit.Assume.assumeFalse;
 
 @RunWith(SLTestRunner.class)
 @SLTestSuite({"tests"})

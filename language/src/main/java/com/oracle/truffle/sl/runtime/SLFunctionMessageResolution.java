@@ -40,8 +40,6 @@
  */
 package com.oracle.truffle.sl.runtime;
 
-import static com.oracle.truffle.sl.runtime.SLContext.fromForeignValue;
-
 import com.oracle.truffle.api.interop.CanResolve;
 import com.oracle.truffle.api.interop.MessageResolution;
 import com.oracle.truffle.api.interop.Resolve;
@@ -49,6 +47,8 @@ import com.oracle.truffle.api.interop.TruffleObject;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.sl.nodes.call.SLDispatchNode;
 import com.oracle.truffle.sl.nodes.call.SLDispatchNodeGen;
+
+import static com.oracle.truffle.sl.runtime.SLContext.fromForeignValue;
 
 /**
  * The class containing all message resolution implementations of {@link SLFunction}.

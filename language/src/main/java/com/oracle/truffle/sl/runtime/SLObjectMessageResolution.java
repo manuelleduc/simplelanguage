@@ -41,18 +41,9 @@
 package com.oracle.truffle.sl.runtime;
 
 import com.oracle.truffle.api.CompilerDirectives;
-import com.oracle.truffle.api.interop.ForeignAccess;
-import com.oracle.truffle.api.interop.KeyInfo;
-import com.oracle.truffle.api.interop.MessageResolution;
-import com.oracle.truffle.api.interop.Resolve;
-import com.oracle.truffle.api.interop.TruffleObject;
-import com.oracle.truffle.api.interop.UnknownIdentifierException;
+import com.oracle.truffle.api.interop.*;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.object.DynamicObject;
-import com.oracle.truffle.sl.nodes.access.SLReadPropertyCacheNode;
-import com.oracle.truffle.sl.nodes.access.SLReadPropertyCacheNodeGen;
-import com.oracle.truffle.sl.nodes.access.SLWritePropertyCacheNode;
-import com.oracle.truffle.sl.nodes.access.SLWritePropertyCacheNodeGen;
 import com.oracle.truffle.sl.nodes.call.SLDispatchNode;
 import com.oracle.truffle.sl.nodes.call.SLDispatchNodeGen;
 import com.oracle.truffle.sl.nodes.interop.SLForeignToSLTypeNode;
@@ -69,7 +60,6 @@ public class SLObjectMessageResolution {
     @Resolve(message = "WRITE")
     public abstract static class SLForeignWriteNode extends Node {
 
-        @Child private SLWritePropertyCacheNode write = SLWritePropertyCacheNodeGen.create();
         @Child private SLForeignToSLTypeNode nameToSLType = SLForeignToSLTypeNodeGen.create();
         @Child private SLForeignToSLTypeNode valueToSLType = SLForeignToSLTypeNodeGen.create();
 
@@ -77,7 +67,7 @@ public class SLObjectMessageResolution {
             Object convertedName = nameToSLType.executeConvert(name);
             Object convertedValue = valueToSLType.executeConvert(value);
             try {
-                write.executeWrite(receiver, convertedName, convertedValue);
+                //write.executeWrite(receiver, convertedName, convertedValue);
             } catch (SLUndefinedNameException undefinedName) {
                 throw UnknownIdentifierException.raise(String.valueOf(convertedName));
             }
@@ -91,18 +81,18 @@ public class SLObjectMessageResolution {
     @Resolve(message = "READ")
     public abstract static class SLForeignReadNode extends Node {
 
-        @Child private SLReadPropertyCacheNode read = SLReadPropertyCacheNodeGen.create();
+//        @Child private SLReadPropertyCacheNode read = SLReadPropertyCacheNodeGen.create();
         @Child private SLForeignToSLTypeNode nameToSLType = SLForeignToSLTypeNodeGen.create();
 
         public Object access(DynamicObject receiver, Object name) {
             Object convertedName = nameToSLType.executeConvert(name);
             Object result;
             try {
-                result = read.executeRead(receiver, convertedName);
+//                result = read.executeRead(receiver, convertedName);
             } catch (SLUndefinedNameException undefinedName) {
                 throw UnknownIdentifierException.raise(String.valueOf(convertedName));
             }
-            return result;
+            return null;
         }
     }
 

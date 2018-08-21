@@ -40,7 +40,6 @@
  */
 package com.oracle.truffle.sl.nodes.controlflow;
 
-import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.nodes.SLStatementNode;
 
@@ -53,8 +52,5 @@ import com.oracle.truffle.sl.nodes.SLStatementNode;
 @NodeInfo(shortName = "continue", description = "The node implementing a continue statement")
 public final class SLContinueNode extends SLStatementNode {
 
-    @Override
-    public void executeVoid(VirtualFrame frame) {
-        throw SLContinueException.SINGLETON;
-    }
+
 }

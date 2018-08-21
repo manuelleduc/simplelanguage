@@ -40,28 +40,9 @@
  */
 package com.oracle.truffle.sl.test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.file.FileSystems;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-
+import com.oracle.truffle.api.dsl.NodeFactory;
+import com.oracle.truffle.sl.SLLanguage;
+import com.oracle.truffle.sl.test.SLTestRunner.TestCase;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.PolyglotException;
 import org.graalvm.polyglot.Source;
@@ -78,10 +59,16 @@ import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
 
-import com.oracle.truffle.api.dsl.NodeFactory;
-import com.oracle.truffle.sl.SLLanguage;
-import com.oracle.truffle.sl.builtins.SLBuiltinNode;
-import com.oracle.truffle.sl.test.SLTestRunner.TestCase;
+import java.io.*;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 public class SLTestRunner extends ParentRunner<TestCase> {
 
@@ -275,11 +262,11 @@ public class SLTestRunner extends ParentRunner<TestCase> {
         return outFile.toString();
     }
 
-    private static final List<NodeFactory<? extends SLBuiltinNode>> builtins = new ArrayList<>();
-
-    public static void installBuiltin(NodeFactory<? extends SLBuiltinNode> builtin) {
-        builtins.add(builtin);
-    }
+//    private static final List<NodeFactory<? extends SLBuiltinNode>> builtins = new ArrayList<>();
+//
+//    public static void installBuiltin(NodeFactory<? extends SLBuiltinNode> builtin) {
+//        builtins.add(builtin);
+//    }
 
     @Override
     protected void runChild(TestCase testCase, RunNotifier notifier) {
@@ -288,9 +275,9 @@ public class SLTestRunner extends ParentRunner<TestCase> {
         Context context = null;
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            for (NodeFactory<? extends SLBuiltinNode> builtin : builtins) {
-                SLLanguage.installBuiltin(builtin);
-            }
+//            for (NodeFactory<? extends SLBuiltinNode> builtin : builtins) {
+//                SLLanguage.installBuiltin(builtin);
+//            }
 
             context = Context.newBuilder().in(new ByteArrayInputStream(testCase.testInput.getBytes("UTF-8"))).out(out).build();
             PrintWriter printer = new PrintWriter(out);

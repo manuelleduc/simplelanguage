@@ -40,14 +40,9 @@
  */
 package com.oracle.truffle.sl.nodes;
 
-import java.io.File;
-
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.dsl.ReportPolymorphism;
 import com.oracle.truffle.api.frame.VirtualFrame;
-import com.oracle.truffle.api.instrumentation.GenerateWrapper;
-import com.oracle.truffle.api.instrumentation.InstrumentableNode;
-import com.oracle.truffle.api.instrumentation.ProbeNode;
 import com.oracle.truffle.api.instrumentation.StandardTags;
 import com.oracle.truffle.api.instrumentation.Tag;
 import com.oracle.truffle.api.nodes.Node;
@@ -56,15 +51,17 @@ import com.oracle.truffle.api.nodes.RootNode;
 import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.source.SourceSection;
 
+import java.io.File;
+import java.util.concurrent.locks.Lock;
+
 /**
  * The base class of all Truffle nodes for SL. All nodes (even expressions) can be used as
  * statements, i.e., without returning a value. The {@link VirtualFrame} provides access to the
  * local variables.
  */
 @NodeInfo(language = "SL", description = "The abstract base node for all SL statements")
-@GenerateWrapper
 @ReportPolymorphism
-public abstract class SLStatementNode extends Node implements InstrumentableNode {
+public abstract class SLStatementNode extends Node {
 
     private static final int NO_SOURCE = -1;
     private static final int UNAVAILABLE_SOURCE = -2;
@@ -155,14 +152,12 @@ public abstract class SLStatementNode extends Node implements InstrumentableNode
         return false;
     }
 
-    public WrapperNode createWrapper(ProbeNode probe) {
-        return new SLStatementNodeWrapper(this, probe);
-    }
+//    public WrapperNode createWrapper(ProbeNode probe) {
+//        return null;
+//    }
 
-    /**
-     * Execute this node as as statement, where no return value is necessary.
-     */
-    public abstract void executeVoid(VirtualFrame frame);
+
+
 
     /**
      * Marks this node as being a {@link StandardTags.StatementTag} for instrumentation purposes.
@@ -211,4 +206,11 @@ public abstract class SLStatementNode extends Node implements InstrumentableNode
         }
     }
 
+    public Lock getLock2() {
+        return getLock();
+    }
+
+    public void reportPolymorphicSpecialize2() {
+        reportPolymorphicSpecialize();
+    }
 }
