@@ -51,7 +51,9 @@ import com.oracle.truffle.api.nodes.NodeInfo;
  * type system for all subclasses.
  */
 
+//@TypeSystemReference(SLTypes.class)
 @NodeInfo(description = "The abstract base node for all expressions")
+//@GenerateWrapper
 public abstract class SLExpressionNode extends SLStatementNode {
 
 //
@@ -64,9 +66,16 @@ public abstract class SLExpressionNode extends SLStatementNode {
     @Override
     public boolean hasTag(Class<? extends Tag> tag) {
         if (tag == StandardTags.ExpressionTag.class) {
-            return true;
+            return hasExpressionTag;
         }
         return super.hasTag(tag);
+    }
+
+    /**
+     * Marks this node as being a {@link StandardTags.ExpressionTag} for instrumentation purposes.
+     */
+    public final void addExpressionTag() {
+        hasExpressionTag = true;
     }
 
 
