@@ -3,23 +3,29 @@ package com.oracle.truffle.sl.rev;
 import com.oracle.truffle.sl.nodes.SLEvalRootNode;
 import com.oracle.truffle.sl.nodes.SLRootNode;
 import com.oracle.truffle.sl.nodes.SLUndefinedFunctionRootNode;
+import com.oracle.truffle.sl.nodes.access.SLReadPropertyNode;
+import com.oracle.truffle.sl.nodes.access.SLWritePropertyNode;
 import com.oracle.truffle.sl.nodes.call.SLInvokeNode;
 import com.oracle.truffle.sl.nodes.controlflow.*;
 import com.oracle.truffle.sl.nodes.expression.*;
 import com.oracle.truffle.sl.nodes.local.SLLexicalScope;
 import com.oracle.truffle.sl.nodes.local.SLReadArgumentNode;
+import com.oracle.truffle.sl.nodes.local.SLReadLocalVariableNode;
+import com.oracle.truffle.sl.nodes.local.SLWriteLocalVariableNode;
 import com.oracle.truffle.sl.revisitor.SLRevisitor;
 
-public interface ExecSLRevisitor extends SLRevisitor<SLAddNodeT, SLBigIntegerLiteralNodeT, SLBinaryNodeT,
-        SLBlockNodeT, SLBreakExceptionT, SLBreakNodeT, SLContinueExceptionT, SLContinueNodeT, SLDebuggerNodeT,
-        SLDispatchNodeT, SLDivNodeT, SLEqualNodeT, SLEvalRootNodeT, SLExpressionNodeT, SLForeignToSLTypeNodeT,
-        SLFunctionBodyNodeT, SLFunctionLiteralNodeT, SLIfNodeT, SLInvokeNodeT, SLLessOrEqualNodeT, SLLessThanNodeT,
-        SLLexicalScopeT, SLLogicalAndNodeT, SLLogicalNotNodeT, SLLogicalOrNodeT, SLLongLiteralNodeT, SLMulNodeT,
-        SLParenExpressionNodeT, SLReadArgumentNodeT, SLReadLocalVariableNodeT,
-        SLReturnExceptionT, SLReturnNodeT, SLRootNodeT,
-        SLShortCircuitNodeT, SLStatementNodeT, SLStringLiteralNodeT, SLSubNodeT, SLTypesT, SLUnboxNodeT,
-        SLUndefinedFunctionRootNodeT, SLWhileNodeT, SLWriteLocalVariableNodeT> {
-
+public interface ExecSLRevisitor extends SLRevisitor<SLAddNodeT, SLBigIntegerLiteralNodeT, SLBinaryNodeT, SLBlockNodeT,
+        SLBreakExceptionT, SLBreakNodeT, SLBuiltinNodeT, SLContinueExceptionT, SLContinueNodeT, SLDebuggerNodeT,
+        SLDefineFunctionBuiltinT, SLDispatchNodeT, SLDivNodeT, SLEqualNodeT, SLEvalBuiltinT, SLEvalRootNodeT,
+        SLExpressionNodeT, SLForeignToSLTypeNodeT, SLFunctionBodyNodeT, SLFunctionLiteralNodeT, SLGetSizeBuiltinT,
+        SLHasSizeBuiltinT, SLHelloEqualsWorldBuiltinT, SLIfNodeT, SLImportBuiltinT, SLInvokeNodeT, SLIsExecutableBuiltinT,
+        SLIsNullBuiltinT, SLLessOrEqualNodeT, SLLessThanNodeT, SLLexicalScopeT, SLLogicalAndNodeT, SLLogicalNotNodeT,
+        SLLogicalOrNodeT, SLLongLiteralNodeT, SLMulNodeT, SLNanoTimeBuiltinT, SLNewObjectBuiltinT,
+        SLParenExpressionNodeT, SLPrintlnBuiltinT, SLPropertyCacheNodeT, SLReadArgumentNodeT, SLReadLocalVariableNodeT,
+        SLReadPropertyCacheNodeT, SLReadPropertyNodeT, SLReadlnBuiltinT, SLReturnExceptionT, SLReturnNodeT, SLRootNodeT,
+        SLShortCircuitNodeT, SLStackTraceBuiltinT, SLStatementNodeT, SLStringLiteralNodeT, SLSubNodeT, SLTypesT,
+        SLUnboxNodeT, SLUndefinedFunctionRootNodeT, SLWhileNodeT, SLWriteLocalVariableNodeT, SLWritePropertyCacheNodeT,
+        SLWritePropertyNodeT> {
     @Override
     default SLAddNodeT _sLAddNode(SLAddNode it) {
         return MySLAddNodeT.INSTANCE(this, it);
@@ -145,7 +151,6 @@ public interface ExecSLRevisitor extends SLRevisitor<SLAddNodeT, SLBigIntegerLit
         return MySLBigIntegerLiteralNodeT.INSTANCE(this, it);
     }
 
-
     @Override
     default SLLogicalNotNodeT _sLLogicalNotNode(SLLogicalNotNode it) {
         return MySLLogicalNotNodeT.INSTANCE(this, it);
@@ -176,5 +181,34 @@ public interface ExecSLRevisitor extends SLRevisitor<SLAddNodeT, SLBigIntegerLit
         return MySLDivNodeT.INSTANCE(this, it);
     }
 
+    @Override
+    default SLReadPropertyNodeT _sLReadPropertyNode(SLReadPropertyNode it) {
+        throw new RuntimeException("Not Implemented");
+    }
 
+    @Override
+    default SLWritePropertyNodeT _sLWritePropertyNode(SLWritePropertyNode it) {
+        throw new RuntimeException("Not Implemented");
+    }
+
+    @Override
+    default SLUnboxNodeT _sLUnboxNode(SLUnboxNode it) {
+        return MySLUnboxNodeT.INSTANCE(this, it);
+    }
+
+    @Override
+    default SLReadLocalVariableNodeT _sLReadLocalVariableNode(SLReadLocalVariableNode it) {
+        return MySLReadLocalVariableNodeT.INSTANCE(this, it);
+    }
+
+    @Override
+    default SLWriteLocalVariableNodeT _sLWriteLocalVariableNode(SLWriteLocalVariableNode it) {
+//        throw new RuntimeException("Not Implemented");
+        return MySLWriteLocalVariableNodeT.INSTANCE(this, it);
+    }
+
+    @Override
+    default SLLessOrEqualNodeT _sLLessOrEqualNode(SLLessOrEqualNode it) {
+        return MySLLessOrEqualNodeT.INSTANCE(this, it);
+    }
 }

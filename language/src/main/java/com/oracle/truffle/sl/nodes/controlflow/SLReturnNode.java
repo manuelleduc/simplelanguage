@@ -54,7 +54,8 @@ import com.oracle.truffle.sl.nodes.SLStatementNode;
 @NodeInfo(shortName = "return", description = "The node implementing a return statement")
 public final class SLReturnNode extends SLStatementNode {
 
-    @Child private SLExpressionNode valueNode;
+    @Child
+    private SLExpressionNode valueNode;
 
     public SLReturnNode(SLExpressionNode valueNode) {
         this.valueNode = valueNode;

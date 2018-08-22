@@ -65,8 +65,8 @@ public class SLJavaInteropExceptionTest {
 
         public void validateNested() throws Exception {
             String sourceText = "function test(validator) {\n" +
-                            "  return validator.validateException();\n" +
-                            "}";
+                    "  return validator.validateException();\n" +
+                    "}";
             try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
                 context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
                 Value test = context.getBindings(SLLanguage.ID).getMember("test");
@@ -86,8 +86,8 @@ public class SLJavaInteropExceptionTest {
     @Test
     public void testGR7284() throws Exception {
         String sourceText = "function test(validator) {\n" +
-                        "  return validator.validateException();\n" +
-                        "}";
+                "  return validator.validateException();\n" +
+                "}";
         try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
             context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
             Value test = context.getBindings(SLLanguage.ID).getMember("test");
@@ -105,8 +105,8 @@ public class SLJavaInteropExceptionTest {
     @Test
     public void testGR7284GuestHostGuestHost() throws Exception {
         String sourceText = "function test(validator) {\n" +
-                        "  return validator.validateNested();\n" +
-                        "}";
+                "  return validator.validateNested();\n" +
+                "}";
         try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
             context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
             Value test = context.getBindings(SLLanguage.ID).getMember("test");
@@ -124,7 +124,7 @@ public class SLJavaInteropExceptionTest {
     @SuppressWarnings("deprecation")
     private static void assertNoJavaInteropStackFrames(PolyglotException ex) {
         String javaInteropPackageName = com.oracle.truffle.api.interop.java.JavaInterop.class.getName().substring(0,
-                        com.oracle.truffle.api.interop.java.JavaInterop.class.getName().lastIndexOf('.') + 1);
+                com.oracle.truffle.api.interop.java.JavaInterop.class.getName().lastIndexOf('.') + 1);
         assertFalse("expected no java interop stack trace elements", Arrays.stream(ex.getStackTrace()).anyMatch(ste -> ste.getClassName().startsWith(javaInteropPackageName)));
     }
 
@@ -132,12 +132,12 @@ public class SLJavaInteropExceptionTest {
     public void testFunctionProxy() throws Exception {
         String javaMethod = "validateFunction";
         String sourceText = "" +
-                        "function supplier() {\n" +
-                        "  return error();\n" +
-                        "}\n" +
-                        "function test(validator) {\n" +
-                        "  return validator." + javaMethod + "(supplier);\n" +
-                        "}";
+                "function supplier() {\n" +
+                "  return error();\n" +
+                "}\n" +
+                "function test(validator) {\n" +
+                "  return validator." + javaMethod + "(supplier);\n" +
+                "}";
         try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
             context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
             Value test = context.getBindings(SLLanguage.ID).getMember("test");
@@ -165,9 +165,9 @@ public class SLJavaInteropExceptionTest {
     public void testTruffleMap() throws Exception {
         String javaMethod = "validateMap";
         String sourceText = "" +
-                        "function test(validator) {\n" +
-                        "  return validator." + javaMethod + "(new());\n" +
-                        "}";
+                "function test(validator) {\n" +
+                "  return validator." + javaMethod + "(new());\n" +
+                "}";
         try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
             context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
             Value test = context.getBindings(SLLanguage.ID).getMember("test");

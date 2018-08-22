@@ -52,7 +52,6 @@ import com.oracle.truffle.sl.nodes.SLStatementNode;
 public class SLDebuggerNode extends SLStatementNode {
 
 
-
     @Override
     public boolean hasTag(Class<? extends Tag> tag) {
         if (tag == DebuggerTags.AlwaysHalt.class) {

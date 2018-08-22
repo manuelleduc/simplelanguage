@@ -12,14 +12,18 @@ public class MySLReturnNodeT implements SLReturnNodeT {
     private final static Map<SLReturnNode, SLReturnNodeT> cache = new HashMap<>();
     private final ExecSLRevisitor alg;
     private final SLReturnNode it;
+    private final SLExpressionNodeT op;
 
     private MySLReturnNodeT(ExecSLRevisitor alg, SLReturnNode it) {
         this.alg = alg;
         this.it = it;
+        this.op = alg.$(it.getValueNode());
     }
 
     public static SLReturnNodeT INSTANCE(ExecSLRevisitor alg, SLReturnNode it) {
-        if (!cache.containsKey(it)) cache.put(it, new MySLReturnNodeT(alg, it));
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLReturnNodeT(alg, it));
+        }
         return cache.get(it);
     }
 
@@ -27,7 +31,7 @@ public class MySLReturnNodeT implements SLReturnNodeT {
     public void executeVoid(VirtualFrame frame) {
         Object result;
         if (it.getValueNode() != null) {
-            result = alg.$(it.getValueNode()).executeGeneric(frame);
+            result = op.executeGeneric(frame);
         } else {
             /*
              * Return statement that was not followed by an expression, so return the SL null value.

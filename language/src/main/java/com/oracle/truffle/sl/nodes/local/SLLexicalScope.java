@@ -70,8 +70,8 @@ public final class SLLexicalScope {
     /**
      * Create a new block SL lexical scope.
      *
-     * @param current the current node
-     * @param block a nearest block enclosing the current node
+     * @param current     the current node
+     * @param block       a nearest block enclosing the current node
      * @param parentBlock a next parent block
      */
     private SLLexicalScope(Node current, SLBlockNode block, SLBlockNode parentBlock) {
@@ -85,8 +85,8 @@ public final class SLLexicalScope {
      * Create a new functional SL lexical scope.
      *
      * @param current the current node, or <code>null</code> when it would be above the block
-     * @param block a nearest block enclosing the current node
-     * @param root a functional root node for top-most block
+     * @param block   a nearest block enclosing the current node
+     * @param root    a functional root node for top-most block
      */
     private SLLexicalScope(Node current, SLBlockNode block, RootNode root) {
         this.current = current;
@@ -180,7 +180,7 @@ public final class SLLexicalScope {
 
     /**
      * @return the node representing the scope, the block node for block scopes and the
-     *         {@link RootNode} for functional scope.
+     * {@link RootNode} for functional scope.
      */
     public Node getNode() {
         if (root != null) {

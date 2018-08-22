@@ -52,7 +52,9 @@ import com.oracle.truffle.sl.parser.SLNodeFactory;
  */
 public class SLReadArgumentNode extends SLExpressionNode {
 
-    /** The argument number, i.e., the index into the array of arguments. */
+    /**
+     * The argument number, i.e., the index into the array of arguments.
+     */
     private final int index;
 
 

@@ -93,9 +93,9 @@ public class SLSharedCodeSeparatedEnvTest {
     public void shareCodeUseDifferentOutputStreams() throws Exception {
 
         String sayHello =
-            "function main() {\n" +
-            "  println(\"Ahoj\" + import(\"extra\"));" +
-            "}";
+                "function main() {\n" +
+                        "  println(\"Ahoj\" + import(\"extra\"));" +
+                        "}";
         // @formatter:on
 
         e1.eval("sl", sayHello);
@@ -114,8 +114,8 @@ public class SLSharedCodeSeparatedEnvTest {
         assertNotNull("Stream capturing is ready", outConsumer);
 
         String sayHello = "function main() {\n" +
-                        "  println(\"Ahoj\" + import(\"extra\"));" +
-                        "}";
+                "  println(\"Ahoj\" + import(\"extra\"));" +
+                "}";
         // @formatter:on
 
         e1.eval("sl", sayHello);
@@ -129,15 +129,15 @@ public class SLSharedCodeSeparatedEnvTest {
         engine.close();
 
         assertEquals("Output of both contexts and instruments is capturable",
-                        "initializingOutputCapture\n" +
-                                        "Ahoj1\n" +
-                                        "Ahoj2\n" +
-                                        "endOfOutputCapture\n",
-                        outConsumer.toString("UTF-8"));
+                "initializingOutputCapture\n" +
+                        "Ahoj1\n" +
+                        "Ahoj2\n" +
+                        "endOfOutputCapture\n",
+                outConsumer.toString("UTF-8"));
 
         assertEquals("Output of instrument goes not to os runtime if specified otherwise",
-                        "initializingOutputCapture\n" + "endOfOutputCapture\n",
-                        osRuntime.toString("UTF-8"));
+                "initializingOutputCapture\n" + "endOfOutputCapture\n",
+                osRuntime.toString("UTF-8"));
     }
 
     @TruffleInstrument.Registration(id = "captureOutput", services = ByteArrayOutputStream.class)

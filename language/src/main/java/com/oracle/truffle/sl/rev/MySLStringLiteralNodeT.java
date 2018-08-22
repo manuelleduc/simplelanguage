@@ -17,7 +17,9 @@ public class MySLStringLiteralNodeT implements SLStringLiteralNodeT {
     }
 
     public static SLStringLiteralNodeT INSTANCE(ExecSLRevisitor alg, SLStringLiteralNode it) {
-        if (!cache.containsKey(it)) cache.put(it, new MySLStringLiteralNodeT(alg, it));
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLStringLiteralNodeT(alg, it));
+        }
         return cache.get(it);
     }
 

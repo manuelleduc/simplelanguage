@@ -24,7 +24,9 @@ public class MySLWhileNodeT implements SLWhileNodeT {
     }
 
     public static SLWhileNodeT INSTANCE(ExecSLRevisitor alg, SLWhileNode it) {
-        if (!cache.containsKey(it)) cache.put(it, new MySLWhileNodeT(alg, it));
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLWhileNodeT(alg, it));
+        }
         return cache.get(it);
     }
 

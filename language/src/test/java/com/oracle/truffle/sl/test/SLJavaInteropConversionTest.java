@@ -98,11 +98,11 @@ public class SLJavaInteropConversionTest {
     @Test
     public void testGR7318Object() throws Exception {
         String sourceText = "function test(validator) {\n" +
-                        "  obj = new();\n" +
-                        "  obj.a = new();\n" +
-                        "  obj.b = new();\n" +
-                        "  return validator.validateObject(obj, obj);\n" +
-                        "}";
+                "  obj = new();\n" +
+                "  obj.a = new();\n" +
+                "  obj.b = new();\n" +
+                "  return validator.validateObject(obj, obj);\n" +
+                "}";
         try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
             context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
             Value test = context.getBindings(SLLanguage.ID).getMember("test");
@@ -114,11 +114,11 @@ public class SLJavaInteropConversionTest {
     @Test
     public void testGR7318Map() throws Exception {
         String sourceText = "function test(validator) {\n" +
-                        "  obj = new();\n" +
-                        "  obj.a = new();\n" +
-                        "  obj.b = new();\n" +
-                        "  return validator.validateMap(obj, obj);\n" +
-                        "}";
+                "  obj = new();\n" +
+                "  obj.a = new();\n" +
+                "  obj.b = new();\n" +
+                "  return validator.validateMap(obj, obj);\n" +
+                "}";
         try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
             context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
             Value test = context.getBindings(SLLanguage.ID).getMember("test");
@@ -130,10 +130,10 @@ public class SLJavaInteropConversionTest {
     @Test
     public void testGR7318List() throws Exception {
         String sourceText = "function test(validator, array) {\n" +
-                        "  array[0] = new();\n" +
-                        "  array[1] = new();\n" +
-                        "  return validator.validateList(array, array);\n" +
-                        "}";
+                "  array[0] = new();\n" +
+                "  array[1] = new();\n" +
+                "  return validator.validateList(array, array);\n" +
+                "}";
         try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
             context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
             Value test = context.getBindings(SLLanguage.ID).getMember("test");

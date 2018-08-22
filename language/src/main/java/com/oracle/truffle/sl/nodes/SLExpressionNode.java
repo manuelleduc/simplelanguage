@@ -51,12 +51,12 @@ import com.oracle.truffle.api.nodes.NodeInfo;
  * type system for all subclasses.
  */
 
-//@TypeSystemReference(SLTypes.class)
+@TypeSystemReference(SLTypes.class)
 @NodeInfo(description = "The abstract base node for all expressions")
 //@GenerateWrapper
 public abstract class SLExpressionNode extends SLStatementNode {
 
-//
+    private boolean hasExpressionTag;
 //    // TODO: wrapper ?
 //    @Override
 //    public WrapperNode createWrapper(ProbeNode probe) {

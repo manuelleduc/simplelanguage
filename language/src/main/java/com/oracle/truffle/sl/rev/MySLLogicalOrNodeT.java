@@ -17,7 +17,9 @@ public class MySLLogicalOrNodeT extends MySLShortCircuitNodeT implements SLLogic
     }
 
     public static SLLogicalOrNodeT INSTANCE(ExecSLRevisitor alg, SLLogicalOrNode it) {
-        if (!cache.containsKey(it)) cache.put(it, new MySLLogicalOrNodeT(alg, it));
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLLogicalOrNodeT(alg, it));
+        }
         return cache.get(it);
     }
 

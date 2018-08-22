@@ -40,15 +40,6 @@
  */
 package com.oracle.truffle.sl.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayDeque;
-import java.util.Deque;
-
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 import org.graalvm.polyglot.management.ExecutionEvent;
@@ -56,6 +47,11 @@ import org.graalvm.polyglot.management.ExecutionListener;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+import static org.junit.Assert.*;
 
 public class SLExecutionListenerTest {
 
@@ -83,9 +79,9 @@ public class SLExecutionListenerTest {
     @Test
     public void testRootsAndStatements() {
         ExecutionListener.newBuilder().onEnter(this::add).onReturn(this::add).//
-                        roots(true).statements(true).//
-                        collectExceptions(true).collectInputValues(true).collectReturnValue(true).//
-                        attach(context.getEngine());
+                roots(true).statements(true).//
+                collectExceptions(true).collectInputValues(true).collectReturnValue(true).//
+                attach(context.getEngine());
 
         eval("return 2;");
 
@@ -98,9 +94,9 @@ public class SLExecutionListenerTest {
     @Test
     public void testStatements() {
         ExecutionListener.newBuilder().onEnter(this::add).onReturn(this::add).//
-                        statements(true).//
-                        collectExceptions(true).collectInputValues(true).collectReturnValue(true).//
-                        attach(context.getEngine());
+                statements(true).//
+                collectExceptions(true).collectInputValues(true).collectReturnValue(true).//
+                attach(context.getEngine());
 
         eval("2 + 3;");
         enterStatement("2 + 3");
@@ -116,9 +112,9 @@ public class SLExecutionListenerTest {
     @Test
     public void testExpressions() {
         ExecutionListener.newBuilder().onEnter(this::add).onReturn(this::add).//
-                        expressions(true).//
-                        collectExceptions(true).collectInputValues(true).collectReturnValue(true).//
-                        attach(context.getEngine());
+                expressions(true).//
+                collectExceptions(true).collectInputValues(true).collectReturnValue(true).//
+                attach(context.getEngine());
         eval("2 + 3;");
 
         enterStatement("2 + 3");
@@ -132,9 +128,9 @@ public class SLExecutionListenerTest {
     @Test
     public void testRoots() {
         ExecutionListener.newBuilder().onEnter(this::add).onReturn(this::add).//
-                        roots(true).//
-                        collectExceptions(true).collectInputValues(true).collectReturnValue(true).//
-                        attach(context.getEngine());
+                roots(true).//
+                collectExceptions(true).collectInputValues(true).collectReturnValue(true).//
+                attach(context.getEngine());
 
         eval("return 2;");
 
@@ -145,9 +141,9 @@ public class SLExecutionListenerTest {
     @Test
     public void testExpressionsStatementsAndRoots() {
         ExecutionListener.newBuilder().onEnter(this::add).onReturn(this::add).//
-                        expressions(true).statements(true).//
-                        collectExceptions(true).collectInputValues(true).collectReturnValue(true).//
-                        attach(context.getEngine());
+                expressions(true).statements(true).//
+                collectExceptions(true).collectInputValues(true).collectReturnValue(true).//
+                attach(context.getEngine());
 
         eval("2 + 3;");
 
@@ -163,7 +159,7 @@ public class SLExecutionListenerTest {
     public void testFactorial() {
         // @formatter:off
         String characters =
-                        "fac(n) {" +
+                "fac(n) {" +
                         "  if (n <= 1) {" +
                         "    return 1;" +
                         "  }" +
@@ -173,9 +169,9 @@ public class SLExecutionListenerTest {
         context.eval("sl", "function " + characters);
         Value factorial = context.getBindings("sl").getMember("fac");
         ExecutionListener.newBuilder().onReturn(this::add).onEnter(this::add).//
-                        expressions(true).statements(true).roots(true).//
-                        collectExceptions(true).collectInputValues(true).collectReturnValue(true).//
-                        attach(context.getEngine());
+                expressions(true).statements(true).roots(true).//
+                collectExceptions(true).collectInputValues(true).collectReturnValue(true).//
+                attach(context.getEngine());
         expectedRootName = "fac";
         assertEquals(0, events.size());
         for (int i = 0; i < 10; i++) {

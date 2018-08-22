@@ -58,6 +58,7 @@ public class SLLoggerTest {
 
     private static final Source ADD_SL;
     private static final Source MUL_SL;
+
     static {
         try {
             ADD_SL = Source.newBuilder("sl", "function add(a,b) {return a + b;} function main() {return add(1,1);}", "add.sl").build();

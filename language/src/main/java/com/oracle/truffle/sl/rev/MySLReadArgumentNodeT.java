@@ -19,7 +19,9 @@ public class MySLReadArgumentNodeT implements SLReadArgumentNodeT {
     }
 
     public static SLReadArgumentNodeT INSTANCE(ExecSLRevisitor alg, SLReadArgumentNode it) {
-        if (!cache.containsKey(it)) cache.put(it, new MySLReadArgumentNodeT(alg, it));
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLReadArgumentNodeT(alg, it));
+        }
         return cache.get(it);
     }
 

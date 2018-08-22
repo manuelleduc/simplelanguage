@@ -54,5 +54,4 @@ public final class SLLogicalAndNode extends SLShortCircuitNode {
     }
 
 
-
 }

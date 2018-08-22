@@ -7,22 +7,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MySLDebuggerNodeT implements SLDebuggerNodeT {
-	private final static Map<SLDebuggerNode, SLDebuggerNodeT> cache = new HashMap<>();
-	private final ExecSLRevisitor alg;
-	private final SLDebuggerNode it;
+    private final static Map<SLDebuggerNode, SLDebuggerNodeT> cache = new HashMap<>();
+    private final ExecSLRevisitor alg;
+    private final SLDebuggerNode it;
 
-	private MySLDebuggerNodeT(ExecSLRevisitor alg, SLDebuggerNode it) {
-		this.alg = alg;
-		this.it = it;
-	}
+    private MySLDebuggerNodeT(ExecSLRevisitor alg, SLDebuggerNode it) {
+        this.alg = alg;
+        this.it = it;
+    }
 
-	public static SLDebuggerNodeT INSTANCE(ExecSLRevisitor alg, SLDebuggerNode it) {
-		if (!cache.containsKey(it)) cache.put(it, new MySLDebuggerNodeT(alg, it));
-		return cache.get(it);
-	}
+    public static SLDebuggerNodeT INSTANCE(ExecSLRevisitor alg, SLDebuggerNode it) {
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLDebuggerNodeT(alg, it));
+        }
+        return cache.get(it);
+    }
 
-	@Override
-	public void executeVoid(VirtualFrame frame) {
-		// No op.
-	}
+    @Override
+    public void executeVoid(VirtualFrame frame) {
+        // No op.
+    }
 }

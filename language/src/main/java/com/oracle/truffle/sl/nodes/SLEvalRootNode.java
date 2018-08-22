@@ -67,11 +67,13 @@ import java.util.Map;
 public final class SLEvalRootNode extends RootNode {
 
     private final Map<String, RootCallTarget> functions;
-    @CompilationFinal private boolean registered;
+    @CompilationFinal
+    private boolean registered;
 
     private final ContextReference<SLContext> reference;
 
-    @Child private DirectCallNode mainCallNode;
+    @Child
+    private DirectCallNode mainCallNode;
 
     public SLEvalRootNode(SLLanguage language, RootCallTarget rootFunction, Map<String, RootCallTarget> functions) {
         super(null); // internal frame

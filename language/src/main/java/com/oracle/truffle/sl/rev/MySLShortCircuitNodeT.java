@@ -26,7 +26,7 @@ public abstract class MySLShortCircuitNodeT implements SLShortCircuitNodeT {
     }
 
 //	public static SLShortCircuitNodeT INSTANCE(ExecSLRevisitor alg, SLShortCircuitNode it) {
-//		if (!cache.containsKey(it)) cache.put(it, new MySLShortCircuitNodeT(alg, it));
+//		if (!cache.containsKey(it)) { System.out.println("CACHE MISS $1"); cache.put(it, new $1(alg, it)); }
 //		return cache.get(it);
 //	}
 

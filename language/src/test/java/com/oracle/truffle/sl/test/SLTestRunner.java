@@ -40,7 +40,6 @@
  */
 package com.oracle.truffle.sl.test;
 
-import com.oracle.truffle.api.dsl.NodeFactory;
 import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.test.SLTestRunner.TestCase;
 import org.graalvm.polyglot.Context;

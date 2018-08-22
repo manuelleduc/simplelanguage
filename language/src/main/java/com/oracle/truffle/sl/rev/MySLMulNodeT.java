@@ -1,10 +1,7 @@
 package com.oracle.truffle.sl.rev;
 
 import com.oracle.truffle.api.CompilerDirectives;
-import com.oracle.truffle.api.dsl.Fallback;
-import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.frame.VirtualFrame;
-import com.oracle.truffle.api.nodes.NodeCost;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
 import com.oracle.truffle.sl.SLException;
 import com.oracle.truffle.sl.nodes.SLTypesGen;
@@ -19,6 +16,8 @@ public class MySLMulNodeT implements SLMulNodeT {
     private final static Map<SLMulNode, SLMulNodeT> cache = new HashMap<>();
     private final ExecSLRevisitor alg;
     private final SLMulNode it;
+    private final SLExpressionNodeT opLeftNode;
+    private final SLExpressionNodeT opRightNode;
     @CompilerDirectives.CompilationFinal
     private int state_;
     @CompilerDirectives.CompilationFinal
@@ -27,10 +26,14 @@ public class MySLMulNodeT implements SLMulNodeT {
     private MySLMulNodeT(ExecSLRevisitor alg, SLMulNode it) {
         this.alg = alg;
         this.it = it;
+        this.opLeftNode = alg.$(it.getLeftNode());
+        this.opRightNode = alg.$(it.getRightNode());
     }
 
     public static SLMulNodeT INSTANCE(ExecSLRevisitor alg, SLMulNode it) {
-        if (!cache.containsKey(it)) cache.put(it, new MySLMulNodeT(alg, it));
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLMulNodeT(alg, it));
+        }
         return cache.get(it);
     }
 
@@ -60,14 +63,14 @@ public class MySLMulNodeT implements SLMulNodeT {
     private Object executeGeneric_long_long0(VirtualFrame frameValue, int state) {
         long leftNodeValue_;
         try {
-            leftNodeValue_ = alg.$(it.getLeftNode()).executeLong(frameValue);
+            leftNodeValue_ = opLeftNode.executeLong(frameValue);
         } catch (UnexpectedResultException ex) {
-            Object rightNodeValue = alg.$(it.getRightNode()).executeGeneric(frameValue);
+            Object rightNodeValue = opRightNode.executeGeneric(frameValue);
             return executeAndSpecialize(ex.getResult(), rightNodeValue);
         }
         long rightNodeValue_;
         try {
-            rightNodeValue_ = alg.$(it.getRightNode()).executeLong(frameValue);
+            rightNodeValue_ = opRightNode.executeLong(frameValue);
         } catch (UnexpectedResultException ex) {
             return executeAndSpecialize(leftNodeValue_, ex.getResult());
         }
@@ -89,8 +92,8 @@ public class MySLMulNodeT implements SLMulNodeT {
     }
 
     private Object executeGeneric_generic1(VirtualFrame frameValue, int state) {
-        Object leftNodeValue_ = alg.$(it.getLeftNode()).executeGeneric(frameValue);
-        Object rightNodeValue_ = alg.$(it.getRightNode()).executeGeneric(frameValue);
+        Object leftNodeValue_ = opLeftNode.executeGeneric(frameValue);
+        Object rightNodeValue_ = opRightNode.executeGeneric(frameValue);
         if ((state & 0b1) != 0 /* is-active mul(long, long) */ && leftNodeValue_ instanceof Long) {
             long leftNodeValue__ = (long) leftNodeValue_;
             if (rightNodeValue_ instanceof Long) {
@@ -135,14 +138,14 @@ public class MySLMulNodeT implements SLMulNodeT {
         }
         long leftNodeValue_;
         try {
-            leftNodeValue_ = alg.$(it.getLeftNode()).executeLong(frameValue);
+            leftNodeValue_ = opLeftNode.executeLong(frameValue);
         } catch (UnexpectedResultException ex) {
-            Object rightNodeValue = alg.$(it.getRightNode()).executeGeneric(frameValue);
+            Object rightNodeValue = opRightNode.executeGeneric(frameValue);
             return SLTypesGen.expectLong(executeAndSpecialize(ex.getResult(), rightNodeValue));
         }
         long rightNodeValue_;
         try {
-            rightNodeValue_ = alg.$(it.getRightNode()).executeLong(frameValue);
+            rightNodeValue_ = opRightNode.executeLong(frameValue);
         } catch (UnexpectedResultException ex) {
             return SLTypesGen.expectLong(executeAndSpecialize(leftNodeValue_, ex.getResult()));
         }

@@ -1,5 +1,6 @@
 package com.oracle.truffle.sl.rev;
 
+import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.profiles.BranchProfile;
 import com.oracle.truffle.sl.nodes.controlflow.SLFunctionBodyNode;
@@ -22,15 +23,19 @@ public class MySLFunctionBodyNodeT implements SLFunctionBodyNodeT {
      */
     private final BranchProfile exceptionTaken = BranchProfile.create();
     private final BranchProfile nullTaken = BranchProfile.create();
+    private final SLStatementNodeT op;
 
 
     private MySLFunctionBodyNodeT(ExecSLRevisitor alg, SLFunctionBodyNode it) {
         this.alg = alg;
         this.it = it;
+        this.op = alg.$(it.getBodyNode());
     }
 
     public static SLFunctionBodyNodeT INSTANCE(ExecSLRevisitor alg, SLFunctionBodyNode it) {
-        if (!cache.containsKey(it)) cache.put(it, new MySLFunctionBodyNodeT(alg, it));
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLFunctionBodyNodeT(alg, it));
+        }
         return cache.get(it);
     }
 
@@ -38,7 +43,8 @@ public class MySLFunctionBodyNodeT implements SLFunctionBodyNodeT {
     public Object executeGeneric(VirtualFrame frame) {
         try {
             /* Execute the function body. */
-            alg.$(it.getBodyNode()).executeVoid(frame);
+
+            op.executeVoid(frame);
 
         } catch (SLReturnException ex) {
             /*

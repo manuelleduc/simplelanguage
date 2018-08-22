@@ -17,7 +17,9 @@ public class MySLLogicalAndNodeT extends MySLShortCircuitNodeT implements SLLogi
     }
 
     public static SLLogicalAndNodeT INSTANCE(ExecSLRevisitor alg, SLLogicalAndNode it) {
-        if (!cache.containsKey(it)) cache.put(it, new MySLLogicalAndNodeT(alg, it));
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLLogicalAndNodeT(alg, it));
+        }
         return cache.get(it);
     }
 

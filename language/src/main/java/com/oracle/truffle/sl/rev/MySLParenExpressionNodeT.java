@@ -18,7 +18,9 @@ public class MySLParenExpressionNodeT implements SLParenExpressionNodeT {
     }
 
     public static SLParenExpressionNodeT INSTANCE(ExecSLRevisitor alg, SLParenExpressionNode it) {
-        if (!cache.containsKey(it)) cache.put(it, new MySLParenExpressionNodeT(alg, it));
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLParenExpressionNodeT(alg, it));
+        }
         return cache.get(it);
     }
 

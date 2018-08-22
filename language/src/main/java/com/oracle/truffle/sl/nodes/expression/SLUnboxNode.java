@@ -45,7 +45,18 @@ import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 
 @NodeChild("child")
-public abstract class SLUnboxNode extends SLExpressionNode {
+public class SLUnboxNode extends SLExpressionNode {
+
+    @Child
+    private SLExpressionNode leftNode;
+
+    public SLUnboxNode(SLExpressionNode leftNode) {
+        this.leftNode = leftNode;
+    }
+
+    public SLExpressionNode getChild() {
+        return leftNode;
+    }
 
     public <T extends Node> T insert2(final T newChild) {
         return super.insert(newChild);

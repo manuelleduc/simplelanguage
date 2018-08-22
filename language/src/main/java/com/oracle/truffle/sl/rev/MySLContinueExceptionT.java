@@ -16,7 +16,9 @@ public class MySLContinueExceptionT implements SLContinueExceptionT {
     }
 
     public static SLContinueExceptionT INSTANCE(ExecSLRevisitor alg, SLContinueException it) {
-        if (!cache.containsKey(it)) cache.put(it, new MySLContinueExceptionT(alg, it));
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLContinueExceptionT(alg, it));
+        }
         return cache.get(it);
     }
 }

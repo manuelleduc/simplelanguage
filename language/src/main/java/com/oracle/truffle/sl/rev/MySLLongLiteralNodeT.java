@@ -18,7 +18,9 @@ public class MySLLongLiteralNodeT implements SLLongLiteralNodeT {
     }
 
     public static SLLongLiteralNodeT INSTANCE(ExecSLRevisitor alg, SLLongLiteralNode it) {
-        if (!cache.containsKey(it)) cache.put(it, new MySLLongLiteralNodeT(alg, it));
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLLongLiteralNodeT(alg, it));
+        }
         return cache.get(it);
     }
 

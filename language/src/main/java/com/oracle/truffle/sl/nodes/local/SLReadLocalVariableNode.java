@@ -56,13 +56,22 @@ import com.oracle.truffle.sl.nodes.SLExpressionNode;
  * stored boxed.
  */
 @NodeField(name = "slot", type = FrameSlot.class)
-public abstract class SLReadLocalVariableNode extends SLExpressionNode {
+public class SLReadLocalVariableNode extends SLExpressionNode {
+    private final FrameSlot slot;
+
+    public SLReadLocalVariableNode(FrameSlot frameSlot) {
+        this.slot = frameSlot;
+    }
+
+    public FrameSlot getSlot() {
+        return slot;
+    }
 
     /**
      * Returns the descriptor of the accessed local variable. The implementation of this method is
      * created by the Truffle DSL based on the {@link NodeField} annotation on the class.
      */
-    public abstract FrameSlot getSlot();
+//    public abstract FrameSlot getSlot();
 
 
     /**

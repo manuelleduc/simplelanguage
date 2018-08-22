@@ -19,7 +19,9 @@ public class MySLFunctionLiteralNodeT implements SLFunctionLiteralNodeT {
     }
 
     public static SLFunctionLiteralNodeT INSTANCE(ExecSLRevisitor alg, SLFunctionLiteralNode it) {
-        if (!cache.containsKey(it)) cache.put(it, new MySLFunctionLiteralNodeT(alg, it));
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLFunctionLiteralNodeT(alg, it));
+        }
         return cache.get(it);
     }
 

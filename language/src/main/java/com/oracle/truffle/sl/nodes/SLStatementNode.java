@@ -157,8 +157,6 @@ public abstract class SLStatementNode extends Node {
 //    }
 
 
-
-
     /**
      * Marks this node as being a {@link StandardTags.StatementTag} for instrumentation purposes.
      */
@@ -173,10 +171,10 @@ public abstract class SLStatementNode extends Node {
         hasRootTag = true;
     }
 
-    @Override
-    public String toString() {
-        return formatSourceSection(this);
-    }
+//    @Override
+//    public String toString() {
+//        return formatSourceSection(this);
+//    }
 
     /**
      * Formats a source section of a node in human readable form. If no source section could be
@@ -213,4 +211,6 @@ public abstract class SLStatementNode extends Node {
     public void reportPolymorphicSpecialize2() {
         reportPolymorphicSpecialize();
     }
+
+
 }

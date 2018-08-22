@@ -49,8 +49,10 @@ import com.oracle.truffle.sl.nodes.SLExpressionNode;
  */
 public abstract class SLShortCircuitNode extends SLExpressionNode {
 
-    @Child private SLExpressionNode left;
-    @Child private SLExpressionNode right;
+    @Child
+    private SLExpressionNode left;
+    @Child
+    private SLExpressionNode right;
 
     public SLShortCircuitNode(SLExpressionNode left, SLExpressionNode right) {
         this.left = left;

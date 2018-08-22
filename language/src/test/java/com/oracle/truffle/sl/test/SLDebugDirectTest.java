@@ -104,46 +104,46 @@ public class SLDebugDirectTest {
 
     private static Source createFactorial() {
         return Source.newBuilder("sl", "function test() {\n" +
-                        "  res = fac(2);\n" + "  println(res);\n" +
-                        "  return res;\n" +
-                        "}\n" +
-                        "function fac(n) {\n" +
-                        "  if (n <= 1) {\n" +
-                        "    return 1;\n" + "  }\n" +
-                        "  nMinusOne = n - 1;\n" +
-                        "  nMOFact = fac(nMinusOne);\n" +
-                        "  res = n * nMOFact;\n" +
-                        "  return res;\n" + "}\n", "factorial.sl").buildLiteral();
+                "  res = fac(2);\n" + "  println(res);\n" +
+                "  return res;\n" +
+                "}\n" +
+                "function fac(n) {\n" +
+                "  if (n <= 1) {\n" +
+                "    return 1;\n" + "  }\n" +
+                "  nMinusOne = n - 1;\n" +
+                "  nMOFact = fac(nMinusOne);\n" +
+                "  res = n * nMOFact;\n" +
+                "  return res;\n" + "}\n", "factorial.sl").buildLiteral();
     }
 
     private static Source createFactorialWithDebugger() {
         return Source.newBuilder("sl", "function test() {\n" +
-                        "  res = fac(2);\n" +
-                        "  println(res);\n" +
-                        "  return res;\n" +
-                        "}\n" +
-                        "function fac(n) {\n" +
-                        "  if (n <= 1) {\n" +
-                        "    return 1;\n" +
-                        "  }\n" +
-                        "  nMinusOne = n - 1;\n" +
-                        "  nMOFact = fac(nMinusOne);\n" +
-                        "  debugger;\n" +
-                        "  res = n * nMOFact;\n" +
-                        "  return res;\n" +
-                        "}\n", "factorial.sl").buildLiteral();
+                "  res = fac(2);\n" +
+                "  println(res);\n" +
+                "  return res;\n" +
+                "}\n" +
+                "function fac(n) {\n" +
+                "  if (n <= 1) {\n" +
+                "    return 1;\n" +
+                "  }\n" +
+                "  nMinusOne = n - 1;\n" +
+                "  nMOFact = fac(nMinusOne);\n" +
+                "  debugger;\n" +
+                "  res = n * nMOFact;\n" +
+                "  return res;\n" +
+                "}\n", "factorial.sl").buildLiteral();
     }
 
     private static Source createInteropComputation() {
         return Source.newBuilder("sl", "function test() {\n" +
-                        "}\n" +
-                        "function interopFunction(notifyHandler) {\n" +
-                        "  executing = true;\n" +
-                        "  while (executing == true || executing) {\n" +
-                        "    executing = notifyHandler.isExecuting;\n" +
-                        "  }\n" +
-                        "  return executing;\n" +
-                        "}\n", "interopComputation.sl").buildLiteral();
+                "}\n" +
+                "function interopFunction(notifyHandler) {\n" +
+                "  executing = true;\n" +
+                "  while (executing == true || executing) {\n" +
+                "    executing = notifyHandler.isExecuting;\n" +
+                "  }\n" +
+                "  return executing;\n" +
+                "}\n", "interopComputation.sl").buildLiteral();
     }
 
     protected final String getOut() {
@@ -167,10 +167,10 @@ public class SLDebugDirectTest {
         assertExecutedOK();
 
         assertLocation("fac", 8, true,
-                        "return 1", "n",
-                        "1", "nMinusOne",
-                        UNASSIGNED, "nMOFact",
-                        UNASSIGNED, "res", UNASSIGNED);
+                "return 1", "n",
+                "1", "nMinusOne",
+                UNASSIGNED, "nMOFact",
+                UNASSIGNED, "res", UNASSIGNED);
         continueExecution();
 
         Value value = context.getBindings("sl").getMember("test").execute();
@@ -189,10 +189,10 @@ public class SLDebugDirectTest {
         assertExecutedOK();
 
         assertLocation("fac", 12, true,
-                        "debugger", "n",
-                        "2", "nMinusOne",
-                        "1", "nMOFact",
-                        "1", "res", UNASSIGNED);
+                "debugger", "n",
+                "2", "nMinusOne",
+                "1", "nMOFact",
+                "1", "res", UNASSIGNED);
         continueExecution();
 
         Value value = context.getBindings("sl").getMember("test").execute();
@@ -213,33 +213,33 @@ public class SLDebugDirectTest {
         assertLocation("test", 2, true, "res = fac(2)", "res", UNASSIGNED);
         stepInto(1);
         assertLocation("fac", 7, true,
-                        "n <= 1", "n",
-                        "2", "nMinusOne",
-                        UNASSIGNED, "nMOFact",
-                        UNASSIGNED, "res", UNASSIGNED);
+                "n <= 1", "n",
+                "2", "nMinusOne",
+                UNASSIGNED, "nMOFact",
+                UNASSIGNED, "res", UNASSIGNED);
         stepOver(1);
         assertLocation("fac", 10, true,
-                        "nMinusOne = n - 1", "n",
-                        "2", "nMinusOne",
-                        UNASSIGNED, "nMOFact",
-                        UNASSIGNED, "res", UNASSIGNED);
+                "nMinusOne = n - 1", "n",
+                "2", "nMinusOne",
+                UNASSIGNED, "nMOFact",
+                UNASSIGNED, "res", UNASSIGNED);
         stepOver(1);
         assertLocation("fac", 11, true,
-                        "nMOFact = fac(nMinusOne)", "n",
-                        "2", "nMinusOne",
-                        "1", "nMOFact",
-                        UNASSIGNED, "res", UNASSIGNED);
+                "nMOFact = fac(nMinusOne)", "n",
+                "2", "nMinusOne",
+                "1", "nMOFact",
+                UNASSIGNED, "res", UNASSIGNED);
         stepOver(1);
         assertLocation("fac", 12, true,
-                        "res = n * nMOFact", "n", "2", "nMinusOne",
-                        "1", "nMOFact",
-                        "1", "res", UNASSIGNED);
+                "res = n * nMOFact", "n", "2", "nMinusOne",
+                "1", "nMOFact",
+                "1", "res", UNASSIGNED);
         stepOver(1);
         assertLocation("fac", 13, true,
-                        "return res", "n",
-                        "2", "nMinusOne",
-                        "1", "nMOFact",
-                        "1", "res", "2");
+                "return res", "n",
+                "2", "nMinusOne",
+                "1", "nMOFact",
+                "1", "res", "2");
         stepOver(1);
         assertLocation("test", 2, false, "fac(2)", "res", UNASSIGNED);
         stepOver(1);
@@ -303,11 +303,11 @@ public class SLDebugDirectTest {
 
     private static Source createNull() {
         return Source.newBuilder("sl", "function nullTest() {\n" +
-                        "  res = doNull();\n" +
-                        "  return res;\n" +
-                        "}\n" +
-                        "function doNull() {\n" +
-                        "}\n", "nullTest.sl").buildLiteral();
+                "  res = doNull();\n" +
+                "  return res;\n" +
+                "}\n" +
+                "function doNull() {\n" +
+                "}\n", "nullTest.sl").buildLiteral();
     }
 
     @Test

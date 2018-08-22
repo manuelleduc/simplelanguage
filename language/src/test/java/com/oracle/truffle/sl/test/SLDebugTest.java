@@ -96,7 +96,7 @@ public class SLDebugTest {
     }
 
     protected SuspendedEvent checkState(SuspendedEvent suspendedEvent, String name, final int expectedLineNumber, final boolean expectedIsBefore, final String expectedCode,
-                    final String... expectedFrame) {
+                                        final String... expectedFrame) {
         final int actualLineNumber = suspendedEvent.getSourceSection().getStartLine();
         Assert.assertEquals(expectedLineNumber, actualLineNumber);
         final String actualCode = suspendedEvent.getSourceSection().getCharacters().toString();
@@ -165,14 +165,14 @@ public class SLDebugTest {
          * this test case when the breakpoint is in the exit condition and we want to step out.
          */
         final Source factorial = slCode("function main() {\n" +
-                        "  return fac(5);\n" +
-                        "}\n" +
-                        "function fac(n) {\n" +
-                        "  if (n <= 1) {\n" +
-                        "    return 1;\n" + // break
-                        "  }\n" +
-                        "  return n * fac(n - 1);\n" +
-                        "}\n");
+                "  return fac(5);\n" +
+                "}\n" +
+                "function fac(n) {\n" +
+                "  if (n <= 1) {\n" +
+                "    return 1;\n" + // break
+                "  }\n" +
+                "  return n * fac(n - 1);\n" +
+                "}\n");
 
         try (DebuggerSession session = startSession()) {
 
@@ -238,14 +238,14 @@ public class SLDebugTest {
          * For recursive function we want to ensure that we don't step when we step over a function.
          */
         final Source factorial = slCode("function main() {\n" +
-                        "  return fac(5);\n" +
-                        "}\n" +
-                        "function fac(n) {\n" +
-                        "  if (n <= 1) {\n" +
-                        "    return 1;\n" + // break
-                        "  }\n" +
-                        "  return n * fac(n - 1);\n" +
-                        "}\n");
+                "  return fac(5);\n" +
+                "}\n" +
+                "function fac(n) {\n" +
+                "  if (n <= 1) {\n" +
+                "    return 1;\n" + // break
+                "  }\n" +
+                "  return n * fac(n - 1);\n" +
+                "}\n");
 
         try (DebuggerSession session = startSession()) {
             session.suspendNextExecution();
@@ -274,14 +274,14 @@ public class SLDebugTest {
          * Test AlwaysHalt is working.
          */
         final Source factorial = slCode("function main() {\n" +
-                        "  return fac(5);\n" +
-                        "}\n" +
-                        "function fac(n) {\n" +
-                        "  if (n <= 1) {\n" +
-                        "    debugger; return 1;\n" + // // break
-                        "  }\n" +
-                        "  return n * fac(n - 1);\n" +
-                        "}\n");
+                "  return fac(5);\n" +
+                "}\n" +
+                "function fac(n) {\n" +
+                "  if (n <= 1) {\n" +
+                "    debugger; return 1;\n" + // // break
+                "  }\n" +
+                "  return n * fac(n - 1);\n" +
+                "}\n");
 
         try (DebuggerSession session = startSession()) {
             startEval(factorial);
@@ -300,12 +300,12 @@ public class SLDebugTest {
     @Test(expected = PolyglotException.class)
     public void testTimeboxing() throws Throwable {
         final Source endlessLoop = slCode("function main() {\n" +
-                        "  i = 1; \n" +
-                        "  while(i > 0) {\n" +
-                        "    i = i + 1;\n" +
-                        "  }\n" +
-                        "  return i; \n" +
-                        "}\n");
+                "  i = 1; \n" +
+                "  while(i > 0) {\n" +
+                "    i = i + 1;\n" +
+                "  }\n" +
+                "  return i; \n" +
+                "}\n");
 
         final Context context = Context.create("sl");
 
@@ -327,10 +327,10 @@ public class SLDebugTest {
     @Test
     public void testNull() throws Throwable {
         final Source factorial = slCode("function main() {\n" +
-                        "  res = doNull();\n" +
-                        "  return res;\n" +
-                        "}\n" +
-                        "function doNull() {}\n");
+                "  res = doNull();\n" +
+                "  return res;\n" +
+                "}\n" +
+                "function doNull() {}\n");
 
         try (DebuggerSession session = startSession()) {
             session.suspendNextExecution();
@@ -351,17 +351,17 @@ public class SLDebugTest {
     @Test
     public void testDebugValue() throws Throwable {
         final Source varsSource = slCode("function main() {\n" +
-                        "  a = doNull();\n" +
-                        "  b = 10 == 10;\n" +
-                        "  c = 10;\n" +
-                        "  d = \"str\";\n" +
-                        "  e = new();\n" +
-                        "  e.p1 = 1;\n" +
-                        "  e.p2 = new();\n" +
-                        "  e.p2.p21 = 21;\n" +
-                        "  return;\n" +
-                        "}\n" +
-                        "function doNull() {}\n");
+                "  a = doNull();\n" +
+                "  b = 10 == 10;\n" +
+                "  c = 10;\n" +
+                "  d = \"str\";\n" +
+                "  e = new();\n" +
+                "  e.p1 = 1;\n" +
+                "  e.p2 = new();\n" +
+                "  e.p2.p21 = 21;\n" +
+                "  return;\n" +
+                "}\n" +
+                "function doNull() {}\n");
 
         try (DebuggerSession session = startSession()) {
             session.install(Breakpoint.newBuilder(getSourceImpl(varsSource)).lineIs(10).build());
@@ -435,15 +435,15 @@ public class SLDebugTest {
     @Test
     public void testValuesScope() throws Throwable {
         final Source varsSource = slCode("function main() {\n" +
-                        "  a = 1;\n" +
-                        "  if (a > 0) {\n" +
-                        "    b = 10;\n" +
-                        "    println(b);\n" +
-                        "  }\n" +
-                        "  println(b);\n" +
-                        "  println(a);\n" +
-                        "  println(\"END.\");\n" +
-                        "}");
+                "  a = 1;\n" +
+                "  if (a > 0) {\n" +
+                "    b = 10;\n" +
+                "    println(b);\n" +
+                "  }\n" +
+                "  println(b);\n" +
+                "  println(a);\n" +
+                "  println(\"END.\");\n" +
+                "}");
 
         try (DebuggerSession session = startSession()) {
             session.suspendNextExecution();
@@ -518,16 +518,16 @@ public class SLDebugTest {
     @Test
     public void testMetaObjects() {
         final Source varsSource = slCode("function main() {\n" +
-                        "  a = doNull();\n" +
-                        "  b = 10 == 10;\n" +
-                        "  c = 10;\n" +
-                        "  cBig = 1000000000*1000000000*1000000000*1000000000;\n" +
-                        "  d = \"str\";\n" +
-                        "  e = new();\n" +
-                        "  f = doNull;\n" +
-                        "  return;\n" +
-                        "}\n" +
-                        "function doNull() {}\n");
+                "  a = doNull();\n" +
+                "  b = 10 == 10;\n" +
+                "  c = 10;\n" +
+                "  cBig = 1000000000*1000000000*1000000000*1000000000;\n" +
+                "  d = \"str\";\n" +
+                "  e = new();\n" +
+                "  f = doNull;\n" +
+                "  return;\n" +
+                "}\n" +
+                "function doNull() {}\n");
 
         try (DebuggerSession session = startSession()) {
             session.install(Breakpoint.newBuilder(getSourceImpl(varsSource)).lineIs(9).build());
@@ -560,14 +560,14 @@ public class SLDebugTest {
     @Test
     public void testSourceLocation() {
         final Source varsSource = slCode("function main() {\n" +
-                        "  a = doNull();\n" +
-                        "  c = 10;\n" +
-                        "  d = \"str\";\n" +
-                        "  e = new();\n" +
-                        "  f = doNull;\n" +
-                        "  return;\n" +
-                        "}\n" +
-                        "function doNull() {}\n");
+                "  a = doNull();\n" +
+                "  c = 10;\n" +
+                "  d = \"str\";\n" +
+                "  e = new();\n" +
+                "  f = doNull;\n" +
+                "  return;\n" +
+                "}\n" +
+                "function doNull() {}\n");
 
         try (DebuggerSession session = startSession()) {
             session.install(Breakpoint.newBuilder(getSourceImpl(varsSource)).lineIs(7).build());
@@ -600,14 +600,14 @@ public class SLDebugTest {
     @Test
     public void testStack() {
         final Source stackSource = slCode("function main() {\n" +
-                        "  return fac(10);\n" +
-                        "}\n" +
-                        "function fac(n) {\n" +
-                        "  if (n <= 1) {\n" +
-                        "    return 1;\n" + // break
-                        "  }\n" +
-                        "  return n * fac(n - 1);\n" +
-                        "}\n");
+                "  return fac(10);\n" +
+                "}\n" +
+                "function fac(n) {\n" +
+                "  if (n <= 1) {\n" +
+                "    return 1;\n" + // break
+                "  }\n" +
+                "  return n * fac(n - 1);\n" +
+                "}\n");
 
         try (DebuggerSession session = startSession()) {
             session.install(Breakpoint.newBuilder(getSourceImpl(stackSource)).lineIs(6).build());
@@ -647,12 +647,12 @@ public class SLDebugTest {
     @Test
     public void testStackInterop() {
         final Source stackSource = slCode("function fac(n, multiply) {\n" +
-                        "  if (n <= 1) {\n" +
-                        "    debugger;\n" +
-                        "    return 1;\n" +
-                        "  }\n" +
-                        "  return multiply.multiply(n, fac, n - 1);\n" +
-                        "}\n");
+                "  if (n <= 1) {\n" +
+                "    debugger;\n" +
+                "    return 1;\n" +
+                "  }\n" +
+                "  return multiply.multiply(n, fac, n - 1);\n" +
+                "}\n");
 
         Context context = Context.create("sl");
         context.eval(stackSource);
@@ -669,7 +669,7 @@ public class SLDebugTest {
             assertFalse(dsf.isInternal());
             int numStacksAt6 = 10 - 1;
             int numInteropStacks = 0;
-            for (int i = 0; i < numStacksAt6;) {
+            for (int i = 0; i < numStacksAt6; ) {
                 assertTrue(sfIt.hasNext());
                 dsf = sfIt.next();
                 boolean inFac = dsf.getName() != null && !dsf.isInternal();
@@ -707,14 +707,14 @@ public class SLDebugTest {
     @Test
     public void testUnwindAndReenter() {
         final Source source = slCode("function main() {\n" +
-                        "  return fac(10);\n" +
-                        "}\n" +
-                        "function fac(n) {\n" +
-                        "  if (n <= 1) {\n" +
-                        "    return 1;\n" + // break
-                        "  }\n" +
-                        "  return n * fac(n - 1);\n" +
-                        "}\n");
+                "  return fac(10);\n" +
+                "}\n" +
+                "function fac(n) {\n" +
+                "  if (n <= 1) {\n" +
+                "    return 1;\n" + // break
+                "  }\n" +
+                "  return n * fac(n - 1);\n" +
+                "}\n");
 
         try (DebuggerSession session = startSession()) {
             session.install(Breakpoint.newBuilder(getSourceImpl(source)).lineIs(6).build());
@@ -750,16 +750,16 @@ public class SLDebugTest {
     public void testArgumentsAndValues() throws Throwable {
         // Test that after a re-enter, arguments are kept and variables are cleared.
         final Source source = slCode("function main() {\n" +
-                        "  i = 10;\n" +
-                        "  return fnc(i = i + 1, 20);\n" +
-                        "}\n" +
-                        "function fnc(n, m) {\n" +
-                        "  x = n + m;\n" +
-                        "  n = m - n;\n" +
-                        "  m = m / 2;\n" +
-                        "  x = x + n * m;\n" +
-                        "  return x;\n" +
-                        "}\n");
+                "  i = 10;\n" +
+                "  return fnc(i = i + 1, 20);\n" +
+                "}\n" +
+                "function fnc(n, m) {\n" +
+                "  x = n + m;\n" +
+                "  n = m - n;\n" +
+                "  m = m / 2;\n" +
+                "  x = x + n * m;\n" +
+                "  return x;\n" +
+                "}\n");
 
         try (DebuggerSession session = startSession()) {
             session.install(Breakpoint.newBuilder(getSourceImpl(source)).lineIs(6).build());
@@ -798,113 +798,113 @@ public class SLDebugTest {
     @Test
     public void testMisplacedLineBreakpoints() throws Throwable {
         final String sourceStr = "// A comment\n" +              // 1
-                        "function invocable(n) {\n" +
-                        "  if (R1-3_R27_n <= 1) {\n" +
-                        "    R4-6_one \n" +
-                        "        =\n" +                 // 5
-                        "          1;\n" +
-                        "    R7-9_return\n" +
-                        "        one;\n" +
-                        "  } else {\n" +
-                        "    // A comment\n" +          // 10
-                        "    while (\n" +
-                        "        R10-13_n > 0\n" +
-                        "          ) { \n" +
-                        "      R14-16_one \n" +
-                        "          = \n" +              // 15
-                        "            2;\n" +
-                        "      R17-20_n = n -\n" +
-                        "          one *\n" +
-                        "          one;\n" +
-                        "    }\n" +                     // 20
-                        "    R21_n =\n" +
-                        "        n - 1; R22_n = n + 1;\n" +
-                        "    R23-26_return\n" +
-                        "        n * n;\n" +
-                        "    \n" +                      // 25
-                        "  }\n" +
-                        "}\n" +
-                        "\n" +
-                        "function\n" +
-                        "   main()\n" +                 // 30
-                        "         {\n" +
-                        "  R28-34_return invocable(1) + invocable(2);\n" +
-                        "}\n" +
-                        "\n";
+                "function invocable(n) {\n" +
+                "  if (R1-3_R27_n <= 1) {\n" +
+                "    R4-6_one \n" +
+                "        =\n" +                 // 5
+                "          1;\n" +
+                "    R7-9_return\n" +
+                "        one;\n" +
+                "  } else {\n" +
+                "    // A comment\n" +          // 10
+                "    while (\n" +
+                "        R10-13_n > 0\n" +
+                "          ) { \n" +
+                "      R14-16_one \n" +
+                "          = \n" +              // 15
+                "            2;\n" +
+                "      R17-20_n = n -\n" +
+                "          one *\n" +
+                "          one;\n" +
+                "    }\n" +                     // 20
+                "    R21_n =\n" +
+                "        n - 1; R22_n = n + 1;\n" +
+                "    R23-26_return\n" +
+                "        n * n;\n" +
+                "    \n" +                      // 25
+                "  }\n" +
+                "}\n" +
+                "\n" +
+                "function\n" +
+                "   main()\n" +                 // 30
+                "         {\n" +
+                "  R28-34_return invocable(1) + invocable(2);\n" +
+                "}\n" +
+                "\n";
         tester.assertLineBreakpointsResolution(sourceStr, "R", "sl");
     }
 
     @Test
     public void testMisplacedColumnBreakpoints() throws Throwable {
         final String sourceStr = "// A B1_comment\n" +              // 1
-                        "function B2_ invocable(B3_n) {\n" +
-                        "  if (R1-4_R16_n <= 1) B4_ B5_{B6_\n" +
-                        "    R5-7_one \n" +
-                        "        =\n" +                 // 5
-                        "          B7_1;\n" +
-                        "    R8_return\n" +
-                        "        one;\n" +
-                        "  B8_}B9_ else B10_ {\n" +
-                        "    // A commentB11_\n" +          // 10
-                        "    while (\n" +
-                        "        R9-12_n > 0\n" +
-                        "          ) B12_ { \n" +
-                        "      one \n" +
-                        "          = \n" +              // 15
-                        "            2;\n" +
-                        "      R13-14_n = n -\n" +
-                        "          one *\n" +
-                        "          one;\n" +
-                        "   B13_ B14_}B15_\n" +                    // 20
-                        "    R15_return\n" +
-                        "        n * n;\n" +
-                        "    \n" +
-                        "  }B16_\n" +
-                        "}\n" +                         // 25
-                        "\n" +
-                        "function\n" +
-                        "   main()\n" +
-                        "         {\n" +
-                        "  return invocable(1) + invocable(2);\n" +
-                        "}\n" +
-                        "\n";
+                "function B2_ invocable(B3_n) {\n" +
+                "  if (R1-4_R16_n <= 1) B4_ B5_{B6_\n" +
+                "    R5-7_one \n" +
+                "        =\n" +                 // 5
+                "          B7_1;\n" +
+                "    R8_return\n" +
+                "        one;\n" +
+                "  B8_}B9_ else B10_ {\n" +
+                "    // A commentB11_\n" +          // 10
+                "    while (\n" +
+                "        R9-12_n > 0\n" +
+                "          ) B12_ { \n" +
+                "      one \n" +
+                "          = \n" +              // 15
+                "            2;\n" +
+                "      R13-14_n = n -\n" +
+                "          one *\n" +
+                "          one;\n" +
+                "   B13_ B14_}B15_\n" +                    // 20
+                "    R15_return\n" +
+                "        n * n;\n" +
+                "    \n" +
+                "  }B16_\n" +
+                "}\n" +                         // 25
+                "\n" +
+                "function\n" +
+                "   main()\n" +
+                "         {\n" +
+                "  return invocable(1) + invocable(2);\n" +
+                "}\n" +
+                "\n";
         tester.assertColumnBreakpointsResolution(sourceStr, "B", "R", "sl");
     }
 
     @Test
     public void testBreakpointEverywhereBreaks() throws Throwable {
         final String sourceCode = "// A comment\n" +              // 1
-                        "function invocable(n) {\n" +
-                        "  if (n <= 1) {\n" +
-                        "    one \n" +
-                        "        =\n" +                 // 5
-                        "          1;\n" +
-                        "    return\n" +
-                        "        one;\n" +
-                        "  } else {\n" +
-                        "    // A comment\n" +          // 10
-                        "    while (\n" +
-                        "        n > 0\n" +
-                        "          ) { \n" +
-                        "      one \n" +
-                        "          = \n" +              // 15
-                        "            2;\n" +
-                        "      n = n -\n" +
-                        "          one *\n" +
-                        "          one;\n" +
-                        "    }\n" +                    // 20
-                        "    return\n" +
-                        "        n * n;\n" +
-                        "    \n" +
-                        "  }\n" +
-                        "}\n" +                         // 25
-                        "\n" +
-                        "function\n" +
-                        "   main()\n" +
-                        "         {\n" +
-                        "  return invocable(1) + invocable(2);\n" +
-                        "}\n" +
-                        "\n";
+                "function invocable(n) {\n" +
+                "  if (n <= 1) {\n" +
+                "    one \n" +
+                "        =\n" +                 // 5
+                "          1;\n" +
+                "    return\n" +
+                "        one;\n" +
+                "  } else {\n" +
+                "    // A comment\n" +          // 10
+                "    while (\n" +
+                "        n > 0\n" +
+                "          ) { \n" +
+                "      one \n" +
+                "          = \n" +              // 15
+                "            2;\n" +
+                "      n = n -\n" +
+                "          one *\n" +
+                "          one;\n" +
+                "    }\n" +                    // 20
+                "    return\n" +
+                "        n * n;\n" +
+                "    \n" +
+                "  }\n" +
+                "}\n" +                         // 25
+                "\n" +
+                "function\n" +
+                "   main()\n" +
+                "         {\n" +
+                "  return invocable(1) + invocable(2);\n" +
+                "}\n" +
+                "\n";
         Source source = Source.newBuilder("sl", sourceCode, "testBreakpointsAnywhere.sl").build();
         tester.assertBreakpointsBreakEverywhere(source);
     }
@@ -917,17 +917,17 @@ public class SLDebugTest {
 
     private void checkExpressionStepPositions(String stepPositions, boolean includeStatements, StepDepth... steps) {
         Source source = slCode("function main() {\n" +
-                        "  x = 2;\n" +
-                        "  while (x >= 0 && 5 >= 0) {\n" +
-                        "    a = 2 * x;\n" +
-                        "    b = (a * a) / (x * x + 1);\n" +
-                        "    x = x - transform(a, b);\n" +
-                        "  }\n" +
-                        "  return x / 1;\n" +
-                        "}\n" +
-                        "function transform(a, b) {\n" +
-                        "  return (1 + 1) * (a + b);\n" +
-                        "}\n");
+                "  x = 2;\n" +
+                "  while (x >= 0 && 5 >= 0) {\n" +
+                "    a = 2 * x;\n" +
+                "    b = (a * a) / (x * x + 1);\n" +
+                "    x = x - transform(a, b);\n" +
+                "  }\n" +
+                "  return x / 1;\n" +
+                "}\n" +
+                "function transform(a, b) {\n" +
+                "  return (1 + 1) * (a + b);\n" +
+                "}\n");
         SourceElement[] elements;
         if (includeStatements) {
             elements = new SourceElement[]{SourceElement.EXPRESSION, SourceElement.STATEMENT};
@@ -952,7 +952,7 @@ public class SLDebugTest {
                         assertTrue("Needs to be an expression", event.hasSourceElement(SourceElement.EXPRESSION));
                     } else {
                         assertTrue("Needs to be an expression or statement",
-                                        event.hasSourceElement(SourceElement.EXPRESSION) || event.hasSourceElement(SourceElement.STATEMENT));
+                                event.hasSourceElement(SourceElement.EXPRESSION) || event.hasSourceElement(SourceElement.STATEMENT));
                     }
                     SourceSection ss = event.getSourceSection();
                     DebugValue[] inputValues = event.getInputValues();
@@ -997,163 +997,163 @@ public class SLDebugTest {
     @Test
     public void testExpressionStepInto() {
         final String stepIntoPositions = "<2:3 - 2:7> <none>\n" +
-                        "<2:7 - 2:7> <none>\n" +
-                        "<2:7 - 2:7> () 2\n" +
-                        "<2:3 - 2:7> (2) 2\n" +
-                        "<3:10 - 3:25> <none>\n" +
-                        "<3:10 - 3:15> <none>\n" +
-                        "<3:10 - 3:10> <none>\n" +
-                        "<3:10 - 3:10> () 2\n" +
-                        "<3:15 - 3:15> <none>\n" +
-                        "<3:15 - 3:15> () 0\n" +
-                        "<3:10 - 3:15> (2,0) true\n" +
-                        "<3:20 - 3:25> <none>\n" +
-                        "<3:20 - 3:20> <none>\n" +
-                        "<3:20 - 3:20> () 5\n" +
-                        "<3:25 - 3:25> <none>\n" +
-                        "<3:25 - 3:25> () 0\n" +
-                        "<3:20 - 3:25> (5,0) true\n" +
-                        "<3:10 - 3:25> (true,true) true\n" +
-                        "<4:5 - 4:13> <none>\n" +
-                        "<4:9 - 4:13> <none>\n" +
-                        "<4:9 - 4:9> <none>\n" +
-                        "<4:9 - 4:9> () 2\n" +
-                        "<4:13 - 4:13> <none>\n" +
-                        "<4:13 - 4:13> () 2\n" +
-                        "<4:9 - 4:13> (2,2) 4\n" +
-                        "<4:5 - 4:13> (4) 4\n" +
-                        "<5:5 - 5:29> <none>\n" +
-                        "<5:9 - 5:29> <none>\n" +
-                        "<5:10 - 5:14> <none>\n" +
-                        "<5:10 - 5:10> <none>\n" +
-                        "<5:10 - 5:10> () 4\n" +
-                        "<5:14 - 5:14> <none>\n" +
-                        "<5:14 - 5:14> () 4\n" +
-                        "<5:10 - 5:14> (4,4) 16\n" +
-                        "<5:20 - 5:28> <none>\n" +
-                        "<5:20 - 5:24> <none>\n" +
-                        "<5:20 - 5:20> <none>\n" +
-                        "<5:20 - 5:20> () 2\n" +
-                        "<5:24 - 5:24> <none>\n" +
-                        "<5:24 - 5:24> () 2\n" +
-                        "<5:20 - 5:24> (2,2) 4\n" +
-                        "<5:28 - 5:28> <none>\n" +
-                        "<5:28 - 5:28> () 1\n" +
-                        "<5:20 - 5:28> (4,1) 5\n" +
-                        "<5:9 - 5:29> () 3\n" +
-                        "<5:5 - 5:29> (3) 3\n" +
-                        "<6:5 - 6:27> <none>\n" +
-                        "<6:9 - 6:27> <none>\n" +
-                        "<6:9 - 6:9> <none>\n" +
-                        "<6:9 - 6:9> () 2\n" +
-                        "<6:13 - 6:27> <none>\n" +
-                        "<6:13 - 6:21> <none>\n" +
-                        "<6:13 - 6:21> () transform\n" +
-                        "<6:23 - 6:23> <none>\n" +
-                        "<6:23 - 6:23> () 4\n" +
-                        "<6:26 - 6:26> <none>\n" +
-                        "<6:26 - 6:26> () 3\n" +
-                        "<11:10 - 11:26> <none>\n" +
-                        "<11:11 - 11:15> <none>\n" +
-                        "<11:11 - 11:11> <none>\n" +
-                        "<11:11 - 11:11> () 1\n" +
-                        "<11:15 - 11:15> <none>\n" +
-                        "<11:15 - 11:15> () 1\n" +
-                        "<11:11 - 11:15> (1,1) 2\n" +
-                        "<11:21 - 11:25> <none>\n" +
-                        "<11:21 - 11:21> <none>\n" +
-                        "<11:21 - 11:21> () 4\n" +
-                        "<11:25 - 11:25> <none>\n" +
-                        "<11:25 - 11:25> () 3\n" +
-                        "<11:21 - 11:25> (4,3) 7\n" +
-                        "<11:10 - 11:26> () 14\n" +
-                        "<6:13 - 6:27> 14\n" +
-                        "<6:9 - 6:27> (2,14) -12\n" +
-                        "<6:5 - 6:27> (-12) -12\n" +
-                        "<3:10 - 3:25> <none>\n" +
-                        "<3:10 - 3:15> <none>\n" +
-                        "<3:10 - 3:10> <none>\n" +
-                        "<3:10 - 3:10> () -12\n" +
-                        "<3:15 - 3:15> <none>\n" +
-                        "<3:15 - 3:15> () 0\n" +
-                        "<3:10 - 3:15> (-12,0) false\n" +
-                        "<3:10 - 3:25> (false,null) false\n" +
-                        "<8:10 - 8:14> <none>\n" +
-                        "<8:10 - 8:10> <none>\n" +
-                        "<8:10 - 8:10> () -12\n" +
-                        "<8:14 - 8:14> <none>\n" +
-                        "<8:14 - 8:14> () 1\n" +
-                        "<8:10 - 8:14> (-12,1) -12";
+                "<2:7 - 2:7> <none>\n" +
+                "<2:7 - 2:7> () 2\n" +
+                "<2:3 - 2:7> (2) 2\n" +
+                "<3:10 - 3:25> <none>\n" +
+                "<3:10 - 3:15> <none>\n" +
+                "<3:10 - 3:10> <none>\n" +
+                "<3:10 - 3:10> () 2\n" +
+                "<3:15 - 3:15> <none>\n" +
+                "<3:15 - 3:15> () 0\n" +
+                "<3:10 - 3:15> (2,0) true\n" +
+                "<3:20 - 3:25> <none>\n" +
+                "<3:20 - 3:20> <none>\n" +
+                "<3:20 - 3:20> () 5\n" +
+                "<3:25 - 3:25> <none>\n" +
+                "<3:25 - 3:25> () 0\n" +
+                "<3:20 - 3:25> (5,0) true\n" +
+                "<3:10 - 3:25> (true,true) true\n" +
+                "<4:5 - 4:13> <none>\n" +
+                "<4:9 - 4:13> <none>\n" +
+                "<4:9 - 4:9> <none>\n" +
+                "<4:9 - 4:9> () 2\n" +
+                "<4:13 - 4:13> <none>\n" +
+                "<4:13 - 4:13> () 2\n" +
+                "<4:9 - 4:13> (2,2) 4\n" +
+                "<4:5 - 4:13> (4) 4\n" +
+                "<5:5 - 5:29> <none>\n" +
+                "<5:9 - 5:29> <none>\n" +
+                "<5:10 - 5:14> <none>\n" +
+                "<5:10 - 5:10> <none>\n" +
+                "<5:10 - 5:10> () 4\n" +
+                "<5:14 - 5:14> <none>\n" +
+                "<5:14 - 5:14> () 4\n" +
+                "<5:10 - 5:14> (4,4) 16\n" +
+                "<5:20 - 5:28> <none>\n" +
+                "<5:20 - 5:24> <none>\n" +
+                "<5:20 - 5:20> <none>\n" +
+                "<5:20 - 5:20> () 2\n" +
+                "<5:24 - 5:24> <none>\n" +
+                "<5:24 - 5:24> () 2\n" +
+                "<5:20 - 5:24> (2,2) 4\n" +
+                "<5:28 - 5:28> <none>\n" +
+                "<5:28 - 5:28> () 1\n" +
+                "<5:20 - 5:28> (4,1) 5\n" +
+                "<5:9 - 5:29> () 3\n" +
+                "<5:5 - 5:29> (3) 3\n" +
+                "<6:5 - 6:27> <none>\n" +
+                "<6:9 - 6:27> <none>\n" +
+                "<6:9 - 6:9> <none>\n" +
+                "<6:9 - 6:9> () 2\n" +
+                "<6:13 - 6:27> <none>\n" +
+                "<6:13 - 6:21> <none>\n" +
+                "<6:13 - 6:21> () transform\n" +
+                "<6:23 - 6:23> <none>\n" +
+                "<6:23 - 6:23> () 4\n" +
+                "<6:26 - 6:26> <none>\n" +
+                "<6:26 - 6:26> () 3\n" +
+                "<11:10 - 11:26> <none>\n" +
+                "<11:11 - 11:15> <none>\n" +
+                "<11:11 - 11:11> <none>\n" +
+                "<11:11 - 11:11> () 1\n" +
+                "<11:15 - 11:15> <none>\n" +
+                "<11:15 - 11:15> () 1\n" +
+                "<11:11 - 11:15> (1,1) 2\n" +
+                "<11:21 - 11:25> <none>\n" +
+                "<11:21 - 11:21> <none>\n" +
+                "<11:21 - 11:21> () 4\n" +
+                "<11:25 - 11:25> <none>\n" +
+                "<11:25 - 11:25> () 3\n" +
+                "<11:21 - 11:25> (4,3) 7\n" +
+                "<11:10 - 11:26> () 14\n" +
+                "<6:13 - 6:27> 14\n" +
+                "<6:9 - 6:27> (2,14) -12\n" +
+                "<6:5 - 6:27> (-12) -12\n" +
+                "<3:10 - 3:25> <none>\n" +
+                "<3:10 - 3:15> <none>\n" +
+                "<3:10 - 3:10> <none>\n" +
+                "<3:10 - 3:10> () -12\n" +
+                "<3:15 - 3:15> <none>\n" +
+                "<3:15 - 3:15> () 0\n" +
+                "<3:10 - 3:15> (-12,0) false\n" +
+                "<3:10 - 3:25> (false,null) false\n" +
+                "<8:10 - 8:14> <none>\n" +
+                "<8:10 - 8:10> <none>\n" +
+                "<8:10 - 8:10> () -12\n" +
+                "<8:14 - 8:14> <none>\n" +
+                "<8:14 - 8:14> () 1\n" +
+                "<8:10 - 8:14> (-12,1) -12";
         checkExpressionStepPositions(stepIntoPositions, false, StepDepth.INTO);
     }
 
     @Test
     public void testExpressionStepOver() {
         final String stepOverPositions = "<2:3 - 2:7> <none>\n" +
-                        "<2:7 - 2:7> <none>\n" +
-                        "<2:7 - 2:7> () 2\n" +
-                        "<2:3 - 2:7> (2) 2\n" +
-                        "<3:10 - 3:25> <none>\n" +
-                        "<3:10 - 3:25> (true,true) true\n" +
-                        "<4:5 - 4:13> <none>\n" +
-                        "<4:5 - 4:13> (4) 4\n" +
-                        "<5:5 - 5:29> <none>\n" +
-                        "<5:5 - 5:29> (3) 3\n" +
-                        "<6:5 - 6:27> <none>\n" +
-                        "<6:5 - 6:27> (-12) -12\n" +
-                        "<3:10 - 3:25> <none>\n" +
-                        "<3:10 - 3:25> (false,null) false\n" +
-                        "<8:10 - 8:14> <none>\n" +
-                        "<8:10 - 8:14> (-12,1) -12";
+                "<2:7 - 2:7> <none>\n" +
+                "<2:7 - 2:7> () 2\n" +
+                "<2:3 - 2:7> (2) 2\n" +
+                "<3:10 - 3:25> <none>\n" +
+                "<3:10 - 3:25> (true,true) true\n" +
+                "<4:5 - 4:13> <none>\n" +
+                "<4:5 - 4:13> (4) 4\n" +
+                "<5:5 - 5:29> <none>\n" +
+                "<5:5 - 5:29> (3) 3\n" +
+                "<6:5 - 6:27> <none>\n" +
+                "<6:5 - 6:27> (-12) -12\n" +
+                "<3:10 - 3:25> <none>\n" +
+                "<3:10 - 3:25> (false,null) false\n" +
+                "<8:10 - 8:14> <none>\n" +
+                "<8:10 - 8:14> (-12,1) -12";
         checkExpressionStepPositions(stepOverPositions, false, StepDepth.INTO, StepDepth.OVER);
     }
 
     @Test
     public void testExpressionStepOut() {
         final String stepOutPositions = "<2:3 - 2:7> <none>\n" +
-                        "<2:7 - 2:7> <none>\n" +
-                        "<2:7 - 2:7> () 2\n" +
-                        "<2:3 - 2:7> (2) 2\n" +
-                        "<3:10 - 3:25> <none>\n" +
-                        "<3:10 - 3:15> <none>\n" +
-                        "<3:10 - 3:15> (2,0) true\n" +
-                        "<3:10 - 3:25> (true,true) true\n";
+                "<2:7 - 2:7> <none>\n" +
+                "<2:7 - 2:7> () 2\n" +
+                "<2:3 - 2:7> (2) 2\n" +
+                "<3:10 - 3:25> <none>\n" +
+                "<3:10 - 3:15> <none>\n" +
+                "<3:10 - 3:15> (2,0) true\n" +
+                "<3:10 - 3:25> (true,true) true\n";
         checkExpressionStepPositions(stepOutPositions, false, StepDepth.INTO, StepDepth.OVER, StepDepth.OVER,
-                        StepDepth.INTO, StepDepth.INTO, StepDepth.OUT);
+                StepDepth.INTO, StepDepth.INTO, StepDepth.OUT);
     }
 
     @Test
     public void testStatementAndExpressionStepOver() {
         final String stepOverPositions = "<2:3 - 2:7> <none>\n" +
-                        "<2:7 - 2:7> <none>\n" +
-                        "<2:7 - 2:7> () 2\n" +
-                        "<2:3 - 2:7> (2) 2\n" +
-                        "<3:10 - 3:25> <none>\n" +
-                        "<3:10 - 3:25> (true,true) true\n" +
-                        "<4:5 - 4:13> <none>\n" +
-                        "<4:5 - 4:13> (4) 4\n" +
-                        "<5:5 - 5:29> <none>\n" +
-                        "<5:5 - 5:29> (3) 3\n" +
-                        "<6:5 - 6:27> <none>\n" +
-                        "<6:5 - 6:27> (-12) -12\n" +
-                        "<3:10 - 3:25> <none>\n" +
-                        "<3:10 - 3:25> (false,null) false\n" +
-                        "<8:3 - 8:14> <none>\n" +
-                        "<8:10 - 8:14> <none>\n" +
-                        "<8:10 - 8:14> (-12,1) -12\n";
+                "<2:7 - 2:7> <none>\n" +
+                "<2:7 - 2:7> () 2\n" +
+                "<2:3 - 2:7> (2) 2\n" +
+                "<3:10 - 3:25> <none>\n" +
+                "<3:10 - 3:25> (true,true) true\n" +
+                "<4:5 - 4:13> <none>\n" +
+                "<4:5 - 4:13> (4) 4\n" +
+                "<5:5 - 5:29> <none>\n" +
+                "<5:5 - 5:29> (3) 3\n" +
+                "<6:5 - 6:27> <none>\n" +
+                "<6:5 - 6:27> (-12) -12\n" +
+                "<3:10 - 3:25> <none>\n" +
+                "<3:10 - 3:25> (false,null) false\n" +
+                "<8:3 - 8:14> <none>\n" +
+                "<8:10 - 8:14> <none>\n" +
+                "<8:10 - 8:14> (-12,1) -12\n";
         checkExpressionStepPositions(stepOverPositions, true, StepDepth.INTO, StepDepth.OVER);
     }
 
     @Test
     public void testExceptions() {
         final Source source = slCode("function main() {\n" +
-                        "  i = \"0\";\n" +
-                        "  return invert(i);\n" +
-                        "}\n" +
-                        "function invert(n) {\n" +
-                        "  x = 10 / n;\n" +
-                        "  return x;\n" +
-                        "}\n");
+                "  i = \"0\";\n" +
+                "  return invert(i);\n" +
+                "}\n" +
+                "function invert(n) {\n" +
+                "  x = 10 / n;\n" +
+                "  return x;\n" +
+                "}\n");
         try (DebuggerSession session = startSession()) {
             Breakpoint excBreakpoint = Breakpoint.newExceptionBuilder(true, true).build();
             session.install(excBreakpoint);

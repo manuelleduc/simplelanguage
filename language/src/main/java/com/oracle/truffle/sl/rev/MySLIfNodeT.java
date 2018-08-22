@@ -24,14 +24,24 @@ public class MySLIfNodeT implements SLIfNodeT {
      * the condition to be true to the compiler.
      */
     private final ConditionProfile condition = ConditionProfile.createCountingProfile();
+    private final SLExpressionNodeT op;
+    private final SLStatementNodeT opThen;
+    private final SLStatementNodeT opElse;
 
     private MySLIfNodeT(ExecSLRevisitor alg, SLIfNode it) {
         this.alg = alg;
         this.it = it;
+        this.op = alg.$(it.getConditionNode());
+        this.opThen = alg.$(it.getThenPartNode());
+        if (it.getElsePartNode() != null)
+            this.opElse = alg.$(it.getElsePartNode());
+        else opElse = null;
     }
 
     public static SLIfNodeT INSTANCE(ExecSLRevisitor alg, SLIfNode it) {
-        if (!cache.containsKey(it)) cache.put(it, new MySLIfNodeT(alg, it));
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLIfNodeT(alg, it));
+        }
         return cache.get(it);
     }
 
@@ -43,14 +53,15 @@ public class MySLIfNodeT implements SLIfNodeT {
          */
         if (condition.profile(evaluateCondition(frame, it.getConditionNode()))) {
             /* Execute the then-branch. */
-            alg.$(it.getThenPartNode()).executeVoid(frame);
+            opThen.executeVoid(frame);
         } else {
             /* Execute the else-branch (which is optional according to the SL syntax). */
             if (it.getElsePartNode() != null) {
-                alg.$(it.getElsePartNode()).executeVoid(frame);
+                opElse.executeVoid(frame);
             }
         }
     }
+
 
     private boolean evaluateCondition(VirtualFrame frame, SLExpressionNode conditionNode) {
         try {
@@ -58,7 +69,7 @@ public class MySLIfNodeT implements SLIfNodeT {
              * The condition must evaluate to a boolean value, so we call the boolean-specialized
              * execute method.
              */
-            return alg.$(conditionNode).executeBoolean(frame);
+            return op.executeBoolean(frame);
         } catch (UnexpectedResultException ex) {
             /*
              * The condition evaluated to a non-boolean result. This is a type error in the SL
@@ -67,4 +78,5 @@ public class MySLIfNodeT implements SLIfNodeT {
             throw SLException.typeError(it, ex.getResult());
         }
     }
+
 }

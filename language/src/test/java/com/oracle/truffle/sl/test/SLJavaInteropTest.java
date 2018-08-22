@@ -87,8 +87,8 @@ public class SLJavaInteropTest {
     @Test
     public void asFunctionWithArg() throws Exception {
         String scriptText = "function values(a, b) {\n" + //
-                        "  println(\"Called with \" + a + \" and \" + b);\n" + //
-                        "}\n"; //
+                "  println(\"Called with \" + a + \" and \" + b);\n" + //
+                "}\n"; //
         context.eval("sl", scriptText);
         Value fn = lookup("values");
         PassInValues valuesIn = fn.as(PassInValues.class);
@@ -113,8 +113,8 @@ public class SLJavaInteropTest {
     @Test
     public void asFunctionWithArr() throws Exception {
         String scriptText = "function values(a, b) {\n" + //
-                        "  println(\"Called with \" + a[0] + a[1] + \" and \" + b);\n" + //
-                        "}\n"; //
+                "  println(\"Called with \" + a[0] + a[1] + \" and \" + b);\n" + //
+                "}\n"; //
         context.eval("sl", scriptText);
         Value fn = lookup("values");
         PassInArray valuesIn = fn.as(PassInArray.class);
@@ -125,8 +125,8 @@ public class SLJavaInteropTest {
     @Test
     public void asFunctionWithVarArgs() throws Exception {
         String scriptText = "function values(a, b) {\n" + //
-                        "  println(\"Called with \" + a + \" and \" + b);\n" + //
-                        "}\n"; //
+                "  println(\"Called with \" + a + \" and \" + b);\n" + //
+                "}\n"; //
         context.eval("sl", scriptText);
         Value fn = lookup("values");
         PassInVarArg valuesIn = fn.as(PassInVarArg.class);
@@ -138,8 +138,8 @@ public class SLJavaInteropTest {
     @Test
     public void asFunctionWithArgVarArgs() throws Exception {
         String scriptText = "function values(a, b, c) {\n" + //
-                        "  println(\"Called with \" + a + \" and \" + b + c);\n" + //
-                        "}\n"; //
+                "  println(\"Called with \" + a + \" and \" + b + c);\n" + //
+                "}\n"; //
         context.eval("sl", scriptText);
         Value fn = lookup("values");
         PassInArgAndVarArg valuesIn = fn.as(PassInArgAndVarArg.class);
@@ -151,11 +151,11 @@ public class SLJavaInteropTest {
     @Test
     public void sumPairs() {
         String scriptText = "function values(sum, k, v) {\n" + //
-                        "  obj = new();\n" + //
-                        "  obj.key = k;\n" + //
-                        "  obj.value = v;\n" + //
-                        "  return sum.sum(obj);\n" + //
-                        "}\n"; //
+                "  obj = new();\n" + //
+                "  obj.key = k;\n" + //
+                "  obj.value = v;\n" + //
+                "  return sum.sum(obj);\n" + //
+                "}\n"; //
         context.eval("sl", scriptText);
         Value fn = lookup("values");
 
@@ -174,11 +174,11 @@ public class SLJavaInteropTest {
     @Test
     public void sumPairsFunctionalInterface() {
         String scriptText = "function values(sum, k, v) {\n" + //
-                        "  obj = new();\n" + //
-                        "  obj.key = k;\n" + //
-                        "  obj.value = v;\n" + //
-                        "  return sum.sum(obj);\n" + //
-                        "}\n"; //
+                "  obj = new();\n" + //
+                "  obj.key = k;\n" + //
+                "  obj.value = v;\n" + //
+                "  return sum.sum(obj);\n" + //
+                "}\n"; //
         context.eval("sl", scriptText);
         Values fn = lookup("values").as(Values.class);
 
@@ -196,11 +196,11 @@ public class SLJavaInteropTest {
     @Test
     public void sumPairsFunctionalRawInterface() {
         String scriptText = "function values(sum, k, v) {\n" + //
-                        "  obj = new();\n" + //
-                        "  obj.key = k;\n" + //
-                        "  obj.value = v;\n" + //
-                        "  return sum.sum(obj);\n" + //
-                        "}\n"; //
+                "  obj = new();\n" + //
+                "  obj.key = k;\n" + //
+                "  obj.value = v;\n" + //
+                "  return sum.sum(obj);\n" + //
+                "}\n"; //
         context.eval("sl", scriptText);
         ValuesRaw fn = lookup("values").as(ValuesRaw.class);
 
@@ -218,17 +218,17 @@ public class SLJavaInteropTest {
     @Test
     public void sumPairsIndirect() {
         String scriptText = "function values(sum, k, v) {\n" + //
-                        "  obj = new();\n" + //
-                        "  obj.key = k;\n" + //
-                        "  obj.value = v;\n" + //
-                        "  return sum.sum(obj);\n" + //
-                        "}\n" + //
-                        "function create() {\n" + //
-                        "  obj = new();\n" + //
-                        "  obj.doSum1 = values;\n" + //
-                        "  obj.doSum2 = values;\n" + //
-                        "  return obj;\n" + //
-                        "}\n"; //
+                "  obj = new();\n" + //
+                "  obj.key = k;\n" + //
+                "  obj.value = v;\n" + //
+                "  return sum.sum(obj);\n" + //
+                "}\n" + //
+                "function create() {\n" + //
+                "  obj = new();\n" + //
+                "  obj.doSum1 = values;\n" + //
+                "  obj.doSum2 = values;\n" + //
+                "  return obj;\n" + //
+                "}\n"; //
         context.eval("sl", scriptText);
         DoSums fn = lookup("create").execute().as(DoSums.class);
 
@@ -246,17 +246,17 @@ public class SLJavaInteropTest {
     @Test
     public void sumPairsInArray() {
         String scriptText = "function values(sum, arr) {\n" + //
-                        "  sum.sumArray(arr);\n" + //
-                        "}\n"; //
+                "  sum.sumArray(arr);\n" + //
+                "}\n"; //
         context.eval("sl", scriptText);
         Value fn = lookup("values");
 
         Sum javaSum = new Sum();
 
         PairImpl[] arr = {
-                        new PairImpl("one", 1),
-                        new PairImpl("two", 2),
-                        new PairImpl("three", 3),
+                new PairImpl("one", 1),
+                new PairImpl("two", 2),
+                new PairImpl("three", 3),
         };
         fn.execute(javaSum, arr);
         assertEquals(6, javaSum.sum);
@@ -265,21 +265,21 @@ public class SLJavaInteropTest {
     @Test
     public void sumPairsInArrayOfArray() {
         String scriptText = "function values(sum, arr) {\n" + //
-                        "  sum.sumArrayArray(arr);\n" + //
-                        "}\n"; //
+                "  sum.sumArrayArray(arr);\n" + //
+                "}\n"; //
         context.eval("sl", scriptText);
         Value fn = lookup("values");
 
         Sum javaSum = new Sum();
 
         PairImpl[][] arr = {
-                        new PairImpl[]{
-                                        new PairImpl("one", 1),
-                        },
-                        new PairImpl[]{
-                                        new PairImpl("two", 2),
-                                        new PairImpl("three", 3),
-                        }
+                new PairImpl[]{
+                        new PairImpl("one", 1),
+                },
+                new PairImpl[]{
+                        new PairImpl("two", 2),
+                        new PairImpl("three", 3),
+                }
         };
         fn.execute(javaSum, arr);
         assertEquals(6, javaSum.sum);
@@ -288,21 +288,21 @@ public class SLJavaInteropTest {
     @Test
     public void sumMapInArrayOfArray() {
         String scriptText = "function values(sum, arr) {\n" + //
-                        "  sum.sumArrayMap(arr);\n" + //
-                        "}\n"; //
+                "  sum.sumArrayMap(arr);\n" + //
+                "}\n"; //
         context.eval("sl", scriptText);
         Value fn = lookup("values");
 
         Sum javaSum = new Sum();
 
         PairImpl[][] arr = {
-                        new PairImpl[]{
-                                        new PairImpl("one", 1),
-                        },
-                        new PairImpl[]{
-                                        new PairImpl("two", 2),
-                                        new PairImpl("three", 3),
-                        }
+                new PairImpl[]{
+                        new PairImpl("one", 1),
+                },
+                new PairImpl[]{
+                        new PairImpl("two", 2),
+                        new PairImpl("three", 3),
+                }
         };
         fn.execute(javaSum, arr);
         assertEquals(6, javaSum.sum);
@@ -311,21 +311,21 @@ public class SLJavaInteropTest {
     @Test
     public void sumPairInMapOfArray() {
         String scriptText = "function values(sum, arr) {\n" + //
-                        "  sum.sumMapArray(arr);\n" + //
-                        "}\n"; //
+                "  sum.sumMapArray(arr);\n" + //
+                "}\n"; //
         context.eval("sl", scriptText);
         Value fn = lookup("values");
 
         Sum javaSum = new Sum();
 
         TwoPairsImpl groups = new TwoPairsImpl(
-                        new PairImpl[]{
-                                        new PairImpl("one", 1),
-                        },
-                        new PairImpl[]{
-                                        new PairImpl("two", 2),
-                                        new PairImpl("three", 3),
-                        });
+                new PairImpl[]{
+                        new PairImpl("one", 1),
+                },
+                new PairImpl[]{
+                        new PairImpl("two", 2),
+                        new PairImpl("three", 3),
+                });
         fn.execute(javaSum, groups);
         assertEquals(6, javaSum.sum);
     }
@@ -333,11 +333,11 @@ public class SLJavaInteropTest {
     @Test
     public void accessJavaMap() {
         String scriptText = "function write(map, key, value) {\n" +
-                        "  map.put(key, value);\n" +
-                        "}\n" +
-                        "function read(map, key) {\n" +
-                        "  return map.get(key);\n" +
-                        "}\n";
+                "  map.put(key, value);\n" +
+                "}\n" +
+                "function read(map, key) {\n" +
+                "  return map.get(key);\n" +
+                "}\n";
         context.eval("sl", scriptText);
         Value read = lookup("read");
         Value write = lookup("write");

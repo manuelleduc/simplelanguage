@@ -56,16 +56,18 @@ import com.oracle.truffle.sl.runtime.SLFunction;
 @NodeInfo(shortName = "invoke")
 public final class SLInvokeNode extends SLExpressionNode {
 
-    @Child private SLExpressionNode functionNode;
-    @Children private final SLExpressionNode[] argumentNodes;
-    @Child private SLDispatchNode dispatchNode;
+    @Child
+    private SLExpressionNode functionNode;
+    @Children
+    private final SLExpressionNode[] argumentNodes;
+    @Child
+    private SLDispatchNode dispatchNode;
 
     public SLInvokeNode(SLExpressionNode functionNode, SLExpressionNode[] argumentNodes) {
         this.functionNode = functionNode;
         this.argumentNodes = argumentNodes;
         this.dispatchNode = SLDispatchNodeGen.create();
     }
-
 
 
     @Override

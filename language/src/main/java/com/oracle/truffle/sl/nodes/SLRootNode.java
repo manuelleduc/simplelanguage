@@ -49,6 +49,7 @@ import com.oracle.truffle.api.source.SourceSection;
 import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.nodes.controlflow.SLFunctionBodyNode;
 import com.oracle.truffle.sl.rev.ExecSLRevisitor;
+import com.oracle.truffle.sl.rev.ExecSLRevisitorFactory;
 import com.oracle.truffle.sl.rev.SLExpressionNodeT;
 
 /**
@@ -59,6 +60,7 @@ import com.oracle.truffle.sl.rev.SLExpressionNodeT;
  */
 @NodeInfo(language = "SL", description = "The root of all SL execution trees")
 public class SLRootNode extends RootNode {
+    private final SLExpressionNodeT op;
     /**
      * The function body that is executed, and specialized during execution.
      */
@@ -75,14 +77,16 @@ public class SLRootNode extends RootNode {
 
     private final SourceSection sourceSection;
 
-    static final ExecSLRevisitor execSLRevisitor = new ExecSLRevisitor() {
-    };
+    static final ExecSLRevisitor execSLRevisitor = ExecSLRevisitorFactory.INSTANCE;
 
     public SLRootNode(SLLanguage language, FrameDescriptor frameDescriptor, SLExpressionNode bodyNode, SourceSection sourceSection, String name) {
         super(language, frameDescriptor);
         this.bodyNode = bodyNode;
         this.name = name;
         this.sourceSection = sourceSection;
+        if(bodyNode != null)
+            this.op = execSLRevisitor.$(bodyNode);
+        else op = null;
     }
 
     @Override
@@ -94,8 +98,9 @@ public class SLRootNode extends RootNode {
     public Object execute(VirtualFrame frame) {
         assert getLanguage(SLLanguage.class).getContextReference().get() != null;
 //        return bodyNode.executeGeneric(frame);
-        SLExpressionNodeT $ = execSLRevisitor.$(bodyNode);
-        return $.executeGeneric(frame);
+
+        //System.out.println("OPPPPP;" + op + ";" + bodyNode);
+        return op.executeGeneric(frame);
     }
 
     public SLExpressionNode getBodyNode() {

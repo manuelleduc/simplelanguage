@@ -58,12 +58,12 @@ public final class SLBlockNode extends SLStatementNode {
      * Children} informs Truffle that the field contains multiple children. It is a Truffle
      * requirement that the field is {@code final} and an array of nodes.
      */
-    @Children private final SLStatementNode[] bodyNodes;
+    @Children
+    private final SLStatementNode[] bodyNodes;
 
     public SLBlockNode(SLStatementNode[] bodyNodes) {
         this.bodyNodes = bodyNodes;
     }
-
 
 
     public List<SLStatementNode> getStatements() {

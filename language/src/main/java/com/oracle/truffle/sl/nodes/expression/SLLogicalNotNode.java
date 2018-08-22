@@ -53,5 +53,7 @@ import com.oracle.truffle.sl.nodes.SLExpressionNode;
 public class SLLogicalNotNode extends SLExpressionNode {
 
 
-
+    public SLLogicalNotNode(SLExpressionNode slLessOrEqualNode) {
+        super();
+    }
 }

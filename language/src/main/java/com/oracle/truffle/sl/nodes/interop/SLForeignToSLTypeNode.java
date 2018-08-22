@@ -94,7 +94,8 @@ public abstract class SLForeignToSLTypeNode extends Node {
         return value;
     }
 
-    @Child private Node isBoxed;
+    @Child
+    private Node isBoxed;
 
     protected final boolean isBoxedPrimitive(TruffleObject object) {
         if (isBoxed == null) {
@@ -104,7 +105,8 @@ public abstract class SLForeignToSLTypeNode extends Node {
         return ForeignAccess.sendIsBoxed(isBoxed, object);
     }
 
-    @Child private Node unbox;
+    @Child
+    private Node unbox;
 
     protected final Object doUnbox(TruffleObject value) {
         if (unbox == null) {

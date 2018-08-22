@@ -155,8 +155,8 @@ public class SLExceptionTest {
     public void testGuestLanguageError() {
         try {
             String source = "function bar() { x = 1 / \"asdf\"; }\n" +
-                            "function foo() { return bar(); }\n" +
-                            "function main() { foo(); }";
+                    "function foo() { return bar(); }\n" +
+                    "function main() { foo(); }";
             ctx.eval(Source.newBuilder("sl", source, "script.sl").buildLiteral());
             fail();
         } catch (PolyglotException e) {

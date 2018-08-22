@@ -72,10 +72,14 @@ import java.util.logging.Level;
 public final class SLFunction implements TruffleObject {
     private static final TruffleLogger LOG = TruffleLogger.getLogger(SLLanguage.ID, SLFunction.class);
 
-    /** The name of the function. */
+    /**
+     * The name of the function.
+     */
     private final String name;
 
-    /** The current implementation of this function. */
+    /**
+     * The current implementation of this function.
+     */
     private RootCallTarget callTarget;
 
     /**

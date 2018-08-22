@@ -73,29 +73,29 @@ public class SLInstrumentTest {
     @Test
     public void testLexicalScopes() throws Exception {
         String code = "function test(n) {\n" +
-                        "  a = 1;\n" +          // 2
-                        "  if (a > 0) {\n" +
-                        "    b = 10;\n" +
-                        "    println(b);\n" +   // 5
-                        "  }\n" +
-                        "  if (a == 1) {\n" +
-                        "    b = 20;\n" +
-                        "    a = 0;\n" +
-                        "    c = 1;\n" +        // 10
-                        "    if (b > 0) {\n" +
-                        "      a = 4;\n" +
-                        "      b = 5;\n" +
-                        "      c = 6;\n" +
-                        "      d = 7;\n" +      // 15
-                        "      println(d);\n" +
-                        "    }\n" +
-                        "  }\n" +
-                        "  println(b);\n" +
-                        "  println(a);\n" +     // 20
-                        "}\n" +
-                        "function main() {\n" +
-                        "  test(\"n_n\");\n" +
-                        "}";
+                "  a = 1;\n" +          // 2
+                "  if (a > 0) {\n" +
+                "    b = 10;\n" +
+                "    println(b);\n" +   // 5
+                "  }\n" +
+                "  if (a == 1) {\n" +
+                "    b = 20;\n" +
+                "    a = 0;\n" +
+                "    c = 1;\n" +        // 10
+                "    if (b > 0) {\n" +
+                "      a = 4;\n" +
+                "      b = 5;\n" +
+                "      c = 6;\n" +
+                "      d = 7;\n" +      // 15
+                "      println(d);\n" +
+                "    }\n" +
+                "  }\n" +
+                "  println(b);\n" +
+                "  println(a);\n" +     // 20
+                "}\n" +
+                "function main() {\n" +
+                "  test(\"n_n\");\n" +
+                "}";
         Source source = Source.newBuilder("sl", code, "testing").build();
         List<Throwable> throwables;
         try (Engine engine = Engine.newBuilder().out(new java.io.OutputStream() {
@@ -470,16 +470,16 @@ public class SLInstrumentTest {
     @Test
     public void testOutput() throws IOException {
         String code = "function main() {\n" +
-                        "  f = fac(5);\n" +
-                        "  println(f);\n" +
-                        "}\n" +
-                        "function fac(n) {\n" +
-                        "  println(n);\n" +
-                        "  if (n <= 1) {\n" +
-                        "    return 1;\n" + // break
-                        "  }\n" +
-                        "  return n * fac(n - 1);\n" +
-                        "}\n";
+                "  f = fac(5);\n" +
+                "  println(f);\n" +
+                "}\n" +
+                "function fac(n) {\n" +
+                "  println(n);\n" +
+                "  if (n <= 1) {\n" +
+                "    return 1;\n" + // break
+                "  }\n" +
+                "  return n * fac(n - 1);\n" +
+                "}\n";
         String fullOutput = "5\n4\n3\n2\n1\n120\n";
         String fullLines = "[5, 4, 3, 2, 1, 120]";
         // Pure exec:
@@ -560,9 +560,9 @@ public class SLInstrumentTest {
     @Test
     public void testRedoIO() throws Throwable {
         String code = "function main() {\n" +
-                        "  a = readln();\n" +
-                        "  return a;\n" +
-                        "}\n";
+                "  a = readln();\n" +
+                "  return a;\n" +
+                "}\n";
         final Source ioWait = Source.newBuilder("sl", code, "testing").build();
         final TestRedoIO[] redoIOPtr = new TestRedoIO[1];
         InputStream strIn = new ByteArrayInputStream("O.K.".getBytes());
@@ -662,21 +662,21 @@ public class SLInstrumentTest {
     public void testEarlyReturn() throws Exception {
         Assume.assumeFalse("Crashes on AArch64 in C2 (GR-8733)", System.getProperty("os.arch").equalsIgnoreCase("aarch64"));
         String code = "function main() {\n" +
-                        "  a = 10;\n" +
-                        "  b = a;\n" +
-                        "  // Let fce() warm up and specialize:\n" +
-                        "  while (a == b && a < 100000) {\n" +
-                        "    a = fce(a);\n" +
-                        "    b = b + 1;\n" +
-                        "  }\n" +
-                        "  c = a;\n" +
-                        "  // Run fce() and alter it's return type in an instrument:\n" +
-                        "  c = fce(c);\n" +
-                        "  return c;\n" +
-                        "}\n" +
-                        "function fce(x) {\n" +
-                        "  return x + 1;\n" +
-                        "}\n";
+                "  a = 10;\n" +
+                "  b = a;\n" +
+                "  // Let fce() warm up and specialize:\n" +
+                "  while (a == b && a < 100000) {\n" +
+                "    a = fce(a);\n" +
+                "    b = b + 1;\n" +
+                "  }\n" +
+                "  c = a;\n" +
+                "  // Run fce() and alter it's return type in an instrument:\n" +
+                "  c = fce(c);\n" +
+                "  return c;\n" +
+                "}\n" +
+                "function fce(x) {\n" +
+                "  return x + 1;\n" +
+                "}\n";
         final Source source = Source.newBuilder("sl", code, "testing").build();
         ByteArrayOutputStream engineOut = new ByteArrayOutputStream();
         Engine engine = Engine.newBuilder().err(engineOut).build();
@@ -786,10 +786,10 @@ public class SLInstrumentTest {
     @Test
     public void testReplaceNodeReturnValue() throws Exception {
         String code = "function main() {\n" +
-                        "  a = new();\n" +
-                        "  b = a.rp1;\n" +
-                        "  return b;\n" +
-                        "}\n";
+                "  a = new();\n" +
+                "  b = a.rp1;\n" +
+                "  return b;\n" +
+                "}\n";
         final Source source = Source.newBuilder("sl", code, "testing").build();
         SourceSection ss = DebuggerTester.getSourceImpl(source).createSection(24, 5);
         Context context = Context.create();
@@ -928,18 +928,18 @@ public class SLInstrumentTest {
     @Test
     public void testChangeArgumentsOnReenter() throws Exception {
         String code = "function main() {\n" +
-                        "  y = fce(0, 10000);\n" +
-                        "  return y;\n" +
-                        "}\n" +
-                        "function fce(x, z) {\n" +
-                        "  y = 2 * x;\n" +
-                        "  if (y < z) {\n" +
-                        "    print(\"A bad error.\");\n" +
-                        "    return 0 - 1;\n" +
-                        "  } else {\n" +
-                        "    return y;\n" +
-                        "  }\n" +
-                        "}\n";
+                "  y = fce(0, 10000);\n" +
+                "  return y;\n" +
+                "}\n" +
+                "function fce(x, z) {\n" +
+                "  y = 2 * x;\n" +
+                "  if (y < z) {\n" +
+                "    print(\"A bad error.\");\n" +
+                "    return 0 - 1;\n" +
+                "  } else {\n" +
+                "    return y;\n" +
+                "  }\n" +
+                "}\n";
         final Source source = Source.newBuilder("sl", code, "testing").build();
         Context context = Context.create();
         IncreaseArgOnErrorInstrument incOnError = context.getEngine().getInstruments().get("testIncreaseArgumentOnError").lookup(IncreaseArgOnErrorInstrument.class);
@@ -953,7 +953,8 @@ public class SLInstrumentTest {
     public static final class IncreaseArgOnErrorInstrument extends TruffleInstrument {
 
         private Env env;
-        @CompilationFinal private ThreadDeath unwind;
+        @CompilationFinal
+        private ThreadDeath unwind;
 
         @Override
         @SuppressWarnings("hiding")
@@ -964,26 +965,26 @@ public class SLInstrumentTest {
 
         void attachOn(String error) {
             EventBinding<ExecutionEventListener> reenterBinding = env.getInstrumenter().attachExecutionEventListener(SourceSectionFilter.newBuilder().tagIs(StandardTags.RootTag.class).build(),
-                            new ExecutionEventListener() {
-                                @Override
-                                public void onEnter(EventContext context, VirtualFrame frame) {
-                                }
+                    new ExecutionEventListener() {
+                        @Override
+                        public void onEnter(EventContext context, VirtualFrame frame) {
+                        }
 
-                                @Override
-                                public void onReturnValue(EventContext context, VirtualFrame frame, Object result) {
-                                }
+                        @Override
+                        public void onReturnValue(EventContext context, VirtualFrame frame, Object result) {
+                        }
 
-                                @Override
-                                public void onReturnExceptional(EventContext context, VirtualFrame frame, Throwable exception) {
-                                }
+                        @Override
+                        public void onReturnExceptional(EventContext context, VirtualFrame frame, Throwable exception) {
+                        }
 
-                                @Override
-                                public Object onUnwind(EventContext context, VirtualFrame frame, Object info) {
-                                    frame.getArguments()[0] = (Long) frame.getArguments()[0] + 1;
-                                    return ProbeNode.UNWIND_ACTION_REENTER;
-                                }
+                        @Override
+                        public Object onUnwind(EventContext context, VirtualFrame frame, Object info) {
+                            frame.getArguments()[0] = (Long) frame.getArguments()[0] + 1;
+                            return ProbeNode.UNWIND_ACTION_REENTER;
+                        }
 
-                            });
+                    });
             env.getInstrumenter().attachExecutionEventListener(SourceSectionFilter.newBuilder().tagIs(StandardTags.StatementTag.class).build(), new ExecutionEventListener() {
                 @Override
                 public void onEnter(EventContext context, VirtualFrame frame) {

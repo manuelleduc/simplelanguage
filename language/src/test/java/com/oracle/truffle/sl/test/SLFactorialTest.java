@@ -46,6 +46,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.junit.Assert.assertEquals;
 
 public class SLFactorialTest {
@@ -91,5 +95,44 @@ public class SLFactorialTest {
     public void factorialOf1() throws Exception {
         Number ret = factorial.execute(1).as(Number.class);
         assertEquals(1, ret.intValue());
+    }
+
+
+    private final class Data {
+        private final long time;
+        private final Number res;
+        private final int input;
+
+        public Data(long time, int input, Number res) {
+            this.time = time;
+            this.input = input;
+            this.res = res;
+        }
+
+        @Override
+        public String toString() {
+            return time + "," + input + "," + res;
+        }
+    }
+
+    @Test
+    public void factorialOf100() throws Exception {
+
+
+        List<Data> logs = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            //System.out.println(i);
+            long start = System.currentTimeMillis();
+            int input = 120;
+            Number ret = factorial.execute(input).as(Number.class);
+            long stop = System.currentTimeMillis();
+            logs.add(new Data(stop - start, input, ret));
+
+        }
+
+        System.out.println("time,input,res");
+        System.out.println(logs.stream().map(Data::toString).collect(Collectors.joining(System.lineSeparator())));
+
+        //assertEquals(2147483647, ret.intValue());
     }
 }

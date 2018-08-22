@@ -49,12 +49,11 @@ import com.oracle.truffle.sl.nodes.SLExpressionNode;
  * specialized methods return {@code boolean} instead of the input types.
  */
 @NodeInfo(shortName = "<")
-public  class SLLessThanNode extends SLBinaryNode {
+public class SLLessThanNode extends SLBinaryNode {
 
     public SLLessThanNode(SLExpressionNode leftNode, SLExpressionNode rightNode) {
         super(leftNode, rightNode);
     }
-
 
 
 }

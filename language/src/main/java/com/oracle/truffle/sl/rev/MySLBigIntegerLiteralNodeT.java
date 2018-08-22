@@ -18,7 +18,9 @@ public class MySLBigIntegerLiteralNodeT implements SLBigIntegerLiteralNodeT {
     }
 
     public static SLBigIntegerLiteralNodeT INSTANCE(ExecSLRevisitor alg, SLBigIntegerLiteralNode it) {
-        if (!cache.containsKey(it)) cache.put(it, new MySLBigIntegerLiteralNodeT(alg, it));
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLBigIntegerLiteralNodeT(alg, it));
+        }
         return cache.get(it);
     }
 

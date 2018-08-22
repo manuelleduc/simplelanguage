@@ -58,13 +58,13 @@ public class SLReadPropertyTest {
     public void setUp() {
         this.ctx = Context.create("sl");
         this.slObject = ctx.eval("sl", "function createObject() {\n" +
-                        "obj1 = new();\n" +
-                        "obj1.number = 42;\n" +
-                        "return obj1;\n" +
-                        "}\n" +
-                        "function main() {\n" +
-                        "return createObject;\n" +
-                        "}").execute();
+                "obj1 = new();\n" +
+                "obj1.number = 42;\n" +
+                "return obj1;\n" +
+                "}\n" +
+                "function main() {\n" +
+                "return createObject;\n" +
+                "}").execute();
     }
 
     @After

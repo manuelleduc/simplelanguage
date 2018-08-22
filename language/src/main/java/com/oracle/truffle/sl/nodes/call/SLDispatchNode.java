@@ -91,24 +91,23 @@ public abstract class SLDispatchNode extends Node {
      * performed by the DSL does not add any overhead during optimized execution.
      * </p>
      *
+     * @param function       the dynamically provided function
+     * @param cachedFunction the cached function of the specialization instance
+     * @param callNode       the {@link DirectCallNode} specifically created for the {@link CallTarget} in
+     *                       cachedFunction.
      * @see Cached
      * @see Specialization
-     *
-     * @param function the dynamically provided function
-     * @param cachedFunction the cached function of the specialization instance
-     * @param callNode the {@link DirectCallNode} specifically created for the {@link CallTarget} in
-     *            cachedFunction.
      */
     @Specialization(limit = "INLINE_CACHE_SIZE", //
-                    guards = "function.getCallTarget() == cachedTarget", //
-                    assumptions = "callTargetStable")
+            guards = "function.getCallTarget() == cachedTarget", //
+            assumptions = "callTargetStable")
     @SuppressWarnings("unused")
     protected static Object doDirect(SLFunction function, Object[] arguments,
-                    @Cached("function.getCallTargetStable()") Assumption callTargetStable,
-                    @Cached("function.getCallTarget()") RootCallTarget cachedTarget,
-                    @Cached("create(cachedTarget)") DirectCallNode callNode) {
+                                     @Cached("function.getCallTargetStable()") Assumption callTargetStable,
+                                     @Cached("function.getCallTarget()") RootCallTarget cachedTarget,
+                                     @Cached("create(cachedTarget)") DirectCallNode callNode) {
 
-        /* Inline cache hit, we are safe to execute the cached call target. */
+        /* Inline CACHE MISS, we are safe to execute the cached call target. */
         return callNode.call(arguments);
     }
 
@@ -119,7 +118,7 @@ public abstract class SLDispatchNode extends Node {
      */
     @Specialization(replaces = "doDirect")
     protected static Object doIndirect(SLFunction function, Object[] arguments,
-                    @Cached("create()") IndirectCallNode callNode) {
+                                       @Cached("create()") IndirectCallNode callNode) {
         /*
          * SL has a quite simple call lookup: just ask the function for the current call target, and
          * call it.
@@ -141,10 +140,10 @@ public abstract class SLDispatchNode extends Node {
      */
     @Specialization(guards = "isForeignFunction(function)")
     protected Object doForeign(TruffleObject function, Object[] arguments,
-                    // The child node to call the foreign function
-                    @Cached("createCrossLanguageCallNode(arguments)") Node crossLanguageCallNode,
-                    // The child node to convert the result of the foreign call to a SL value
-                    @Cached("createToSLTypeNode()") SLForeignToSLTypeNode toSLTypeNode) {
+                               // The child node to call the foreign function
+                               @Cached("createCrossLanguageCallNode(arguments)") Node crossLanguageCallNode,
+                               // The child node to convert the result of the foreign call to a SL value
+                               @Cached("createToSLTypeNode()") SLForeignToSLTypeNode toSLTypeNode) {
 
         try {
             /* Perform the foreign function call. */

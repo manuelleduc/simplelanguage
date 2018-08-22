@@ -60,8 +60,10 @@ public class SLObjectMessageResolution {
     @Resolve(message = "WRITE")
     public abstract static class SLForeignWriteNode extends Node {
 
-        @Child private SLForeignToSLTypeNode nameToSLType = SLForeignToSLTypeNodeGen.create();
-        @Child private SLForeignToSLTypeNode valueToSLType = SLForeignToSLTypeNodeGen.create();
+        @Child
+        private SLForeignToSLTypeNode nameToSLType = SLForeignToSLTypeNodeGen.create();
+        @Child
+        private SLForeignToSLTypeNode valueToSLType = SLForeignToSLTypeNodeGen.create();
 
         public Object access(DynamicObject receiver, Object name, Object value) {
             Object convertedName = nameToSLType.executeConvert(name);
@@ -81,8 +83,9 @@ public class SLObjectMessageResolution {
     @Resolve(message = "READ")
     public abstract static class SLForeignReadNode extends Node {
 
-//        @Child private SLReadPropertyCacheNode read = SLReadPropertyCacheNodeGen.create();
-        @Child private SLForeignToSLTypeNode nameToSLType = SLForeignToSLTypeNodeGen.create();
+        //        @Child private SLReadPropertyCacheNode read = SLReadPropertyCacheNodeGen.create();
+        @Child
+        private SLForeignToSLTypeNode nameToSLType = SLForeignToSLTypeNodeGen.create();
 
         public Object access(DynamicObject receiver, Object name) {
             Object convertedName = nameToSLType.executeConvert(name);
@@ -102,7 +105,8 @@ public class SLObjectMessageResolution {
     @Resolve(message = "REMOVE")
     public abstract static class SLForeignRemoveNode extends Node {
 
-        @Child private SLForeignToSLTypeNode nameToSLType = SLForeignToSLTypeNodeGen.create();
+        @Child
+        private SLForeignToSLTypeNode nameToSLType = SLForeignToSLTypeNodeGen.create();
 
         public Object access(DynamicObject receiver, Object name) {
             Object convertedName = nameToSLType.executeConvert(name);
@@ -122,7 +126,8 @@ public class SLObjectMessageResolution {
     @Resolve(message = "INVOKE")
     public abstract static class SLForeignInvokeNode extends Node {
 
-        @Child private SLDispatchNode dispatch = SLDispatchNodeGen.create();
+        @Child
+        private SLDispatchNode dispatch = SLDispatchNodeGen.create();
 
         public Object access(DynamicObject receiver, String name, Object[] arguments) {
             Object property = receiver.get(name);

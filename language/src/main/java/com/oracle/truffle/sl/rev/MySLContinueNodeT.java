@@ -18,7 +18,9 @@ public class MySLContinueNodeT implements SLContinueNodeT {
     }
 
     public static SLContinueNodeT INSTANCE(ExecSLRevisitor alg, SLContinueNode it) {
-        if (!cache.containsKey(it)) cache.put(it, new MySLContinueNodeT(alg, it));
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLContinueNodeT(alg, it));
+        }
         return cache.get(it);
     }
 

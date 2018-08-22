@@ -18,7 +18,9 @@ public class MySLBreakNodeT implements SLBreakNodeT {
     }
 
     public static SLBreakNodeT INSTANCE(ExecSLRevisitor alg, SLBreakNode it) {
-        if (!cache.containsKey(it)) cache.put(it, new MySLBreakNodeT(alg, it));
+        if (!cache.containsKey(it)) {
+            cache.put(it, new MySLBreakNodeT(alg, it));
+        }
         return cache.get(it);
     }
 

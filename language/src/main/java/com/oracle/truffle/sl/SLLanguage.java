@@ -43,6 +43,7 @@ package com.oracle.truffle.sl;
 import com.oracle.truffle.api.*;
 import com.oracle.truffle.api.TruffleLanguage.ContextPolicy;
 import com.oracle.truffle.api.debug.DebuggerTags;
+import com.oracle.truffle.api.dsl.NodeFactory;
 import com.oracle.truffle.api.frame.Frame;
 import com.oracle.truffle.api.instrumentation.ProvidedTags;
 import com.oracle.truffle.api.instrumentation.StandardTags;
@@ -52,8 +53,13 @@ import com.oracle.truffle.api.nodes.RootNode;
 import com.oracle.truffle.api.object.DynamicObject;
 import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.source.SourceSection;
+import com.oracle.truffle.sl.builtins.*;
 import com.oracle.truffle.sl.nodes.SLEvalRootNode;
 import com.oracle.truffle.sl.nodes.SLTypes;
+import com.oracle.truffle.sl.nodes.access.SLReadPropertyCacheNode;
+import com.oracle.truffle.sl.nodes.access.SLReadPropertyNode;
+import com.oracle.truffle.sl.nodes.access.SLWritePropertyCacheNode;
+import com.oracle.truffle.sl.nodes.access.SLWritePropertyNode;
 import com.oracle.truffle.sl.nodes.call.SLDispatchNode;
 import com.oracle.truffle.sl.nodes.call.SLInvokeNode;
 import com.oracle.truffle.sl.nodes.controlflow.*;
@@ -66,9 +72,7 @@ import com.oracle.truffle.sl.parser.SimpleLanguageLexer;
 import com.oracle.truffle.sl.parser.SimpleLanguageParser;
 import com.oracle.truffle.sl.runtime.*;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * SL is a simple language to demonstrate and showcase features of Truffle. The implementation is as
@@ -165,7 +169,7 @@ public final class SLLanguage extends TruffleLanguage<SLContext> {
 
     @Override
     protected SLContext createContext(Env env) {
-        return new SLContext(this, env);
+        return new SLContext(this, env, new ArrayList<>(EXTERNAL_BUILTINS));
     }
 
     @Override
@@ -326,6 +330,12 @@ public final class SLLanguage extends TruffleLanguage<SLContext> {
 
     public static SLContext getCurrentContext() {
         return getCurrentContext(SLLanguage.class);
+    }
+
+    private static final List<NodeFactory<? extends SLBuiltinNode>> EXTERNAL_BUILTINS = Collections.synchronizedList(new ArrayList<>());
+
+    public static void installBuiltin(NodeFactory<? extends SLBuiltinNode> builtin) {
+        EXTERNAL_BUILTINS.add(builtin);
     }
 
 }

@@ -54,38 +54,38 @@ import java.io.ByteArrayOutputStream;
 public class SLDebugALot {
 
     private final Source slCode = Source.create("sl", "function main() {\n" +
-                    "  n = 2;\n" +
-                    "  return types(n);\n" +
-                    "}\n" +
-                    "function doNull() {}\n" +
-                    "function compute(n, l) {\n" +
-                    "  z = new();\n" +
-                    "  z.a = n + l;\n" +
-                    "  z.b = z;\n" +
-                    "  z.c = n - l;\n" +
-                    "  return z;\n" +
-                    "}\n" +
-                    "function types(n) {\n" +
-                    "  a = 1;\n" +
-                    "  b = n + a;\n" +
-                    "  c = \"string\";\n" +
-                    "  d = doNull();\n" +
-                    "  e = 10 == 10;\n" +
-                    "  f = new();\n" +
-                    "  f.p1 = 1;\n" +
-                    "  f.p2 = new();\n" +
-                    "  f.p2.p21 = 21;\n" +
-                    "  g = doNull;\n" +
-                    "  i = 0;\n" +
-                    "  while (i < n) {\n" +
-                    "    b = b * i;\n" +
-                    "    l = b + i;\n" +
-                    "    z = compute(n, l);\n" +
-                    "    a = a + z.a;\n" +
-                    "    i = i + 1;\n" +
-                    "  }\n" +
-                    "  return n * a;\n" +
-                    "}\n");
+            "  n = 2;\n" +
+            "  return types(n);\n" +
+            "}\n" +
+            "function doNull() {}\n" +
+            "function compute(n, l) {\n" +
+            "  z = new();\n" +
+            "  z.a = n + l;\n" +
+            "  z.b = z;\n" +
+            "  z.c = n - l;\n" +
+            "  return z;\n" +
+            "}\n" +
+            "function types(n) {\n" +
+            "  a = 1;\n" +
+            "  b = n + a;\n" +
+            "  c = \"string\";\n" +
+            "  d = doNull();\n" +
+            "  e = 10 == 10;\n" +
+            "  f = new();\n" +
+            "  f.p1 = 1;\n" +
+            "  f.p2 = new();\n" +
+            "  f.p2.p21 = 21;\n" +
+            "  g = doNull;\n" +
+            "  i = 0;\n" +
+            "  while (i < n) {\n" +
+            "    b = b * i;\n" +
+            "    l = b + i;\n" +
+            "    z = compute(n, l);\n" +
+            "    a = a + z.a;\n" +
+            "    i = i + 1;\n" +
+            "  }\n" +
+            "  return n * a;\n" +
+            "}\n");
 
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     private final ByteArrayOutputStream err = new ByteArrayOutputStream();

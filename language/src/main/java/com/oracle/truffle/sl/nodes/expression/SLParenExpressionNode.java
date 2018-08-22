@@ -52,7 +52,8 @@ import com.oracle.truffle.sl.nodes.SLExpressionNode;
 @NodeInfo(description = "A parenthesized expression")
 public class SLParenExpressionNode extends SLExpressionNode {
 
-    @Child private SLExpressionNode expression;
+    @Child
+    private SLExpressionNode expression;
 
     public SLParenExpressionNode(SLExpressionNode expression) {
         this.expression = expression;

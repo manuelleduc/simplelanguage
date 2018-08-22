@@ -53,6 +53,7 @@ import static com.oracle.truffle.sl.runtime.SLContext.fromForeignValue;
 /**
  * The class containing all message resolution implementations of {@link SLFunction}.
  */
+
 /**
  * The class containing all message resolution implementations of {@link SLFunction}.
  */
@@ -64,7 +65,8 @@ public class SLFunctionMessageResolution {
     @Resolve(message = "EXECUTE")
     public abstract static class SLForeignFunctionExecuteNode extends Node {
 
-        @Child private SLDispatchNode dispatch = SLDispatchNodeGen.create();
+        @Child
+        private SLDispatchNode dispatch = SLDispatchNodeGen.create();
 
         public Object access(SLFunction receiver, Object[] arguments) {
             Object[] arr = new Object[arguments.length];
