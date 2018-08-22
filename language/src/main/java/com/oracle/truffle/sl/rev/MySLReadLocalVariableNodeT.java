@@ -22,7 +22,7 @@ public class MySLReadLocalVariableNodeT implements SLReadLocalVariableNodeT {
     @CompilerDirectives.CompilationFinal
     private int exclude_;
 
-    private MySLReadLocalVariableNodeT(ExecSLRevisitor alg, SLReadLocalVariableNode it) {
+    public MySLReadLocalVariableNodeT(ExecSLRevisitor alg, SLReadLocalVariableNode it) {
         this.alg = alg;
         this.it = it;
     }

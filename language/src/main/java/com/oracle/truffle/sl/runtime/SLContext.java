@@ -46,7 +46,9 @@ import com.oracle.truffle.api.TruffleLanguage.Env;
 import com.oracle.truffle.api.dsl.NodeFactory;
 import com.oracle.truffle.api.frame.FrameDescriptor;
 import com.oracle.truffle.api.instrumentation.AllocationReporter;
+import com.oracle.truffle.api.instrumentation.Tag;
 import com.oracle.truffle.api.interop.TruffleObject;
+import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.object.DynamicObject;
 import com.oracle.truffle.api.object.Layout;
@@ -54,6 +56,7 @@ import com.oracle.truffle.api.object.Shape;
 import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.builtins.SLBuiltinNode;
+import com.oracle.truffle.sl.builtins.SLNanoTimeBuiltin;
 import com.oracle.truffle.sl.builtins.SLPrintlnBuiltin;
 import com.oracle.truffle.sl.builtins.SLReadlnBuiltin;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
@@ -63,6 +66,7 @@ import com.oracle.truffle.sl.nodes.local.SLReadArgumentNode;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -135,9 +139,77 @@ public final class SLContext {
      * {@link SLBuiltinNode builtin implementation classes}.
      */
     private void installBuiltins() {
-//        installBuiltin(SLReadlnBuiltinFactory.getInstance());
-//        installBuiltin(SLPrintlnBuiltinFactory.getInstance());
-//        installBuiltin(SLNanoTimeBuiltinFactory.getInstance());
+/*        installBuiltin(new NodeFactory<SLReadlnBuiltin>() {
+
+            @Override
+            public SLReadlnBuiltin createNode(Object... arguments) {
+                return new SLReadlnBuiltin() {
+                    @Override
+                    public boolean hasTag(Class<? extends Tag> tag) {
+                        return super.hasTag(tag);
+                    }
+                };
+            }
+
+            @Override
+            public Class getNodeClass() {
+                return SLReadlnBuiltin.class;
+            }
+
+            @Override
+            public List<List<Class<?>>> getNodeSignatures() {
+                return Arrays.asList(Arrays.asList(SLExpressionNode[].class));
+            }
+
+            @Override
+            public List<Class<? extends Node>> getExecutionSignature() {
+                return Arrays.asList();
+            }
+        });*/
+        installBuiltin((new NodeFactory<SLPrintlnBuiltin>() {
+
+            @Override
+            public SLPrintlnBuiltin createNode(Object... arguments) {
+                return new SLPrintlnBuiltin((((SLExpressionNode[]) arguments[0])[0]));
+            }
+
+            @Override
+            public Class<SLPrintlnBuiltin> getNodeClass() {
+                return SLPrintlnBuiltin.class;
+            }
+
+            @Override
+            public List<List<Class<?>>> getNodeSignatures() {
+                return Arrays.asList(Arrays.asList(SLExpressionNode[].class));
+            }
+
+            @Override
+            public List getExecutionSignature() {
+                return Arrays.asList(SLExpressionNode.class);
+            }
+        }));/*
+        installBuiltin(new NodeFactory<SLNanoTimeBuiltin>() {
+
+            @Override
+            public Class<SLNanoTimeBuiltin> getNodeClass() {
+                return SLNanoTimeBuiltin.class;
+            }
+
+            @Override
+            public List getExecutionSignature() {
+                return Arrays.asList();
+            }
+
+            @Override
+            public List getNodeSignatures() {
+                return Arrays.asList(Arrays.asList(SLExpressionNode[].class));
+            }
+
+            @Override
+            public SLNanoTimeBuiltin createNode(Object... arguments) {
+                return new SLNanoTimeBuiltin() {};
+            }
+        });*/
 //        installBuiltin(SLDefineFunctionBuiltinFactory.getInstance());
 //        installBuiltin(SLStackTraceBuiltinFactory.getInstance());
 //        installBuiltin(SLHelloEqualsWorldBuiltinFactory.getInstance());

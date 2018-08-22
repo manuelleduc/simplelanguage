@@ -18,7 +18,7 @@ public class MySLInvokeNodeT implements SLInvokeNodeT {
     private final SLExpressionNodeT[] ops;
     private final SLExpressionNodeT opF;
 
-    private MySLInvokeNodeT(ExecSLRevisitor alg, SLInvokeNode it) {
+    public MySLInvokeNodeT(ExecSLRevisitor alg, SLInvokeNode it) {
         this.alg = alg;
         this.it = it;
         SLExpressionNode[] bodyNodes = it.getArgumentNodes();

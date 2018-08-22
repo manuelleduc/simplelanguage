@@ -10,7 +10,7 @@ public class MySLLogicalAndNodeT extends MySLShortCircuitNodeT implements SLLogi
     private final ExecSLRevisitor alg;
     private final SLLogicalAndNode it;
 
-    private MySLLogicalAndNodeT(ExecSLRevisitor alg, SLLogicalAndNode it) {
+    public MySLLogicalAndNodeT(ExecSLRevisitor alg, SLLogicalAndNode it) {
         super(alg, it);
         this.alg = alg;
         this.it = it;

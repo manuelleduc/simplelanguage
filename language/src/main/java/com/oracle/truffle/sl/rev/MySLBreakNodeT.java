@@ -12,7 +12,7 @@ public class MySLBreakNodeT implements SLBreakNodeT {
     private final ExecSLRevisitor alg;
     private final SLBreakNode it;
 
-    private MySLBreakNodeT(ExecSLRevisitor alg, SLBreakNode it) {
+    public MySLBreakNodeT(ExecSLRevisitor alg, SLBreakNode it) {
         this.alg = alg;
         this.it = it;
     }

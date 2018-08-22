@@ -10,7 +10,7 @@ public class MySLReturnExceptionT implements SLReturnExceptionT {
     private final ExecSLRevisitor alg;
     private final SLReturnException it;
 
-    private MySLReturnExceptionT(ExecSLRevisitor alg, SLReturnException it) {
+    public MySLReturnExceptionT(ExecSLRevisitor alg, SLReturnException it) {
         this.alg = alg;
         this.it = it;
     }

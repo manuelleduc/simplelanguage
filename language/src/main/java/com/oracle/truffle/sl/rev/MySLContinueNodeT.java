@@ -12,7 +12,7 @@ public class MySLContinueNodeT implements SLContinueNodeT {
     private final ExecSLRevisitor alg;
     private final SLContinueNode it;
 
-    private MySLContinueNodeT(ExecSLRevisitor alg, SLContinueNode it) {
+    public MySLContinueNodeT(ExecSLRevisitor alg, SLContinueNode it) {
         this.alg = alg;
         this.it = it;
     }

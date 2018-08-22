@@ -11,7 +11,7 @@ public class MySLStringLiteralNodeT implements SLStringLiteralNodeT {
     private final ExecSLRevisitor alg;
     private final SLStringLiteralNode it;
 
-    private MySLStringLiteralNodeT(ExecSLRevisitor alg, SLStringLiteralNode it) {
+    public MySLStringLiteralNodeT(ExecSLRevisitor alg, SLStringLiteralNode it) {
         this.alg = alg;
         this.it = it;
     }

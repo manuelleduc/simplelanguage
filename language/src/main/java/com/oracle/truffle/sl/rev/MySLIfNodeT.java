@@ -28,7 +28,7 @@ public class MySLIfNodeT implements SLIfNodeT {
     private final SLStatementNodeT opThen;
     private final SLStatementNodeT opElse;
 
-    private MySLIfNodeT(ExecSLRevisitor alg, SLIfNode it) {
+    public MySLIfNodeT(ExecSLRevisitor alg, SLIfNode it) {
         this.alg = alg;
         this.it = it;
         this.op = alg.$(it.getConditionNode());

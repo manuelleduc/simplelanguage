@@ -52,26 +52,30 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
-public class SLFactorialTest {
+public class SLAckTest {
 
     private Context context;
-    private Value factorial;
+    private Value ack;
 
     @Before
     public void initEngine() throws Exception {
         context = Context.create();
         // @formatter:off
         context.eval("sl", "\n" +
-                "function fac(n) {\n" +
-                "  if (n <= 1) {\n" +
-                "    return 1;\n" +
+                "function ack(m, n) {\n" +
+                "  if (m == 0) {\n" +
+                "    return n + 1;\n" +
+                "  } else {" +
+                "    if (n == 0) {\n" +
+                "      return ack(m-1, 1);\n" +
+                "    } else {\n" +
+                "      return ack(m-1, ack(m, n-1));\n" +
+                "    }\n" +
                 "  }\n" +
-                "  prev = fac(n - 1);\n" +
-                "  return prev * n;\n" +
                 "}\n"
         );
         // @formatter:on
-        factorial = context.getBindings("sl").getMember("fac");
+        ack = context.getBindings("sl").getMember("ack");
     }
 
     @After
@@ -80,61 +84,13 @@ public class SLFactorialTest {
     }
 
     @Test
-    public void factorialOf5() throws Exception {
-        Number ret = factorial.execute(5).as(Number.class);
-        assertEquals(120, ret.intValue());
+    public void ackOf39() throws Exception {
+        long start = System.currentTimeMillis();
+        Number ret = ack.execute(3,9).as(Number.class);
+        long stop = System.currentTimeMillis();
+        assertEquals(4093, ret.intValue());
+        System.out.println(stop - start);
+
     }
 
-    @Test
-    public void factorialOf3() throws Exception {
-        Number ret = factorial.execute(3).as(Number.class);
-        assertEquals(6, ret.intValue());
-    }
-
-    @Test
-    public void factorialOf1() throws Exception {
-        Number ret = factorial.execute(1).as(Number.class);
-        assertEquals(1, ret.intValue());
-    }
-
-
-    private final class Data {
-        private final long time;
-        private final Number res;
-        private final int input;
-
-        public Data(long time, int input, Number res) {
-            this.time = time;
-            this.input = input;
-            this.res = res;
-        }
-
-        @Override
-        public String toString() {
-            return time + "," + input + "," + res;
-        }
-    }
-
-    @Test
-    public void factorialOf100() throws Exception {
-
-
-        List<Data> logs = new ArrayList<>();
-        for (int i = 0; i < 1000000; i++) {
-            //System.out.println(i);
-            int input = 50 + (int) (Math.random() * 100);
-            long start = System.currentTimeMillis();
-            Number ret = factorial.execute(input).as(Number.class);
-            long stop = System.currentTimeMillis();
-            logs.add(new Data(stop - start, input, ret));
-
-        }
-
-        System.out.println("time,input,res");
-        System.out.println(logs.stream().map(Data::toString).collect(Collectors.joining(System.lineSeparator())));
-
-        System.out.println(logs.stream().map(it -> it.time).mapToLong(it -> it).sum());
-
-        //assertEquals(2147483647, ret.intValue());
-    }
 }

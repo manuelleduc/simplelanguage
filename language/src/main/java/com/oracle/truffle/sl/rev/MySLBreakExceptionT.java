@@ -10,7 +10,7 @@ public class MySLBreakExceptionT implements SLBreakExceptionT {
     private final ExecSLRevisitor alg;
     private final SLBreakException it;
 
-    private MySLBreakExceptionT(ExecSLRevisitor alg, SLBreakException it) {
+    public MySLBreakExceptionT(ExecSLRevisitor alg, SLBreakException it) {
         this.alg = alg;
         this.it = it;
     }

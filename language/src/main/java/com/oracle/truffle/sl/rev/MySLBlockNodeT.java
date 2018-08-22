@@ -17,7 +17,7 @@ public class MySLBlockNodeT implements SLBlockNodeT {
     @CompilerDirectives.CompilationFinal
     private final SLStatementNodeT[] ops;
 
-    private MySLBlockNodeT(ExecSLRevisitor alg, SLBlockNode it) {
+    public MySLBlockNodeT(ExecSLRevisitor alg, SLBlockNode it) {
         this.alg = alg;
         this.it = it;
         // precomputing the required revisitor operations

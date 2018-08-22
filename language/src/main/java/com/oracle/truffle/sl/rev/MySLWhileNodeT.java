@@ -18,7 +18,7 @@ public class MySLWhileNodeT implements SLWhileNodeT {
     private final ExecSLRevisitor alg;
     private final SLWhileNode it;
 
-    private MySLWhileNodeT(ExecSLRevisitor alg, SLWhileNode it) {
+    public MySLWhileNodeT(ExecSLRevisitor alg, SLWhileNode it) {
         this.alg = alg;
         this.it = it;
     }

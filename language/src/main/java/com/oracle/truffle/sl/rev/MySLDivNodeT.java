@@ -23,7 +23,7 @@ public class MySLDivNodeT implements SLDivNodeT {
     @CompilerDirectives.CompilationFinal
     private int exclude_;
 
-    private MySLDivNodeT(ExecSLRevisitor alg, SLDivNode it) {
+    public MySLDivNodeT(ExecSLRevisitor alg, SLDivNode it) {
         this.alg = alg;
         this.it = it;
     }

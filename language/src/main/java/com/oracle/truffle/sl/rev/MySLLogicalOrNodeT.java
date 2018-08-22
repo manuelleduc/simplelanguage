@@ -10,7 +10,7 @@ public class MySLLogicalOrNodeT extends MySLShortCircuitNodeT implements SLLogic
     private final ExecSLRevisitor alg;
     private final SLLogicalOrNode it;
 
-    private MySLLogicalOrNodeT(ExecSLRevisitor alg, SLLogicalOrNode it) {
+    public MySLLogicalOrNodeT(ExecSLRevisitor alg, SLLogicalOrNode it) {
         super(alg, it);
         this.alg = alg;
         this.it = it;

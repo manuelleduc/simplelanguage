@@ -12,7 +12,7 @@ public class MySLBigIntegerLiteralNodeT implements SLBigIntegerLiteralNodeT {
     private final ExecSLRevisitor alg;
     private final SLBigIntegerLiteralNode it;
 
-    private MySLBigIntegerLiteralNodeT(ExecSLRevisitor alg, SLBigIntegerLiteralNode it) {
+    public MySLBigIntegerLiteralNodeT(ExecSLRevisitor alg, SLBigIntegerLiteralNode it) {
         this.alg = alg;
         this.it = it;
     }

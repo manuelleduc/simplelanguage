@@ -14,10 +14,12 @@ public class MySLReturnNodeT implements SLReturnNodeT {
     private final SLReturnNode it;
     private final SLExpressionNodeT op;
 
-    private MySLReturnNodeT(ExecSLRevisitor alg, SLReturnNode it) {
+    public MySLReturnNodeT(ExecSLRevisitor alg, SLReturnNode it) {
         this.alg = alg;
         this.it = it;
-        this.op = alg.$(it.getValueNode());
+        if (it.getValueNode() != null)
+            this.op = alg.$(it.getValueNode());
+        else this.op = null;
     }
 
     public static SLReturnNodeT INSTANCE(ExecSLRevisitor alg, SLReturnNode it) {

@@ -10,7 +10,7 @@ public class MySLUndefinedFunctionRootNodeT implements SLUndefinedFunctionRootNo
     private final ExecSLRevisitor alg;
     private final SLUndefinedFunctionRootNode it;
 
-    private MySLUndefinedFunctionRootNodeT(ExecSLRevisitor alg, SLUndefinedFunctionRootNode it) {
+    public MySLUndefinedFunctionRootNodeT(ExecSLRevisitor alg, SLUndefinedFunctionRootNode it) {
         this.alg = alg;
         this.it = it;
     }

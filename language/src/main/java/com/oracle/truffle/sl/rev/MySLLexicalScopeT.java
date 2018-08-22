@@ -10,7 +10,7 @@ public class MySLLexicalScopeT implements SLLexicalScopeT {
     private final ExecSLRevisitor alg;
     private final SLLexicalScope it;
 
-    private MySLLexicalScopeT(ExecSLRevisitor alg, SLLexicalScope it) {
+    public MySLLexicalScopeT(ExecSLRevisitor alg, SLLexicalScope it) {
         this.alg = alg;
         this.it = it;
     }

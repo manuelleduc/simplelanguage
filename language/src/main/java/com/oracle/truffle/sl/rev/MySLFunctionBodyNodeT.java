@@ -26,7 +26,7 @@ public class MySLFunctionBodyNodeT implements SLFunctionBodyNodeT {
     private final SLStatementNodeT op;
 
 
-    private MySLFunctionBodyNodeT(ExecSLRevisitor alg, SLFunctionBodyNode it) {
+    public MySLFunctionBodyNodeT(ExecSLRevisitor alg, SLFunctionBodyNode it) {
         this.alg = alg;
         this.it = it;
         this.op = alg.$(it.getBodyNode());

@@ -12,7 +12,7 @@ public class MySLLongLiteralNodeT implements SLLongLiteralNodeT {
     private final ExecSLRevisitor alg;
     private final SLLongLiteralNode it;
 
-    private MySLLongLiteralNodeT(ExecSLRevisitor alg, SLLongLiteralNode it) {
+    public MySLLongLiteralNodeT(ExecSLRevisitor alg, SLLongLiteralNode it) {
         this.alg = alg;
         this.it = it;
     }

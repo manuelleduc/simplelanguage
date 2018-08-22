@@ -13,7 +13,7 @@ public class MySLReadArgumentNodeT implements SLReadArgumentNodeT {
     private final ExecSLRevisitor alg;
     private final SLReadArgumentNode it;
 
-    private MySLReadArgumentNodeT(ExecSLRevisitor alg, SLReadArgumentNode it) {
+    public MySLReadArgumentNodeT(ExecSLRevisitor alg, SLReadArgumentNode it) {
         this.alg = alg;
         this.it = it;
     }

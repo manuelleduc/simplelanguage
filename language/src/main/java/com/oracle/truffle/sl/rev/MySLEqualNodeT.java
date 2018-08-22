@@ -22,14 +22,18 @@ public class MySLEqualNodeT implements SLEqualNodeT {
     private final static Map<SLEqualNode, SLEqualNodeT> cache = new HashMap<>();
     private final ExecSLRevisitor alg;
     private final SLEqualNode it;
+    private final SLExpressionNodeT leftNode_;
+    private final SLExpressionNodeT rightNode_;
 
     @CompilerDirectives.CompilationFinal
     private int state_;
 
 
-    private MySLEqualNodeT(ExecSLRevisitor alg, SLEqualNode it) {
+    public MySLEqualNodeT(ExecSLRevisitor alg, SLEqualNode it) {
         this.alg = alg;
         this.it = it;
+        this.leftNode_ = alg.$(this.it.getLeftNode());
+        this.rightNode_ = alg.$(this.it.getRightNode());
     }
 
     public static SLEqualNodeT INSTANCE(ExecSLRevisitor alg, SLEqualNode it) {
@@ -54,14 +58,14 @@ public class MySLEqualNodeT implements SLEqualNodeT {
     private Object executeGeneric_long_long0(VirtualFrame frameValue, int state) {
         long leftNodeValue_;
         try {
-            leftNodeValue_ = alg.$(this.it.getLeftNode()).executeLong(frameValue);
+            leftNodeValue_ = leftNode_.executeLong(frameValue);
         } catch (UnexpectedResultException ex) {
-            Object rightNodeValue = alg.$(this.it.getRightNode()).executeGeneric(frameValue);
+            Object rightNodeValue = rightNode_.executeGeneric(frameValue);
             return executeAndSpecialize(ex.getResult(), rightNodeValue);
         }
         long rightNodeValue_;
         try {
-            rightNodeValue_ = alg.$(this.it.getRightNode()).executeLong(frameValue);
+            rightNodeValue_ = rightNode_.executeLong(frameValue);
         } catch (UnexpectedResultException ex) {
             return executeAndSpecialize(leftNodeValue_, ex.getResult());
         }
@@ -72,14 +76,14 @@ public class MySLEqualNodeT implements SLEqualNodeT {
     private Object executeGeneric_boolean_boolean1(VirtualFrame frameValue, int state) {
         boolean leftNodeValue_;
         try {
-            leftNodeValue_ = alg.$(this.it.getLeftNode()).executeBoolean(frameValue);
+            leftNodeValue_ = leftNode_.executeBoolean(frameValue);
         } catch (UnexpectedResultException ex) {
-            Object rightNodeValue = alg.$(this.it.getRightNode()).executeGeneric(frameValue);
+            Object rightNodeValue = rightNode_.executeGeneric(frameValue);
             return executeAndSpecialize(ex.getResult(), rightNodeValue);
         }
         boolean rightNodeValue_;
         try {
-            rightNodeValue_ = alg.$(this.it.getRightNode()).executeBoolean(frameValue);
+            rightNodeValue_ = rightNode_.executeBoolean(frameValue);
         } catch (UnexpectedResultException ex) {
             return executeAndSpecialize(leftNodeValue_, ex.getResult());
         }
@@ -88,8 +92,8 @@ public class MySLEqualNodeT implements SLEqualNodeT {
     }
 
     private Object executeGeneric_generic2(VirtualFrame frameValue, int state) {
-        Object leftNodeValue_ = alg.$(this.it.getLeftNode()).executeGeneric(frameValue);
-        Object rightNodeValue_ = alg.$(this.it.getRightNode()).executeGeneric(frameValue);
+        Object leftNodeValue_ = leftNode_.executeGeneric(frameValue);
+        Object rightNodeValue_ = rightNode_.executeGeneric(frameValue);
         if ((state & 0b1) != 0 /* is-active equal(long, long) */ && leftNodeValue_ instanceof Long) {
             long leftNodeValue__ = (long) leftNodeValue_;
             if (rightNodeValue_ instanceof Long) {
@@ -173,14 +177,14 @@ public class MySLEqualNodeT implements SLEqualNodeT {
     private boolean executeBoolean_long_long3(VirtualFrame frameValue, int state) throws UnexpectedResultException {
         long leftNodeValue_;
         try {
-            leftNodeValue_ = alg.$(this.it.getLeftNode()).executeLong(frameValue);
+            leftNodeValue_ = leftNode_.executeLong(frameValue);
         } catch (UnexpectedResultException ex) {
-            Object rightNodeValue = alg.$(this.it.getRightNode()).executeGeneric(frameValue);
+            Object rightNodeValue = rightNode_.executeGeneric(frameValue);
             return SLTypesGen.expectBoolean(executeAndSpecialize(ex.getResult(), rightNodeValue));
         }
         long rightNodeValue_;
         try {
-            rightNodeValue_ = alg.$(this.it.getRightNode()).executeLong(frameValue);
+            rightNodeValue_ = rightNode_.executeLong(frameValue);
         } catch (UnexpectedResultException ex) {
             return SLTypesGen.expectBoolean(executeAndSpecialize(leftNodeValue_, ex.getResult()));
         }
@@ -191,14 +195,14 @@ public class MySLEqualNodeT implements SLEqualNodeT {
     private boolean executeBoolean_boolean_boolean4(VirtualFrame frameValue, int state) throws UnexpectedResultException {
         boolean leftNodeValue_;
         try {
-            leftNodeValue_ = alg.$(this.it.getLeftNode()).executeBoolean(frameValue);
+            leftNodeValue_ = leftNode_.executeBoolean(frameValue);
         } catch (UnexpectedResultException ex) {
-            Object rightNodeValue = alg.$(this.it.getRightNode()).executeGeneric(frameValue);
+            Object rightNodeValue = rightNode_.executeGeneric(frameValue);
             return SLTypesGen.expectBoolean(executeAndSpecialize(ex.getResult(), rightNodeValue));
         }
         boolean rightNodeValue_;
         try {
-            rightNodeValue_ = alg.$(this.it.getRightNode()).executeBoolean(frameValue);
+            rightNodeValue_ = rightNode_.executeBoolean(frameValue);
         } catch (UnexpectedResultException ex) {
             return SLTypesGen.expectBoolean(executeAndSpecialize(leftNodeValue_, ex.getResult()));
         }
@@ -207,8 +211,8 @@ public class MySLEqualNodeT implements SLEqualNodeT {
     }
 
     private boolean executeBoolean_generic5(VirtualFrame frameValue, int state) throws UnexpectedResultException {
-        Object leftNodeValue_ = alg.$(this.it.getLeftNode()).executeGeneric(frameValue);
-        Object rightNodeValue_ = alg.$(this.it.getRightNode()).executeGeneric(frameValue);
+        Object leftNodeValue_ = leftNode_.executeGeneric(frameValue);
+        Object rightNodeValue_ = rightNode_.executeGeneric(frameValue);
         if ((state & 0b1) != 0 /* is-active equal(long, long) */ && leftNodeValue_ instanceof Long) {
             long leftNodeValue__ = (long) leftNodeValue_;
             if (rightNodeValue_ instanceof Long) {

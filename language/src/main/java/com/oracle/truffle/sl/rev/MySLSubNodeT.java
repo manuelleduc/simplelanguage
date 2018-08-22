@@ -26,7 +26,7 @@ public class MySLSubNodeT implements SLSubNodeT {
     private int exclude_;
 
 
-    private MySLSubNodeT(ExecSLRevisitor alg, SLSubNode it) {
+    public MySLSubNodeT(ExecSLRevisitor alg, SLSubNode it) {
         this.alg = alg;
         this.it = it;
         this.opLeftNode = alg.$(it.getLeftNode());

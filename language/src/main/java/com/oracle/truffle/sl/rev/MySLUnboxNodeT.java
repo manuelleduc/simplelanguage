@@ -33,7 +33,7 @@ public class MySLUnboxNodeT implements SLUnboxNodeT {
     @Node.Child
     private SLForeignToSLTypeNode unboxBoxed_foreignToSL_;
 
-    private MySLUnboxNodeT(ExecSLRevisitor alg, SLUnboxNode it) {
+    public MySLUnboxNodeT(ExecSLRevisitor alg, SLUnboxNode it) {
         this.alg = alg;
         this.it = it;
         this.opChild = this.alg.$(this.it.getChild());

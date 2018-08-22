@@ -24,7 +24,7 @@ public class MySLLessOrEqualNodeT implements SLLessOrEqualNodeT {
     private int state_;
 
 
-    private MySLLessOrEqualNodeT(ExecSLRevisitor alg, SLLessOrEqualNode it) {
+    public MySLLessOrEqualNodeT(ExecSLRevisitor alg, SLLessOrEqualNode it) {
         this.alg = alg;
         this.it = it;
         this.opLeftNode = alg.$(this.it.getLeftNode());

@@ -26,7 +26,7 @@ public class MySLWriteLocalVariableNodeT implements SLWriteLocalVariableNodeT {
     private int exclude_;
 
 
-    private MySLWriteLocalVariableNodeT(ExecSLRevisitor alg, SLWriteLocalVariableNode it) {
+    public MySLWriteLocalVariableNodeT(ExecSLRevisitor alg, SLWriteLocalVariableNode it) {
         this.alg = alg;
         this.it = it;
         this.ops = this.alg.$(it.getValueNode());

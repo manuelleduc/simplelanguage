@@ -12,7 +12,7 @@ public class MySLParenExpressionNodeT implements SLParenExpressionNodeT {
     private final ExecSLRevisitor alg;
     private final SLParenExpressionNode it;
 
-    private MySLParenExpressionNodeT(ExecSLRevisitor alg, SLParenExpressionNode it) {
+    public MySLParenExpressionNodeT(ExecSLRevisitor alg, SLParenExpressionNode it) {
         this.alg = alg;
         this.it = it;
     }

@@ -22,7 +22,7 @@ public class MySLAddNodeT implements SLAddNodeT {
     @CompilerDirectives.CompilationFinal
     private int exclude_;
 
-    private MySLAddNodeT(ExecSLRevisitor alg, SLAddNode it) {
+    public MySLAddNodeT(ExecSLRevisitor alg, SLAddNode it) {
         this.alg = alg;
         this.it = it;
     }

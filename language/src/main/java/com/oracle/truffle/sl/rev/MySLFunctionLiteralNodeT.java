@@ -13,7 +13,7 @@ public class MySLFunctionLiteralNodeT implements SLFunctionLiteralNodeT {
     private final ExecSLRevisitor alg;
     private final SLFunctionLiteralNode it;
 
-    private MySLFunctionLiteralNodeT(ExecSLRevisitor alg, SLFunctionLiteralNode it) {
+    public MySLFunctionLiteralNodeT(ExecSLRevisitor alg, SLFunctionLiteralNode it) {
         this.alg = alg;
         this.it = it;
     }

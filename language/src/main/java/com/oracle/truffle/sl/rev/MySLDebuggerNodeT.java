@@ -11,7 +11,7 @@ public class MySLDebuggerNodeT implements SLDebuggerNodeT {
     private final ExecSLRevisitor alg;
     private final SLDebuggerNode it;
 
-    private MySLDebuggerNodeT(ExecSLRevisitor alg, SLDebuggerNode it) {
+    public MySLDebuggerNodeT(ExecSLRevisitor alg, SLDebuggerNode it) {
         this.alg = alg;
         this.it = it;
     }

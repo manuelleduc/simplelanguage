@@ -10,7 +10,7 @@ public class MySLRootNodeT implements SLRootNodeT {
     private final ExecSLRevisitor alg;
     private final SLRootNode it;
 
-    private MySLRootNodeT(ExecSLRevisitor alg, SLRootNode it) {
+    public MySLRootNodeT(ExecSLRevisitor alg, SLRootNode it) {
         this.alg = alg;
         this.it = it;
     }

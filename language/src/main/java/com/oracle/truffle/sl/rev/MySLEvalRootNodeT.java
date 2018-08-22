@@ -10,7 +10,7 @@ public class MySLEvalRootNodeT implements SLEvalRootNodeT {
     private final ExecSLRevisitor alg;
     private final SLEvalRootNode it;
 
-    private MySLEvalRootNodeT(ExecSLRevisitor alg, SLEvalRootNode it) {
+    public MySLEvalRootNodeT(ExecSLRevisitor alg, SLEvalRootNode it) {
         this.alg = alg;
         this.it = it;
     }

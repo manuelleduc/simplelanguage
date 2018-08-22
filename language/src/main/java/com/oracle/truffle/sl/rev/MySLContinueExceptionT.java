@@ -10,7 +10,7 @@ public class MySLContinueExceptionT implements SLContinueExceptionT {
     private final ExecSLRevisitor alg;
     private final SLContinueException it;
 
-    private MySLContinueExceptionT(ExecSLRevisitor alg, SLContinueException it) {
+    public MySLContinueExceptionT(ExecSLRevisitor alg, SLContinueException it) {
         this.alg = alg;
         this.it = it;
     }

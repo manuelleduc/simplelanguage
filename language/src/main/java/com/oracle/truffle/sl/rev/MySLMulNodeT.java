@@ -23,7 +23,7 @@ public class MySLMulNodeT implements SLMulNodeT {
     @CompilerDirectives.CompilationFinal
     private int exclude_;
 
-    private MySLMulNodeT(ExecSLRevisitor alg, SLMulNode it) {
+    public MySLMulNodeT(ExecSLRevisitor alg, SLMulNode it) {
         this.alg = alg;
         this.it = it;
         this.opLeftNode = alg.$(it.getLeftNode());

@@ -76,6 +76,8 @@ import java.util.Map;
  */
 public class SLNodeFactory {
 
+    private final ExecSLRevisitor revisitor = ExecSLRevisitorFactory.INSTANCE;
+
     /**
      * Local variable names that are visible in the current block. Variables are not visible outside
      * of their defining block, to prevent the usage of undefined variables. Because of that, we can
@@ -420,7 +422,7 @@ public class SLNodeFactory {
             return null;
         }
 
-        final String name = ExecSLRevisitorFactory.INSTANCE.$(((SLStringLiteralNode) nameNode)).executeGeneric(null);
+        final String name = revisitor.$(((SLStringLiteralNode) nameNode)).executeGeneric(null);
         FrameSlot frameSlot = frameDescriptor.findOrAddFrameSlot(name);
         lexicalScope.locals.put(name, frameSlot);
         final SLExpressionNode result = new SLWriteLocalVariableNode(valueNode, frameSlot);
@@ -454,7 +456,7 @@ public class SLNodeFactory {
             return null;
         }
 
-        final String name = ExecSLRevisitorFactory.INSTANCE.$(((SLStringLiteralNode) nameNode)).executeGeneric(null);
+        final String name = revisitor.$(((SLStringLiteralNode) nameNode)).executeGeneric(null);
         final SLExpressionNode result;
         final FrameSlot frameSlot = lexicalScope.locals.get(name);
         if (frameSlot != null) {
