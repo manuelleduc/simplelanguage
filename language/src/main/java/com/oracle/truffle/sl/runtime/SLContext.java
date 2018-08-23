@@ -46,7 +46,6 @@ import com.oracle.truffle.api.TruffleLanguage.Env;
 import com.oracle.truffle.api.dsl.NodeFactory;
 import com.oracle.truffle.api.frame.FrameDescriptor;
 import com.oracle.truffle.api.instrumentation.AllocationReporter;
-import com.oracle.truffle.api.instrumentation.Tag;
 import com.oracle.truffle.api.interop.TruffleObject;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.NodeInfo;
@@ -222,7 +221,7 @@ public final class SLContext {
                 return new SLDefineFunctionBuiltin((((SLExpressionNode[]) arguments[0])[0]));
             }
         });
-        installBuiltin(new NodeFactory<SLStackTraceBuiltin>(){
+        installBuiltin(new NodeFactory<SLStackTraceBuiltin>() {
             @Override
             public Class<SLStackTraceBuiltin> getNodeClass() {
                 return SLStackTraceBuiltin.class;
@@ -240,10 +239,30 @@ public final class SLContext {
 
             @Override
             public SLStackTraceBuiltin createNode(Object... arguments) {
-               return new SLStackTraceBuiltin();
+                return new SLStackTraceBuiltin();
             }
         });
-//        installBuiltin(SLHelloEqualsWorldBuiltinFactory.getInstance());
+        installBuiltin(new NodeFactory<SLHelloEqualsWorldBuiltin>() {
+            @Override
+            public Class<SLHelloEqualsWorldBuiltin> getNodeClass() {
+                return SLHelloEqualsWorldBuiltin.class;
+            }
+
+            @Override
+            public List getExecutionSignature() {
+                return Arrays.asList();
+            }
+
+            @Override
+            public List getNodeSignatures() {
+                return Arrays.asList(Arrays.asList(SLExpressionNode[].class));
+            }
+
+            @Override
+            public SLHelloEqualsWorldBuiltin createNode(Object... arguments) {
+                return new SLHelloEqualsWorldBuiltin();
+            }
+        });
         installBuiltin(new NodeFactory<SLNewObjectBuiltin>() {
             @Override
             public SLNewObjectBuiltin createNode(Object... arguments) {
@@ -284,7 +303,8 @@ public final class SLContext {
 
             @Override
             public SLEvalBuiltin createNode(Object... arguments) {
-                return new SLEvalBuiltin((((SLExpressionNode[]) arguments[0])[0]), (((SLExpressionNode[]) arguments[0])[1]));
+                SLExpressionNode[] argument = (SLExpressionNode[]) arguments[0];
+                return new SLEvalBuiltin(argument[0], argument[1]);
             }
         });
         installBuiltin(new NodeFactory<SLImportBuiltin>() {
@@ -308,10 +328,91 @@ public final class SLContext {
                 return Arrays.asList(Arrays.asList(SLExpressionNode[].class));
             }
         });
-//        installBuiltin(SLGetSizeBuiltinFactory.getInstance());
-//        installBuiltin(SLHasSizeBuiltinFactory.getInstance());
-//        installBuiltin(SLIsExecutableBuiltinFactory.getInstance());
-//        installBuiltin(SLIsNullBuiltinFactory.getInstance());
+        installBuiltin(new NodeFactory<SLGetSizeBuiltin>() {
+            @Override
+            public Class<SLGetSizeBuiltin> getNodeClass() {
+                return SLGetSizeBuiltin.class;
+            }
+
+            @Override
+            public List getExecutionSignature() {
+                return Arrays.asList(SLExpressionNode.class);
+            }
+
+            @Override
+            public List getNodeSignatures() {
+                return Arrays.asList(Arrays.asList(SLExpressionNode[].class));
+            }
+
+            @Override
+            public SLGetSizeBuiltin createNode(Object... arguments) {
+                return new SLGetSizeBuiltin((((SLExpressionNode[]) arguments[0])[0]));
+            }
+        });
+        installBuiltin(new NodeFactory<SLHasSizeBuiltin>() {
+            @Override
+            public Class<SLHasSizeBuiltin> getNodeClass() {
+                return SLHasSizeBuiltin.class;
+            }
+
+            @Override
+            public List getExecutionSignature() {
+                return Arrays.asList(SLExpressionNode.class);
+            }
+
+            @Override
+            public List getNodeSignatures() {
+                return Arrays.asList(Arrays.asList(SLExpressionNode[].class));
+            }
+
+            @Override
+            public SLHasSizeBuiltin createNode(Object... arguments) {
+                return new SLHasSizeBuiltin(((SLExpressionNode[]) arguments[0])[0]);
+            }
+
+        });
+        installBuiltin(new NodeFactory<SLIsExecutableBuiltin>() {
+            @Override
+            public Class<SLIsExecutableBuiltin> getNodeClass() {
+                return SLIsExecutableBuiltin.class;
+            }
+
+            @Override
+            public List getExecutionSignature() {
+                return Arrays.asList(SLExpressionNode.class);
+            }
+
+            @Override
+            public List getNodeSignatures() {
+                return Arrays.asList(Arrays.asList(SLExpressionNode[].class));
+            }
+
+            @Override
+            public SLIsExecutableBuiltin createNode(Object... arguments) {
+                return new SLIsExecutableBuiltin((((SLExpressionNode[]) arguments[0])[0]));
+            }
+        });
+        installBuiltin(new NodeFactory<SLIsNullBuiltin>() {
+            @Override
+            public Class<SLIsNullBuiltin> getNodeClass() {
+                return SLIsNullBuiltin.class;
+            }
+
+            @Override
+            public List getExecutionSignature() {
+                return Arrays.asList(SLExpressionNode.class);
+            }
+
+            @Override
+            public List getNodeSignatures() {
+                return Arrays.asList(Arrays.asList(SLExpressionNode[].class));
+            }
+
+            @Override
+            public SLIsNullBuiltin createNode(Object... arguments) {
+              return new SLIsNullBuiltin(((SLExpressionNode[]) arguments[0])[0]);
+            }
+        });
     }
 
     public void installBuiltin(NodeFactory<? extends SLBuiltinNode> factory) {

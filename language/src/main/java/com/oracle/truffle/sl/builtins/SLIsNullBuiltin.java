@@ -43,19 +43,28 @@ package com.oracle.truffle.sl.builtins;
 import com.oracle.truffle.api.interop.Message;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.NodeInfo;
+import com.oracle.truffle.sl.nodes.SLExpressionNode;
 
 /**
  * Built-in function that queries if the foreign object is a null value. See
  * <link>Messages.IS_NULL</link>.
  */
 @NodeInfo(shortName = "isNull")
-public abstract class SLIsNullBuiltin extends SLBuiltinNode {
+public class SLIsNullBuiltin extends SLBuiltinNode {
 
+    private final SLExpressionNode arguments0;
     @Child
     private Node isNull = Message.IS_NULL.createNode();
 
-   /* @Specialization
-    public Object isNull(TruffleObject obj) {
-        return ForeignAccess.sendIsNull(isNull, obj);
-    }*/
+    public SLIsNullBuiltin(SLExpressionNode slExpressionNode) {
+        this.arguments0 = slExpressionNode;
+    }
+
+    public SLExpressionNode getArguments0() {
+        return arguments0;
+    }
+
+    public Node getIsNull() {
+        return isNull;
+    }
 }

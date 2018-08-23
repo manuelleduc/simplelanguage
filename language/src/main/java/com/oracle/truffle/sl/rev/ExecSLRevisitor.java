@@ -251,4 +251,29 @@ public interface ExecSLRevisitor extends SLRevisitor<SLAddNodeT, SLBigIntegerLit
     default SLStackTraceBuiltinT _sLStackTraceBuiltin(SLStackTraceBuiltin it) {
         return new MySLStackTraceBuiltinT(this, it);
     }
+
+    @Override
+    default SLHelloEqualsWorldBuiltinT _sLHelloEqualsWorldBuiltin(SLHelloEqualsWorldBuiltin it) {
+        return new MySLHelloEqualsWorldBuiltinT(this, it);
+    }
+
+    @Override
+    default SLGetSizeBuiltinT _sLGetSizeBuiltin(SLGetSizeBuiltin it) {
+        return new MySLGetSizeBuiltinT(this, it);
+    }
+
+    @Override
+    default SLHasSizeBuiltinT _sLHasSizeBuiltin(SLHasSizeBuiltin it) {
+        return new MySLHasSizeBuiltinT(this, it);
+    }
+
+    @Override
+    default SLIsExecutableBuiltinT _sLIsExecutableBuiltin(SLIsExecutableBuiltin it) {
+        return new MySLIsExecutableBuiltinT(this, it);
+    }
+
+    @Override
+    default SLIsNullBuiltinT _sLIsNullBuiltin(SLIsNullBuiltin it) {
+        return new MySLIsNullBuiltinT(this, it);
+    }
 }

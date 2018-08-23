@@ -43,19 +43,30 @@ package com.oracle.truffle.sl.builtins;
 import com.oracle.truffle.api.interop.Message;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.NodeInfo;
+import com.oracle.truffle.sl.nodes.SLExpressionNode;
 
 /**
  * Built-in function that queries if the foreign object has a size. See
  * <link>Messages.HAS_SIZE</link>.
  */
 @NodeInfo(shortName = "hasSize")
-public abstract class SLHasSizeBuiltin extends SLBuiltinNode {
+public class SLHasSizeBuiltin extends SLBuiltinNode {
 
+
+    @Child
+    private SLExpressionNode arguments0;
     @Node.Child
     private Node hasSize = Message.HAS_SIZE.createNode();
 
-   /* @Specialization
-    public Object hasSize(TruffleObject obj) {
-        return ForeignAccess.sendHasSize(hasSize, obj);
-    }*/
+    public SLHasSizeBuiltin(SLExpressionNode slExpressionNode) {
+        this.arguments0 = slExpressionNode;
+    }
+
+    public SLExpressionNode getArguments0() {
+        return arguments0;
+    }
+
+    public Node getHasSize() {
+        return hasSize;
+    }
 }

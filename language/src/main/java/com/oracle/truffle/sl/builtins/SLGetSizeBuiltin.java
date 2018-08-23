@@ -43,23 +43,29 @@ package com.oracle.truffle.sl.builtins;
 import com.oracle.truffle.api.interop.Message;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.NodeInfo;
+import com.oracle.truffle.sl.nodes.SLExpressionNode;
 
 /**
  * Built-in function that queries the size property of a foreign object. See
  * <link>Messages.GET_SIZE</link>.
  */
 @NodeInfo(shortName = "getSize")
-public abstract class SLGetSizeBuiltin extends SLBuiltinNode {
+public class SLGetSizeBuiltin extends SLBuiltinNode {
 
+    @Child
+    private SLExpressionNode arguments0;
     @Node.Child
     private Node getSize = Message.GET_SIZE.createNode();
 
-//    @Specialization
-//    public Object getSize(TruffleObject obj) {
-//        try {
-//            return ForeignAccess.sendGetSize(getSize, obj);
-//        } catch (UnsupportedMessageException e) {
-//            throw new SLException(e.getMessage(), this);
-//        }
-//    }
+    public SLGetSizeBuiltin(SLExpressionNode slExpressionNode) {
+        this.arguments0 = slExpressionNode;
+    }
+
+    public SLExpressionNode getArguments0() {
+        return arguments0;
+    }
+
+    public Node getGetSize() {
+        return getSize;
+    }
 }
