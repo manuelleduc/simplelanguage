@@ -40,29 +40,34 @@
  */
 package com.oracle.truffle.sl.builtins;
 
+import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.interop.Message;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.NodeInfo;
+import com.oracle.truffle.sl.nodes.SLExpressionNode;
 
 /**
  * Built-in function that goes through to import a symbol from the polyglot bindings.
  */
 @NodeInfo(shortName = "import")
-public abstract class SLImportBuiltin extends SLBuiltinNode {
+public class SLImportBuiltin extends SLBuiltinNode {
 
+    @Child
+    private SLExpressionNode arguments0_;
+    @CompilerDirectives.CompilationFinal
+    private int state_;
     @Node.Child
     private Node readNode = Message.READ.createNode();
 
-    /*@Specialization
-    public Object importSymbol(String name) {
-        try {
-            return ForeignAccess.sendRead(readNode, getContext().getPolyglotBindings(), name);
-        } catch (UnknownIdentifierException e) {
-            return SLNull.SINGLETON;
-        } catch (UnsupportedMessageException e) {
-            // polyglot bindings should always support reading
-            CompilerDirectives.transferToInterpreter();
-            throw new AssertionError(e);
-        }
-    }*/
+    public SLImportBuiltin(SLExpressionNode slExpressionNode) {
+        this.arguments0_ = slExpressionNode;
+    }
+
+    public Node getReadNode() {
+        return readNode;
+    }
+
+    public SLExpressionNode getArgument0() {
+        return arguments0_;
+    }
 }

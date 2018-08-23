@@ -213,4 +213,7 @@ public abstract class SLStatementNode extends Node {
     }
 
 
+    public final <T extends Node> T insert2(final T newChild) {
+        return insert(newChild);
+    }
 }

@@ -75,7 +75,19 @@ public class SLWritePropertyNode extends SLExpressionNode {
         this.valueNode = valueNode;
     }
 
-//    @Specialization(guards = "isSLObject(receiver)")
+    public SLExpressionNode getReceiverNode() {
+        return receiverNode;
+    }
+
+    public SLExpressionNode getNameNode() {
+        return nameNode;
+    }
+
+    public SLExpressionNode getValueNode() {
+        return valueNode;
+    }
+
+    //    @Specialization(guards = "isSLObject(receiver)")
 //    protected Object write(DynamicObject receiver, Object name, Object value,
 //                    @Cached("create()") SLWritePropertyCacheNode writeNode) {
 //        /**

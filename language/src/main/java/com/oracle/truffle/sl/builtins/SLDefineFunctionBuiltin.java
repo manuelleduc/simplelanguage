@@ -41,26 +41,23 @@
 package com.oracle.truffle.sl.builtins;
 
 import com.oracle.truffle.api.nodes.NodeInfo;
+import com.oracle.truffle.sl.nodes.SLExpressionNode;
 
 /**
  * Builtin function to define (or redefine) functions. The provided source code is parsed the same
  * way as the initial source of the script, so the same syntax applies.
  */
 @NodeInfo(shortName = "defineFunction")
-public abstract class SLDefineFunctionBuiltin extends SLBuiltinNode {
+public class SLDefineFunctionBuiltin extends SLBuiltinNode {
 
-//    @TruffleBoundary
-//    @Specialization
-//    public String defineFunction(String code) {
-//        // @formatter:off
-//        Source source = Source.newBuilder(code).
-//            name("[defineFunction]").
-//            language(SLLanguage.ID).
-//            build();
-//        // @formatter:on
-//        /* The same parsing code as for parsing the initial source. */
-//        getContext().getFunctionRegistry().register(source);
-//
-//        return code;
-//    }
+    @Child
+    private SLExpressionNode argument0;
+
+    public SLDefineFunctionBuiltin(SLExpressionNode slExpressionNode) {
+        this.argument0 = slExpressionNode;
+    }
+
+    public SLExpressionNode getArgument0() {
+        return argument0;
+    }
 }

@@ -17,6 +17,8 @@ public class MySLAddNodeT implements SLAddNodeT {
     private final static Map<SLAddNode, SLAddNodeT> cache = new HashMap<>();
     private final ExecSLRevisitor alg;
     private final SLAddNode it;
+    private final SLExpressionNodeT leftNode_;
+    private final SLExpressionNodeT rightNode_;
     @CompilerDirectives.CompilationFinal
     private int state_;
     @CompilerDirectives.CompilationFinal
@@ -25,6 +27,8 @@ public class MySLAddNodeT implements SLAddNodeT {
     public MySLAddNodeT(ExecSLRevisitor alg, SLAddNode it) {
         this.alg = alg;
         this.it = it;
+        leftNode_ = alg.$(it.getLeftNode());
+        rightNode_ = alg.$(it.getRightNode());
     }
 
     public static SLAddNodeT INSTANCE(ExecSLRevisitor alg, SLAddNode it) {
@@ -58,14 +62,14 @@ public class MySLAddNodeT implements SLAddNodeT {
     private Object executeGeneric_long_long0(VirtualFrame frameValue, int state) {
         long leftNodeValue_;
         try {
-            leftNodeValue_ = alg.$(it.getLeftNode()).executeLong(frameValue);
+            leftNodeValue_ = leftNode_.executeLong(frameValue);
         } catch (UnexpectedResultException ex) {
-            Object rightNodeValue = alg.$(it.getRightNode()).executeGeneric(frameValue);
+            Object rightNodeValue = rightNode_.executeGeneric(frameValue);
             return executeAndSpecialize(ex.getResult(), rightNodeValue);
         }
         long rightNodeValue_;
         try {
-            rightNodeValue_ = alg.$(it.getRightNode()).executeLong(frameValue);
+            rightNodeValue_ = rightNode_.executeLong(frameValue);
         } catch (UnexpectedResultException ex) {
             return executeAndSpecialize(leftNodeValue_, ex.getResult());
         }
@@ -87,8 +91,8 @@ public class MySLAddNodeT implements SLAddNodeT {
     }
 
     private Object executeGeneric_generic1(VirtualFrame frameValue, int state) {
-        Object leftNodeValue_ = alg.$(it.getLeftNode()).executeGeneric(frameValue);
-        Object rightNodeValue_ = alg.$(it.getRightNode()).executeGeneric(frameValue);
+        Object leftNodeValue_ = leftNode_.executeGeneric(frameValue);
+        Object rightNodeValue_ = rightNode_.executeGeneric(frameValue);
         if ((state & 0b1) != 0 /* is-active add(long, long) */ && leftNodeValue_ instanceof Long) {
             long leftNodeValue__ = (long) leftNodeValue_;
             if (rightNodeValue_ instanceof Long) {
@@ -140,14 +144,14 @@ public class MySLAddNodeT implements SLAddNodeT {
         }
         long leftNodeValue_;
         try {
-            leftNodeValue_ = alg.$(it.getLeftNode()).executeLong(frameValue);
+            leftNodeValue_ = leftNode_.executeLong(frameValue);
         } catch (UnexpectedResultException ex) {
-            Object rightNodeValue = alg.$(it.getRightNode()).executeGeneric(frameValue);
+            Object rightNodeValue = rightNode_.executeGeneric(frameValue);
             return SLTypesGen.expectLong(executeAndSpecialize(ex.getResult(), rightNodeValue));
         }
         long rightNodeValue_;
         try {
-            rightNodeValue_ = alg.$(it.getRightNode()).executeLong(frameValue);
+            rightNodeValue_ = rightNode_.executeLong(frameValue);
         } catch (UnexpectedResultException ex) {
             return SLTypesGen.expectLong(executeAndSpecialize(leftNodeValue_, ex.getResult()));
         }

@@ -58,9 +58,9 @@ public class SLUnboxNode extends SLExpressionNode {
         return leftNode;
     }
 
-    public <T extends Node> T insert2(final T newChild) {
-        return super.insert(newChild);
-    }
+//    public <T extends Node> T insert2(final T newChild) {
+//        return super.insert(newChild);
+//    }
 
 
 }

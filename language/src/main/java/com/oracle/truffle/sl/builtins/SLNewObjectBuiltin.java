@@ -48,10 +48,18 @@ import com.oracle.truffle.sl.runtime.SLContext;
  * Built-in function to create a new object. Objects in SL are simply made up of name/value pairs.
  */
 @NodeInfo(shortName = "new")
-public abstract class SLNewObjectBuiltin extends SLBuiltinNode {
+public class SLNewObjectBuiltin extends SLBuiltinNode {
 
     @CompilationFinal
     SLContext context;
+
+    public SLContext getSLContext() {
+        return context;
+    }
+
+    public void setSLContext(SLContext context) {
+        this.context = context;
+    }
 
     /*@Specialization
     public Object newObject() {

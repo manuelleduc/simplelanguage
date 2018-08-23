@@ -52,44 +52,6 @@ import com.oracle.truffle.api.nodes.NodeInfo;
  * {@code true} to {@link FrameInstance#getFrame(FrameAccess, boolean)}.
  */
 @NodeInfo(shortName = "stacktrace")
-public abstract class SLStackTraceBuiltin extends SLBuiltinNode {
+public class SLStackTraceBuiltin extends SLBuiltinNode {
 
-//    @Specialization
-//    public String trace() {
-//        return createStackTrace();
-//    }
-//
-//    @TruffleBoundary
-//    private static String createStackTrace() {
-//        final StringBuilder str = new StringBuilder();
-//
-//        Truffle.getRuntime().iterateFrames(new FrameInstanceVisitor<Integer>() {
-//            private int skip = 1; // skip stack trace builtin
-//
-//            @Override
-//            public Integer visitFrame(FrameInstance frameInstance) {
-//                if (skip > 0) {
-//                    skip--;
-//                    return null;
-//                }
-//                CallTarget callTarget = frameInstance.getCallTarget();
-//                Frame frame = frameInstance.getFrame(FrameAccess.READ_ONLY);
-//                RootNode rn = ((RootCallTarget) callTarget).getRootNode();
-//                // ignore internal or interop stack frames
-//                if (rn.getLanguageInfo() == null) {
-//                    return 1;
-//                }
-//                if (str.length() > 0) {
-//                    str.append(System.getProperty("line.separator"));
-//                }
-//                str.append("Frame: ").append(rn.toString());
-//                FrameDescriptor frameDescriptor = frame.getFrameDescriptor();
-//                for (FrameSlot s : frameDescriptor.getSlots()) {
-//                    str.append(", ").append(s.getIdentifier()).append("=").append(frame.getValue(s));
-//                }
-//                return null;
-//            }
-//        });
-//        return str.toString();
-//    }
 }

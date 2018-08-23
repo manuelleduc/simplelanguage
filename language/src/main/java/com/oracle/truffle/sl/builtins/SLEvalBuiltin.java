@@ -41,6 +41,7 @@
 package com.oracle.truffle.sl.builtins;
 
 import com.oracle.truffle.api.nodes.NodeInfo;
+import com.oracle.truffle.sl.nodes.SLExpressionNode;
 
 /**
  * Builtin function to evaluate source code in any supported language.
@@ -51,30 +52,22 @@ import com.oracle.truffle.api.nodes.NodeInfo;
  */
 @NodeInfo(shortName = "eval")
 @SuppressWarnings("unused")
-public abstract class SLEvalBuiltin extends SLBuiltinNode {
+public class SLEvalBuiltin extends SLBuiltinNode {
+    @Child
+    private SLExpressionNode arguments1;
+    @Child
+    private SLExpressionNode arguments0;
 
-//    @Specialization(guards = {"stringsEqual(cachedId, id)", "stringsEqual(cachedCode, code)"})
-//    public Object evalCached(String id, String code,
-//                    @Cached("id") String cachedId,
-//                    @Cached("code") String cachedCode,
-//                    @Cached("create(parse(id, code))") DirectCallNode callNode) {
-//        return callNode.call(new Object[]{});
-//    }
+    public SLEvalBuiltin(SLExpressionNode slExpressionNode, SLExpressionNode slExpressionNode1) {
+        this.arguments0 = slExpressionNode;
+        this.arguments1 = slExpressionNode;
+    }
 
-//    @TruffleBoundary
-//    @Specialization(replaces = "evalCached")
-//    public Object evalUncached(String id, String code) {
-//        return parse(id, code).call();
-//    }
+    public SLExpressionNode getArguments1() {
+        return arguments1;
+    }
 
-//    protected CallTarget parse(String id, String code) {
-//        // mimetype needs to be set for compatibility reasons with the old TCK.
-//        final Source source = Source.newBuilder(code).name("(eval)").language(id).mimeType(id).build();
-//        return getContext().parse(source);
-//    }
-
-    /* Work around findbugs warning in generate code. */
-//    protected static boolean stringsEqual(String a, String b) {
-//        return a.equals(b);
-//    }
+    public SLExpressionNode getArguments0() {
+        return arguments0;
+    }
 }
